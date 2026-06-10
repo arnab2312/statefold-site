@@ -3,23 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Statefold — Endpoint AI Security &amp; the Enterprise AI Hive Mind</title>
-  <meta name="description" content="Statefold is endpoint AI security for the enterprise: discover every AI tool, enforce policy on every endpoint, govern which agents may run — and ask the Hive Mind, a deterministic memory of all AI usage. No LLM. On-box. Offline-safe." />
-  <meta name="theme-color" content="#F4F3EF" />
+  <title>Statefold — Endpoint AI Security, the Hive Mind &amp; your own Enterprise SLM</title>
+  <meta name="description" content="Statefold is endpoint AI security for the enterprise: discover every AI tool, enforce policy on the endpoint before data is sent, govern which agents may run — and grow your own self-teaching Enterprise SLM over a deterministic Hive Mind. No external LLM. On-box. Offline-safe." />
+  <meta name="theme-color" content="#16140F" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Statefold — Endpoint AI Security" />
-  <meta property="og:description" content="Govern every AI on every endpoint. Discover, enforce, govern, and ask the Hive Mind — deterministic, on-box, offline-safe." />
+  <meta property="og:description" content="Govern every AI on every endpoint. Discover, enforce before-send, govern agents, ask the Hive Mind, and grow your own Enterprise SLM — deterministic, on-box, offline-safe." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.statefoldai.com" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- scroll progress + film grain -->
+  <div class="scrollbar" id="scrollbar" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
   <!-- shared brand wordmark glyph (referenced by the logo lockups via <use>) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="sf-word" viewBox="118 22 410 54">
@@ -28,38 +32,42 @@
         <circle cx="409.42" cy="63.3" r="22.6"></circle>
       </g>
     </symbol>
+
+    <!-- shared dragonfly mark (the Hive Mind symbol) -->
+    <symbol id="sf-df" viewBox="0 0 120 120">
+      <g class="df-hover">
+        <g class="df-body">
+          <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
+          <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
+          <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
+          <path class="p c2" d="M60 26 L60 107"></path>
+          <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
+        </g>
+        <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
+        <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
+        <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
+        <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
+      </g>
+    </symbol>
   </svg>
 
   <!-- ===================== NAV ===================== -->
-  <header class="nav" id="top">
+  <header class="nav" id="top" data-nav>
     <div class="wrap nav-inner">
       <a class="brand brandlogo" href="#top" aria-label="Statefold home">
-        <svg class="df brand-df" viewBox="0 0 120 120" aria-hidden="true">
-          <g class="df-hover">
-            <g class="df-body">
-              <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-              <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-              <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-              <path class="p c2" d="M60 26 L60 107"></path>
-              <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-            </g>
-            <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-            <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-            <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-            <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-          </g>
-        </svg>
+        <svg class="df brand-df" aria-hidden="true"><use href="#sf-df"></use></svg>
         <svg class="brand-word" aria-hidden="true"><use href="#sf-word"></use></svg>
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="#platform">Platform</a>
+        <a href="#swarm">Swarm</a>
         <a href="#hive">Hive Mind</a>
         <a href="#trust">Architecture</a>
         <a href="#compare">Compare</a>
       </nav>
       <div class="nav-cta">
         <a class="btn btn-ghost" href="#demo">Sign in</a>
-        <a class="btn btn-primary" href="#demo">Book a demo</a>
+        <a class="btn btn-primary magnetic" href="#demo">Book a demo</a>
       </div>
       <button class="nav-burger" id="burger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -67,6 +75,7 @@
     </div>
     <div class="nav-mobile" id="navMobile">
       <a href="#platform">Platform</a>
+      <a href="#swarm">Swarm Intelligence</a>
       <a href="#hive">Hive Mind</a>
       <a href="#trust">Architecture</a>
       <a href="#compare">Compare</a>
@@ -76,62 +85,63 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
+    <div class="hero-mesh" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="wrap hero-grid">
       <div class="hero-copy reveal">
-        <div class="eyebrow">Endpoint AI Security · EPAIS</div>
-        <h1>Govern every AI on every endpoint.</h1>
+        <a class="kicker" href="#swarm">
+          <span class="kicker-dot"></span> New — Swarm Intelligence: your own Enterprise SLM <span class="kicker-arrow">→</span>
+        </a>
+        <h1>Govern every AI<br>on <span class="grad">every endpoint.</span></h1>
         <p class="lede">
-          Statefold is a two-tier platform that discovers every AI tool your people use,
-          enforces policy <em>on the endpoint</em>, decides which agents and privileges are
-          allowed to run — and remembers all of it in a deterministic <strong>Hive Mind</strong>
-          you can simply ask.
+          Statefold discovers every AI tool your people touch, enforces policy
+          <em>on the endpoint — before a single token is sent</em>, decides which agents
+          and privileges may run, and distills it all into a deterministic
+          <strong>Hive Mind</strong> and a self-teaching <strong>Enterprise&nbsp;SLM</strong>
+          that is yours alone. No external LLM. Nothing leaves the box.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="#demo">Book a demo</a>
-          <a class="btn btn-ghost btn-lg" href="#platform">See the platform →</a>
+          <a class="btn btn-primary btn-lg magnetic" href="#demo">Book a demo</a>
+          <a class="btn btn-ghost btn-lg" href="#platform">See the platform <span class="arr">→</span></a>
         </div>
         <ul class="hero-trust">
           <li><span class="dot"></span> No LLM dependency</li>
-          <li><span class="dot"></span> On-box enforcement</li>
+          <li><span class="dot"></span> Enforced before-send</li>
           <li><span class="dot"></span> Offline-safe</li>
         </ul>
       </div>
 
       <div class="hero-visual reveal" aria-hidden="true">
         <div class="hero-glow"></div>
-        <svg class="df hero-df" viewBox="0 0 120 120" aria-hidden="true">
-          <g class="df-hover">
-            <g class="df-body">
-              <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-              <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-              <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-              <path class="p c2" d="M60 26 L60 107"></path>
-              <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-            </g>
-            <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-            <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-            <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-            <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-          </g>
-        </svg>
+        <div class="hero-ring r1"></div>
+        <div class="hero-ring r2"></div>
+        <svg class="df hero-df" aria-hidden="true"><use href="#sf-df"></use></svg>
         <div class="hero-cap">
-          <span><b>347</b> facts</span><span><b>487</b> AI events</span>
-          <span><b>75.5k</b> tokens</span><span><b>$0.53</b> AI bill</span>
+          <span><b data-count="347">0</b> facts</span><span><b data-count="487">0</b> AI events</span>
+          <span><b data-count="75.5" data-suffix="k">0</b> tokens</span><span><b data-count="0.53" data-prefix="$" data-dec="2">0</b> AI bill</span>
         </div>
+      </div>
+    </div>
+    <a class="scroll-cue" href="#surfaces" aria-label="Scroll"><span></span></a>
+  </section>
+
+  <!-- ===================== SURFACES MARQUEE ===================== -->
+  <section class="marquee-band" id="surfaces" aria-label="AI surfaces Statefold watches">
+    <div class="marquee-label">Watches every AI surface on the machine</div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Browser AI</span><i>·</i><span>IDE assistants</span><i>·</i><span>MCP servers</span><i>·</i><span>Amazon Bedrock</span><i>·</i><span>Native SDKs</span><i>·</i><span>Clipboard</span><i>·</i><span>Local proxy</span><i>·</i><span>DNS</span><i>·</i><span>Autonomous agents</span><i>·</i><span>File egress</span><i>·</i>
+        <span>Browser AI</span><i>·</i><span>IDE assistants</span><i>·</i><span>MCP servers</span><i>·</i><span>Amazon Bedrock</span><i>·</i><span>Native SDKs</span><i>·</i><span>Clipboard</span><i>·</i><span>Local proxy</span><i>·</i><span>DNS</span><i>·</i><span>Autonomous agents</span><i>·</i><span>File egress</span><i>·</i>
       </div>
     </div>
   </section>
 
-  <!-- ===================== TRUST BAND ===================== -->
-  <section class="band">
-    <div class="wrap band-inner">
-      <span>Two executables. One light endpoint sensor, one management console.</span>
-      <span class="sep">·</span>
-      <span>72-hour agent grants</span>
-      <span class="sep">·</span>
-      <span>Nothing leaves the box</span>
-      <span class="sep">·</span>
-      <span>Windows-first</span>
+  <!-- ===================== STATS ===================== -->
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="stat reveal" style="--i:0"><b data-count="6">0</b><span>AI surfaces watched, per endpoint</span></div>
+      <div class="stat reveal" style="--i:1"><b data-count="4" data-prefix="">0</b><span>verdicts — allow · alert · redact · block</span></div>
+      <div class="stat reveal" style="--i:2"><b data-count="72" data-suffix="h">0</b><span>agent grants, then auto-expire</span></div>
+      <div class="stat reveal" style="--i:3"><b data-count="0" data-suffix=" LLM">0</b><span>external models in the trust path</span></div>
     </div>
   </section>
 
@@ -139,27 +149,27 @@
   <section class="section" id="problem">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">The gap</div>
+        <div class="eyebrow"><span class="sec-no">01</span> The gap</div>
         <h2>Shadow AI is already inside your perimeter.</h2>
-        <p class="sec-sub">Copilots, chat tabs, IDE assistants, MCP servers and autonomous agents
-          arrive faster than security can review them. The old stack was built for files and
-          networks — not for prompts, tokens, and agents that act.</p>
+        <p class="sec-sub">Copilots, chat tabs, IDE assistants, MCP servers and autonomous agents arrive
+          faster than security can review them. The old stack was built for files and networks — not
+          for prompts, tokens, and agents that act on their own.</p>
       </div>
       <div class="cards-3">
-        <article class="card reveal">
+        <article class="card reveal" style="--i:0">
           <div class="ic">◇</div>
           <h3>Unseen usage</h3>
-          <p>You can't name the AI tools running on your endpoints, who runs them, or with what privilege. Discovery stops at the network edge.</p>
+          <p>You can't name the AI tools running on your endpoints, who runs them, or with what privilege. Discovery stops at the network edge — and the AI lives past it.</p>
         </article>
-        <article class="card reveal">
+        <article class="card reveal" style="--i:1">
           <div class="ic">⚠</div>
           <h3>Ungoverned agents</h3>
-          <p>Anyone can spin up an agent and hand it credentials. Nothing stops a malformed prompt, an over-privileged tool, or a quiet exfiltration.</p>
+          <p>Anyone can spin up an agent and hand it credentials. Nothing stops a malformed prompt, an over-privileged tool, or a quiet exfiltration to a model API.</p>
         </article>
-        <article class="card reveal">
+        <article class="card reveal" style="--i:2">
           <div class="ic">∅</div>
-          <h3>No memory</h3>
-          <p>Prompts, answers, code, MCP calls, tokens and spend evaporate. When an incident lands, there's nothing to ask.</p>
+          <h3>No memory, no model</h3>
+          <p>Prompts, answers, code, MCP calls, tokens and spend evaporate. When an incident lands there's nothing to ask — and no intelligence that's actually <em>yours</em>.</p>
         </article>
       </div>
     </div>
@@ -169,73 +179,117 @@
   <section class="section alt" id="platform">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">The platform</div>
+        <div class="eyebrow"><span class="sec-no">02</span> The platform</div>
         <h2>A light sensor on the endpoint. A console in command.</h2>
-        <p class="sec-sub">The agent enforces locally and keeps protecting even when disconnected.
-          The console gives operators fleet-wide discovery, policy, governance and the Hive Mind.</p>
+        <p class="sec-sub">Two executables. The agent enforces locally and keeps protecting even when
+          disconnected. The console gives operators fleet-wide discovery, policy, governance, the Hive
+          Mind and the Swarm — isolated per tenant for MSSPs and global enterprises alike.</p>
       </div>
 
       <div class="arch reveal">
         <div class="arch-node agent">
           <span class="tag">StatefoldAgent.exe</span>
           <h4>Endpoint sensor</h4>
-          <p>Observes every AI surface — proxy, browser, IDE, MCP, Bedrock, clipboard — classifies content with a pure-Python engine, and enforces <em>on box</em>.</p>
+          <p>Observes every AI surface — proxy, browser, IDE, MCP, Bedrock, clipboard, DNS — classifies content with a pure-Python engine, and enforces <em>on the box, before send</em>.</p>
         </div>
         <div class="arch-link"><span></span><span></span><span></span></div>
         <div class="arch-node console">
           <span class="tag">StatefoldConsole.exe</span>
           <h4>Management console</h4>
-          <p>Fleet telemetry, central policy, AI agent governance, discovery, coverage, and the Hive Mind — served behind one API with an embedded store.</p>
+          <p>Fleet telemetry, central policy, AI-agent governance, discovery, coverage, the Hive Mind and the Swarm — one API, an embedded store, multi-tenant by design.</p>
         </div>
       </div>
 
       <div class="cap-grid">
-        <article class="cap reveal">
+        <article class="cap reveal" style="--i:0">
           <div class="cap-ic">⌖</div>
           <h3>Discovery</h3>
           <p>Every device, identity and AI touchpoint — agents, models, APIs and MCP servers — drillable to one endpoint.</p>
         </article>
-        <article class="cap reveal">
+        <article class="cap reveal" style="--i:1">
           <div class="cap-ic">▣</div>
           <h3>Detections &amp; DLP</h3>
-          <p>Inline classification of prompts and responses across surfaces, with allow / alert / redact / block — before send.</p>
+          <p>Inline classification of prompts and responses across surfaces, with allow / alert / redact / block — <em>before</em> the request is signed and sent.</p>
         </article>
-        <article class="cap reveal">
+        <article class="cap reveal" style="--i:2">
           <div class="cap-ic">⛉</div>
           <h3>AI Agent Governance</h3>
           <p>No agent runs until approved. The <strong>agent</strong> and its <strong>privilege</strong> are two separate decisions, each on a 72-hour grant that auto-expires.</p>
         </article>
-        <article class="cap reveal">
-          <div class="cap-ic">
-            <svg class="df" width="28" height="28" viewBox="0 0 120 120" aria-hidden="true">
-              <g class="df-hover">
-                <g class="df-body">
-                  <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-                  <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-                  <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-                  <path class="p c2" d="M60 26 L60 107"></path>
-                  <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-                </g>
-                <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-                <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-                <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-                <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-              </g>
-            </svg>
-          </div>
+        <article class="cap reveal" style="--i:3">
+          <div class="cap-ic df-ic"><svg class="df" aria-hidden="true"><use href="#sf-df"></use></svg></div>
           <h3>Hive Mind</h3>
-          <p>A deterministic memory of all AI usage — and a chatbot over it. Ask it anything; no model required.</p>
+          <p>A deterministic memory of all AI usage — prompts, tokens, billing, licenses, alerts — and a chatbot over it. Ask anything; no model required.</p>
         </article>
-        <article class="cap reveal">
+        <article class="cap reveal" style="--i:4">
+          <div class="cap-ic">◈</div>
+          <h3>Swarm Intelligence</h3>
+          <p>A self-teaching <strong>Enterprise SLM</strong> grown on your Hive Mind by spare endpoint compute — owned by you, isolated to your tenant.</p>
+        </article>
+        <article class="cap reveal" style="--i:5">
           <div class="cap-ic">▤</div>
-          <h3>Coverage &amp; Posture</h3>
-          <p>See exactly what's protected where, per surface, per group — and where the gaps are.</p>
+          <h3>Coverage &amp; Validation</h3>
+          <p>See exactly what's protected where, per surface and group — and prove it holds with a built-in red-team catalog.</p>
         </article>
-        <article class="cap reveal">
-          <div class="cap-ic">◎</div>
-          <h3>Security Validation</h3>
-          <p>A red-team catalog and campaigns to prove the controls hold against prompt injection and exfiltration.</p>
-        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SWARM INTELLIGENCE ===================== -->
+  <section class="section swarm" id="swarm">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow"><span class="sec-no">03</span> Swarm Intelligence</div>
+        <h2>An AI that learns <span class="u">your</span> enterprise — and belongs to you.</h2>
+        <p class="sec-sub">The giants rent you someone else's model and meter your prompts through it.
+          Statefold grows you your own. Every endpoint contributes spare compute; the swarm distills your
+          Hive Mind into a small language model you <em>own outright</em> — taught by your fleet, sharpened
+          by a recursive feedback loop, exclusive to your tenant. No external LLM, ever.</p>
+      </div>
+
+      <div class="swarm-grid reveal">
+        <!-- model card -->
+        <div class="slm-card">
+          <div class="slm-top">
+            <svg class="df slm-df" aria-hidden="true"><use href="#sf-df"></use></svg>
+            <div>
+              <div class="slm-ey">Enterprise SLM</div>
+              <div class="slm-name">Statefold-SLM · your-tenant</div>
+            </div>
+            <div class="slm-acc"><b data-count="92.8" data-dec="1" data-suffix="%">0</b><span>accuracy</span></div>
+          </div>
+          <div class="slm-metrics">
+            <div><span>Rounds</span><b data-count="34">0</b></div>
+            <div><span>Params</span><b data-count="118" data-suffix="M">0</b></div>
+            <div><span>Coverage</span><b data-count="100" data-suffix="%">0</b></div>
+            <div><span>Loss</span><b data-count="0.06" data-dec="2">0</b></div>
+          </div>
+          <div class="slm-bar"><span style="width:100%"></span></div>
+          <div class="slm-foot">Self-updating · trained on-endpoint · nothing leaves the box</div>
+        </div>
+
+        <!-- recursive loop -->
+        <div class="loop-card">
+          <div class="loop-ey">The recursive learning loop</div>
+          <div class="loop-flow">
+            <div class="ln"><span class="lic">⌗</span><b>Endpoints</b><i>spare compute</i></div>
+            <div class="lc"><span></span></div>
+            <div class="ln"><span class="lic">⚡</span><b>Federated gradients</b><i>data stays local</i></div>
+            <div class="lc"><span></span></div>
+            <div class="ln hot"><svg class="df lic-df" aria-hidden="true"><use href="#sf-df"></use></svg><b>Hive Mind</b><i>the corpus</i></div>
+            <div class="lc"><span></span></div>
+            <div class="ln hot"><span class="lic">◈</span><b>Enterprise SLM</b><i>yours</i></div>
+            <div class="lc"><span></span></div>
+            <div class="ln"><span class="lic">✦</span><b>Inferences</b><i>fed back</i></div>
+          </div>
+          <div class="loop-back"><span class="arc"></span> Inferences flow back into the Hive Mind — each round trains on a richer graph</div>
+          <ul class="swarm-ticks">
+            <li><b>Federated</b> — raw data never leaves the endpoint, only distilled gradients aggregate</li>
+            <li><b>Self-teaching</b> — it advances automatically as the fleet works; you never retrain it</li>
+            <li><b>Tenant-exclusive</b> — one model per enterprise, isolated end to end</li>
+            <li><b>Flags anomalies</b> — surfaces unusual AI usage the moment it deviates from the norm</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -244,15 +298,15 @@
   <section class="section hive" id="hive">
     <div class="wrap hive-grid">
       <div class="hive-copy reveal">
-        <div class="eyebrow">The Hive Mind</div>
+        <div class="eyebrow"><span class="sec-no">04</span> The Hive Mind</div>
         <h2>An enterprise memory that <span class="u">contains all</span>.</h2>
-        <p class="sec-sub">Every prompt and question. Every answer, code generation and MCP query.
-          Token usage, AI billing and license consumption. Snapshots, alerts and audit logs.
-          It builds continuously from every touchpoint — and then you build a chatbot over it.</p>
+        <p class="sec-sub">Every prompt and question. Every answer, code generation and MCP query. Token
+          usage, AI billing and license consumption. Snapshots, alerts and audit logs. It builds
+          continuously from every touchpoint — then you simply ask it, in plain language.</p>
         <ul class="ticks">
           <li>Deterministic fact graph — <b>no LLM</b>, stable and explainable</li>
           <li>Live wiring: it learns as the fleet works</li>
-          <li>Nothing leaves the box — your memory stays yours</li>
+          <li>The corpus the Swarm distills your SLM from</li>
         </ul>
         <div class="corpus-chips">
           <span>Prompts</span><span>Answers</span><span>Code</span><span>MCP queries</span>
@@ -264,21 +318,7 @@
       <div class="hive-demo reveal">
         <div class="demo-card">
           <div class="demo-top">
-            <svg class="df" width="22" height="22" viewBox="0 0 120 120" aria-hidden="true">
-              <g class="df-hover">
-                <g class="df-body">
-                  <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-                  <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-                  <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-                  <path class="p c2" d="M60 26 L60 107"></path>
-                  <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-                </g>
-                <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-                <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-                <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-                <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-              </g>
-            </svg>
+            <svg class="df" aria-hidden="true"><use href="#sf-df"></use></svg>
             Ask the Hive Mind
           </div>
           <div class="demo-log" id="demoLog">
@@ -301,20 +341,32 @@
     </div>
   </section>
 
+  <!-- ===================== MANIFESTO ===================== -->
+  <section class="manifesto">
+    <div class="wrap reveal">
+      <p class="manifesto-line">
+        AI is reached from <em>every</em> surface on a machine. The network sees a slice. The browser
+        sees a tab. <span class="grad">The endpoint sees all of it</span> — and can act before data
+        ever leaves. That's the only place AI security can truly live.
+      </p>
+      <div class="manifesto-by">— the Statefold thesis · <span class="mono">Secure your AI stack</span></div>
+    </div>
+  </section>
+
   <!-- ===================== TRUST / ARCHITECTURE ===================== -->
   <section class="section alt" id="trust">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">Built to be trusted</div>
+        <div class="eyebrow"><span class="sec-no">05</span> Built to be trusted</div>
         <h2>Powerful by design. Quiet by default.</h2>
       </div>
       <div class="trust-grid">
-        <div class="t-item reveal"><h3>No LLM dependency</h3><p>Classification, policy and governance are rule-based and deterministic. A local model can sit <em>on top</em> later — never an external API.</p></div>
-        <div class="t-item reveal"><h3>On-box enforcement</h3><p>The endpoint blocks, redacts and halts locally. The verdict is a literal halt, not a dashboard note.</p></div>
-        <div class="t-item reveal"><h3>Offline-safe</h3><p>Fleet sync is additive. Disconnect the endpoint and protection continues — never a dependency for safety.</p></div>
-        <div class="t-item reveal"><h3>Agent &amp; privilege kill</h3><p>An agent runs only if it <em>and</em> the privilege it seeks are both approved. Otherwise it's halted and killed.</p></div>
-        <div class="t-item reveal"><h3>72-hour grants</h3><p>Approvals auto-expire. The request and the agent both die down — no standing access by accident.</p></div>
-        <div class="t-item reveal"><h3>Your data stays yours</h3><p>The Hive Mind is local. Prompts, tokens and spend never leave the perimeter.</p></div>
+        <div class="t-item reveal" style="--i:0"><h3>No LLM dependency</h3><p>Classification, policy and governance are rule-based and deterministic. The SLM you grow sits <em>on top</em> of your own data — never an external API in the trust path.</p></div>
+        <div class="t-item reveal" style="--i:1"><h3>Enforced before-send</h3><p>The endpoint redacts and blocks <em>in-process</em>, before a request is SigV4-signed. No network tool can rewrite a signed request — Statefold never lets it form.</p></div>
+        <div class="t-item reveal" style="--i:2"><h3>Offline-safe</h3><p>Fleet sync is additive. Disconnect the endpoint and protection continues — never a dependency for safety.</p></div>
+        <div class="t-item reveal" style="--i:3"><h3>Agent &amp; privilege kill</h3><p>An agent runs only if it <em>and</em> the privilege it seeks are both approved. Otherwise it's halted and killed.</p></div>
+        <div class="t-item reveal" style="--i:4"><h3>Multi-tenant isolation</h3><p>One console, many isolated client enterprises — separate fleets, policy, Hive Mind and SLM. Built for MSSPs and global org boundaries.</p></div>
+        <div class="t-item reveal" style="--i:5"><h3>Your data stays yours</h3><p>The Hive Mind and your SLM are local. Prompts, tokens, spend and gradients never leave the perimeter.</p></div>
       </div>
     </div>
   </section>
@@ -323,14 +375,15 @@
   <section class="section" id="how">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">How it works</div>
-        <h2>Four moves to AI under control.</h2>
+        <div class="eyebrow"><span class="sec-no">06</span> How it works</div>
+        <h2>Five moves to AI under control.</h2>
       </div>
       <ol class="steps">
-        <li class="reveal"><span class="num">01</span><h3>Enroll</h3><p>Drop the light agent on endpoints; it self-registers to the console with a scoped token.</p></li>
-        <li class="reveal"><span class="num">02</span><h3>Observe</h3><p>Every AI surface is discovered and classified, attributed to a user, endpoint and privilege.</p></li>
-        <li class="reveal"><span class="num">03</span><h3>Govern</h3><p>Approve agents and privileges separately; policy and grants enforce at the endpoint.</p></li>
-        <li class="reveal"><span class="num">04</span><h3>Ask</h3><p>The Hive Mind remembers it all. Ask in plain language; get a deterministic answer.</p></li>
+        <li class="reveal" style="--i:0"><span class="num">01</span><h3>Enroll</h3><p>Drop the light agent on endpoints; it self-registers to the console with a scoped, tenant-bound token.</p></li>
+        <li class="reveal" style="--i:1"><span class="num">02</span><h3>Observe</h3><p>Every AI surface is discovered and classified, attributed to a user, endpoint and privilege.</p></li>
+        <li class="reveal" style="--i:2"><span class="num">03</span><h3>Govern</h3><p>Approve agents and privileges separately; policy and grants enforce at the endpoint, before send.</p></li>
+        <li class="reveal" style="--i:3"><span class="num">04</span><h3>Ask</h3><p>The Hive Mind remembers it all. Ask in plain language; get a deterministic answer.</p></li>
+        <li class="reveal" style="--i:4"><span class="num">05</span><h3>Grow</h3><p>The Swarm distills your own SLM from it — and keeps teaching itself as the fleet works.</p></li>
       </ol>
     </div>
   </section>
@@ -339,10 +392,11 @@
   <section class="section alt" id="compare">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow">Compared to the big boys</div>
-        <h2>Built for the AI layer the others bolt on.</h2>
+        <div class="eyebrow"><span class="sec-no">07</span> Against the giants</div>
+        <h2>What they bolt on, Statefold is built on.</h2>
         <p class="sec-sub">Purview and Defender govern files and email. EDR watches processes. SSE / CASB
-          guard the network. Statefold governs the <em>AI itself</em>, on the endpoint, with a memory.</p>
+          guard the network. CNAPP secures the cloud. Statefold governs the <em>AI itself</em> — on the
+          endpoint, before send, with a memory and a model that are yours.</p>
       </div>
       <div class="table-wrap reveal">
         <table class="cmp">
@@ -351,18 +405,20 @@
               <th>Capability</th>
               <th class="me">Statefold</th>
               <th>Purview / Defender</th>
-              <th>EDR (CrowdStrike · S1)</th>
-              <th>SSE / CASB / Prompt-FW</th>
+              <th>EDR · CrowdStrike / S1</th>
+              <th>SSE · Zscaler / Netskope</th>
             </tr>
           </thead>
           <tbody>
             <tr><td>Endpoint-native AI enforcement</td><td class="me">●</td><td>○</td><td>◐</td><td>○</td></tr>
-            <tr><td>Prompt / response DLP, pre-send</td><td class="me">●</td><td>◐</td><td>○</td><td>◐</td></tr>
+            <tr><td>Prompt / response DLP, <em>before-send</em></td><td class="me">●</td><td>◐</td><td>○</td><td>◐</td></tr>
             <tr><td>AI agent + privilege governance</td><td class="me">●</td><td>○</td><td>○</td><td>○</td></tr>
             <tr><td>Works offline / on-box</td><td class="me">●</td><td>○</td><td>◐</td><td>○</td></tr>
             <tr><td>Deterministic memory of all AI usage</td><td class="me">●</td><td>○</td><td>○</td><td>○</td></tr>
+            <tr><td>Self-teaching enterprise SLM you own</td><td class="me">●</td><td>○</td><td>○</td><td>○</td></tr>
             <tr><td>Token / billing / license visibility</td><td class="me">●</td><td>○</td><td>○</td><td>◐</td></tr>
-            <tr><td>No LLM dependency</td><td class="me">●</td><td>○</td><td>—</td><td>○</td></tr>
+            <tr><td>Multi-tenant (MSSP) isolation</td><td class="me">●</td><td>◐</td><td>◐</td><td>◐</td></tr>
+            <tr><td>No external LLM dependency</td><td class="me">●</td><td>○</td><td>—</td><td>○</td></tr>
           </tbody>
         </table>
         <div class="cmp-legend"><span>● full</span><span>◐ partial</span><span>○ none</span></div>
@@ -372,12 +428,14 @@
 
   <!-- ===================== CTA ===================== -->
   <section class="cta" id="demo">
+    <div class="cta-mesh" aria-hidden="true"></div>
     <div class="wrap cta-inner reveal">
+      <div class="eyebrow on-dark">Secure your AI stack</div>
       <h2>Bring your AI under control.</h2>
-      <p>See Statefold discover, govern and remember the AI already running across your fleet.</p>
+      <p>See Statefold discover, govern, remember and <em>learn</em> the AI already running across your fleet — on the endpoint, before it ships.</p>
       <div class="cta-actions">
-        <a class="btn btn-primary btn-lg" href="mailto:hello@statefoldai.com?subject=Statefold%20demo">Book a demo</a>
-        <a class="btn btn-ghost btn-lg" href="#hive">Explore the Hive Mind</a>
+        <a class="btn btn-primary btn-lg magnetic" href="mailto:hello@statefoldai.com?subject=Statefold%20demo">Book a demo</a>
+        <a class="btn btn-ghost btn-lg" href="#swarm">Explore Swarm Intelligence</a>
       </div>
       <div class="cta-mail">or email <a href="mailto:hello@statefoldai.com">hello@statefoldai.com</a></div>
     </div>
@@ -388,33 +446,19 @@
     <div class="wrap foot-inner">
       <div class="foot-brand">
         <span class="brandlogo sm">
-          <svg class="df brand-df" viewBox="0 0 120 120" aria-hidden="true">
-            <g class="df-hover">
-              <g class="df-body">
-                <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-                <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-                <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-                <path class="p c2" d="M60 26 L60 107"></path>
-                <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-              </g>
-              <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-              <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-              <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-              <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-            </g>
-          </svg>
+          <svg class="df brand-df" aria-hidden="true"><use href="#sf-df"></use></svg>
           <svg class="brand-word" aria-hidden="true"><use href="#sf-word"></use></svg>
         </span>
-        <p>Enterprise AI Hive Mind — endpoint AI security that discovers, governs and remembers.</p>
+        <p>Endpoint AI Security — discover, govern and remember every AI on every endpoint, then grow your own Enterprise SLM over it.</p>
       </div>
       <div class="foot-cols">
-        <div><h5>Platform</h5><a href="#platform">Overview</a><a href="#hive">Hive Mind</a><a href="#trust">Architecture</a><a href="#compare">Compare</a></div>
+        <div><h5>Platform</h5><a href="#platform">Overview</a><a href="#swarm">Swarm Intelligence</a><a href="#hive">Hive Mind</a><a href="#trust">Architecture</a><a href="#compare">Compare</a></div>
         <div><h5>Company</h5><a href="#demo">Book a demo</a><a href="mailto:hello@statefoldai.com">Contact</a></div>
       </div>
     </div>
     <div class="wrap foot-base">
       <span>© <span id="yr">2026</span> Statefold. All rights reserved.</span>
-      <span>www.statefoldai.com</span>
+      <span class="mono">www.statefoldai.com</span>
     </div>
   </footer>
 

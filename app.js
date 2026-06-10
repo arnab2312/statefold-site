@@ -1,15 +1,30 @@
 /* ============================================================
    Statefold marketing site — interactions
-   - mobile nav, footer year, scroll-reveal
+   - scroll progress, nav scroll-state, active-nav highlight
+   - staggered scroll-reveal + animated counters
+   - magnetic buttons, mobile nav
    - a DETERMINISTIC Hive Mind demo (canned answers mirroring the
      real product; no network, no model — true to the design)
    ============================================================ */
 (function () {
   'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- footer year ---- */
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = String(new Date().getFullYear());
+
+  /* ---- scroll progress + sticky nav state ---- */
+  var bar = document.getElementById('scrollbar');
+  var nav = document.querySelector('[data-nav]');
+  function onScroll() {
+    var st = window.pageYOffset || document.documentElement.scrollTop;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) bar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+    if (nav) nav.classList.toggle('scrolled', st > 8);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   /* ---- mobile nav ---- */
   var burger = document.getElementById('burger');
@@ -34,16 +49,80 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
     reveals.forEach(function (el) { io.observe(el); });
   } else {
     reveals.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* ---- animated counters ([data-count]) ---- */
+  function fmt(n, dec) {
+    if (dec > 0) return n.toFixed(dec);
+    return Math.round(n).toLocaleString();
+  }
+  function runCounter(el) {
+    var target = parseFloat(el.getAttribute('data-count')) || 0;
+    var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+    var pre = el.getAttribute('data-prefix') || '';
+    var suf = el.getAttribute('data-suffix') || '';
+    if (reduce) { el.textContent = pre + fmt(target, dec) + suf; return; }
+    var dur = 1300, start = performance.now();
+    function tick(now) {
+      var p = Math.min(1, (now - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + fmt(target * eased, dec) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = pre + fmt(target, dec) + suf;
+    }
+    requestAnimationFrame(tick);
+  }
+  var counters = document.querySelectorAll('[data-count]');
+  if ('IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { runCounter(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cio.observe(el); });
+  } else {
+    counters.forEach(runCounter);
+  }
+
+  /* ---- active nav link by section in view ---- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var byHash = {};
+  navLinks.forEach(function (a) { byHash[a.getAttribute('href')] = a; });
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && sections.length) {
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          navLinks.forEach(function (a) { a.classList.remove('active'); });
+          var link = byHash['#' + e.target.id];
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { sio.observe(s); });
+  }
+
+  /* ---- magnetic buttons ---- */
+  if (!reduce && window.matchMedia('(pointer: fine)').matches) {
+    document.querySelectorAll('.magnetic').forEach(function (el) {
+      el.addEventListener('mousemove', function (ev) {
+        var r = el.getBoundingClientRect();
+        var mx = ev.clientX - r.left - r.width / 2;
+        var my = ev.clientY - r.top - r.height / 2;
+        el.style.transform = 'translate(' + (mx * 0.18) + 'px,' + (my * 0.28) + 'px)';
+      });
+      el.addEventListener('mouseleave', function () { el.style.transform = ''; });
+    });
+  }
+
   /* ============================================================
      HIVE MIND DEMO — deterministic answer router
      Mirrors the product's intents (tokens / billing / license /
-     who-uses / alerts / prompts / code / mcp). Canned but faithful.
+     who-uses / alerts / prompts / code / mcp / swarm). Canned but faithful.
      ============================================================ */
   var KB = {
     cost: {
@@ -86,9 +165,13 @@
       head: 'Governance: an agent runs only if the <b>agent</b> and its <b>privilege</b> are both approved.',
       rows: ['12 agents approved', '3 pending decision', '2 halted + killed (unapproved)', 'grants auto-expire in 72h']
     },
+    swarm: {
+      head: 'Swarm: your <b>Enterprise SLM</b> is at round 34 — 92.8% accuracy, 100% corpus coverage.',
+      rows: ['118M params · self-trained on-endpoint', '10 endpoints contributing compute', 'flagged 12 anomalies vs. the learned baseline', 'no external LLM — owned by your tenant']
+    },
     overview: {
       head: 'I remember <b>347 facts</b> over 487 AI events — 75.5k tokens, ~$0.53 billed, across 10 endpoints &amp; 13 agents.',
-      rows: ['Ask about billing, tokens, licenses…', 'or who uses a tool, recent alerts, prompts, code, MCP']
+      rows: ['Ask about billing, tokens, licenses…', 'or who uses a tool, recent alerts, prompts, code, MCP, or the Swarm']
     }
   };
 
@@ -97,11 +180,12 @@
     if (/token/.test(s)) return KB.tokens;
     if (/cost|bill|spend|\$|price/.test(s)) return KB.cost;
     if (/licen|seat/.test(s)) return KB.license;
+    if (/swarm|slm|model|train/.test(s)) return KB.swarm;
     if (/snapshot|screenshot/.test(s)) return KB.snapshot;
     if (/mcp/.test(s)) return KB.mcp;
     if (/code|completion/.test(s)) return KB.code;
     if (/prompt|question/.test(s)) return KB.prompt;
-    if (/alert|block|redact|incident/.test(s)) return KB.alert;
+    if (/alert|block|redact|incident|anomal/.test(s)) return KB.alert;
     if (/govern|approv|privilege|kill/.test(s)) return KB.governance;
     if (/\bwho\b|uses|cursor|copilot|chatgpt|claude/.test(s)) return KB.who;
     return KB.overview;
