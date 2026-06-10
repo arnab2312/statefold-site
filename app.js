@@ -166,8 +166,8 @@
       rows: ['12 agents approved', '3 pending decision', '2 halted + killed (unapproved)', 'grants auto-expire in 72h']
     },
     swarm: {
-      head: 'Swarm: your <b>Enterprise SLM</b> is at round 34 — 92.8% accuracy, 100% corpus coverage.',
-      rows: ['118M params · self-trained on-endpoint', '10 endpoints contributing compute', 'flagged 12 anomalies vs. the learned baseline', 'no external LLM — owned by your tenant']
+      head: 'Swarm: your <b>Enterprise SLM</b> is private to your tenant — trained only on your own AI usage.',
+      rows: ['owned by you — not a seat on someone else’s model', 'always sharpening as your fleet works', 'flags AI usage that deviates from your norm', 'no external LLM, ever']
     },
     overview: {
       head: 'I remember <b>347 facts</b> over 487 AI events — 75.5k tokens, ~$0.53 billed, across 10 endpoints &amp; 13 agents.',
