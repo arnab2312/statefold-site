@@ -166,8 +166,8 @@
       rows: ['12 agents approved', '3 pending decision', '2 halted + killed (unapproved)', 'grants auto-expire in 72h']
     },
     swarm: {
-      head: 'Swarm: your <b>Enterprise SLM</b> is private to your tenant — trained only on your own AI usage.',
-      rows: ['owned by you — not a seat on someone else’s model', 'always sharpening as your fleet works', 'flags AI usage that deviates from your norm', 'no external LLM, ever']
+      head: 'The <b>Hive Mind</b> is your own model, private to your tenant — and the <b>Swarm</b> keeps teaching it.',
+      rows: ['memory and intelligence as one', 'taught only by your own AI usage', 'flags AI usage that deviates from your norm', 'no external LLM, ever']
     },
     overview: {
       head: 'I remember <b>347 facts</b> over 487 AI events — 75.5k tokens, ~$0.53 billed, across 10 endpoints &amp; 13 agents.',
