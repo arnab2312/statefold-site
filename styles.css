@@ -3,10 +3,10 @@
    Palette: light grey · orange · beige · black
    ============================================================ */
 :root {
-  --paper:      #F4F3EF;   /* light grey base            */
-  --paper-2:    #FBFAF6;   /* lifted surface             */
-  --beige:      #EFE7D7;   /* warm beige panel           */
-  --beige-2:    #E7DCC6;   /* deeper beige               */
+  --paper:      #FFFFFF;   /* pure white base            */
+  --paper-2:    #F5F4F0;   /* off-white surface          */
+  --beige:      #EEEAE3;   /* warm beige panel           */
+  --beige-2:    #E5DDD0;   /* deeper beige               */
   --ink:        #16140F;   /* near-black text            */
   --ink-soft:   #36322A;   /* soft black                 */
   --muted:      #6E6A5F;   /* muted grey-brown           */
@@ -15,9 +15,10 @@
   --orange-2:   #C2431D;   /* deep orange (hover)        */
   --orange-tint:#FBE7DD;   /* orange wash                */
   --amber:      #E8923A;   /* secondary warm accent      */
-  --line:       #DCD7CB;   /* hairline                   */
+  --line:       #E0DBCC;   /* hairline                   */
   --line-2:     #C9C3B4;   /* stronger hairline          */
   --white:      #FFFFFF;
+  --grid:       rgba(0,0,0,.048); /* faint grid on white */
 
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
   --sans:  "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -38,7 +39,13 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-t
 body {
   font-family: var(--sans);
   color: var(--ink);
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -165,7 +172,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 .hero-ring.r2 { width: 460px; height: 460px; opacity: .4; border-style: dashed; animation: spin 60s linear infinite reverse; }
 @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .hero-ring { animation: none; } }
-.hero-df { position: relative; z-index: 1; width: min(420px, 84%); display: block; color: var(--ink); }
+.hero-df { position: relative; z-index: 1; width: min(420px, 84%); display: block; color: #000; }
 .hero-df .p { stroke-width: 3.1; }
 .hero-cap { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 8px 18px; margin-top: 26px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
@@ -203,7 +210,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 /* ============================================================
    STATS
    ============================================================ */
-.stats { background: var(--paper-2); border-bottom: 1px solid var(--line); }
+.stats { background: transparent; border-bottom: 1px solid var(--line); }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
 .stat { padding: 40px 24px; text-align: center; border-right: 1px solid var(--line); }
 .stat:last-child { border-right: 0; }
@@ -215,7 +222,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
    SECTIONS
    ============================================================ */
 .section { padding: 96px 0; }
-.section.alt { background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.section.alt { background: transparent; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .sec-head { max-width: 740px; margin-bottom: 48px; }
 .sec-head h2 { font-size: clamp(30px, 3.8vw, 46px); margin-bottom: 16px; }
 .sec-sub { font-size: 17.5px; color: var(--ink-soft); }
@@ -267,7 +274,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 /* ============================================================
    DRAGONFLY MARK — the Hive Mind symbol
    ============================================================ */
-.df { display: block; color: var(--ink); aspect-ratio: 1 / 1; }
+.df { display: block; color: #000; aspect-ratio: 1 / 1; }
 .df .p { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round;
   stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .df .df-hover { transform-box: view-box; transform-origin: 60px 60px; animation: df-float 6s ease-in-out infinite; }
@@ -298,8 +305,8 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
    ============================================================ */
 .swarm { background:
   radial-gradient(70% 60% at 0% 0%, var(--beige) 0%, transparent 50%),
-  radial-gradient(60% 60% at 100% 100%, rgba(229,85,43,.06) 0%, transparent 55%),
-  var(--paper); border-top: 1px solid var(--line); }
+  radial-gradient(60% 60% at 100% 100%, rgba(229,85,43,.06) 0%, transparent 55%);
+  border-top: 1px solid var(--line); }
 .swarm-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 22px; align-items: stretch; }
 
 .swarm-pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -326,8 +333,8 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
    HIVE MIND
    ============================================================ */
 .hive { background:
-  radial-gradient(90% 80% at 100% 0%, var(--beige) 0%, transparent 55%),
-  var(--paper); border-top: 1px solid var(--line); }
+  radial-gradient(90% 80% at 100% 0%, var(--beige) 0%, transparent 55%);
+  border-top: 1px solid var(--line); }
 .hive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
 .hive-copy h2 { font-size: clamp(30px, 3.8vw, 46px); margin-bottom: 16px; }
 .ticks { list-style: none; margin: 22px 0; display: flex; flex-direction: column; gap: 11px; }
@@ -343,7 +350,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 .demo-card { background: var(--paper-2); border: 1px solid var(--line-2); border-radius: var(--radius); box-shadow: var(--shadow-lg); overflow: hidden; }
 .demo-top { display: flex; align-items: center; gap: 9px; padding: 15px 18px; border-bottom: 1px solid var(--line);
   font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.demo-top .df { width: 22px; height: 22px; color: var(--ink); }
+.demo-top .df { width: 22px; height: 22px; color: #000; }
 .demo-log { padding: 18px; display: flex; flex-direction: column; gap: 12px; min-height: 210px; max-height: 320px; overflow-y: auto; }
 .demo-log .bub { max-width: 88%; }
 .demo-suggest { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 18px 14px; }
@@ -426,7 +433,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 /* ============================================================
    FOOTER
    ============================================================ */
-.foot { background: var(--paper-2); border-top: 1px solid var(--line); padding-top: 60px; }
+.foot { background: transparent; border-top: 1px solid var(--line); padding-top: 60px; }
 .foot-inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; padding-bottom: 44px; }
 .foot-brand p { color: var(--muted); font-size: 14px; max-width: 40ch; margin-top: 14px; }
 .foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
