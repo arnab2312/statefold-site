@@ -136,8 +136,7 @@ h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 600; line-height: 1
 .hero-mesh span { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; }
 .hero-mesh span:nth-child(1) { width: 540px; height: 540px; top: -160px; right: -80px;
   background: radial-gradient(circle, var(--beige), transparent 70%); animation: drift1 22s var(--ease) infinite alternate; }
-.hero-mesh span:nth-child(2) { width: 420px; height: 420px; top: 40px; right: 160px;
-  background: radial-gradient(circle, rgba(229,85,43,.16), transparent 70%); animation: drift2 18s var(--ease) infinite alternate; }
+.hero-mesh span:nth-child(2) { display: none; }
 .hero-mesh span:nth-child(3) { width: 380px; height: 380px; bottom: -120px; left: -80px;
   background: radial-gradient(circle, var(--paper-2), transparent 68%); animation: drift1 26s var(--ease) infinite alternate-reverse; }
 @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px,24px) scale(1.08); } }
