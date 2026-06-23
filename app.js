@@ -17,14 +17,15 @@
     var brRule = document.getElementById('brRule');
     var brName = document.getElementById('brName');
     var brTag  = document.getElementById('brTag');
-    setTimeout(function () { if (brRule) brRule.classList.add('br-open'); }, 800);
-    setTimeout(function () { if (brName) brName.classList.add('br-in'); }, 950);
-    setTimeout(function () { if (brTag)  brTag.classList.add('br-in'); }, 1400);
+    setTimeout(function () { if (brRule) brRule.classList.add('br-open'); }, 900);
+    setTimeout(function () { if (brName) brName.classList.add('br-in'); }, 1100);
+    setTimeout(function () { if (brTag)  brTag.classList.add('br-in'); }, 1700);
     setTimeout(function () {
-      br.classList.add('br-out');
+      /* release scroll so hero is live as curtain rises */
       document.body.style.overflow = '';
-      setTimeout(function () { br.style.display = 'none'; }, 1000);
-    }, 2700);
+      br.classList.add('br-out');
+      setTimeout(function () { br.style.display = 'none'; }, 1200);
+    }, 4200);
   } else if (br) {
     br.style.display = 'none';
   }
