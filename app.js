@@ -10,6 +10,25 @@
   'use strict';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---- brand reveal ---- */
+  var br = document.getElementById('brand-reveal');
+  if (br && !reduce) {
+    document.body.style.overflow = 'hidden';
+    var brRule = document.getElementById('brRule');
+    var brName = document.getElementById('brName');
+    var brTag  = document.getElementById('brTag');
+    setTimeout(function () { if (brRule) brRule.classList.add('br-open'); }, 800);
+    setTimeout(function () { if (brName) brName.classList.add('br-in'); }, 950);
+    setTimeout(function () { if (brTag)  brTag.classList.add('br-in'); }, 1400);
+    setTimeout(function () {
+      br.classList.add('br-out');
+      document.body.style.overflow = '';
+      setTimeout(function () { br.style.display = 'none'; }, 1000);
+    }, 2700);
+  } else if (br) {
+    br.style.display = 'none';
+  }
+
   /* ---- footer year ---- */
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = String(new Date().getFullYear());
