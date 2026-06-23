@@ -16,12 +16,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:wght@700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- ===================== BRAND REVEAL ===================== -->
-  <div id="brand-reveal" aria-hidden="true">
+  <!-- ===================== BRAND SPLASH (scroll-through) ===================== -->
+  <section id="brand-reveal">
     <div class="br-inner">
       <svg class="df br-df" viewBox="0 0 120 120" aria-hidden="true"><g class="df-hover">
   <g class="df-body">
@@ -36,11 +36,12 @@
   <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
   <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
 </g></svg>
-      <div class="br-rule" id="brRule"></div>
-      <div class="br-name" id="brName">STATEFOLD</div>
-      <div class="br-tag" id="brTag">ENDPOINT AI SECURITY</div>
+      <div class="br-rule"></div>
+      <div class="br-name">STATEFOLD</div>
+      <div class="br-tag">ENDPOINT AI SECURITY</div>
     </div>
-  </div>
+    <div class="br-cue" aria-hidden="true"><div class="br-cue-line"></div></div>
+  </section>
 
   <!-- scroll progress + film grain -->
   <div class="scrollbar" id="scrollbar" aria-hidden="true"></div>

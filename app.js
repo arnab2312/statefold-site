@@ -10,24 +10,14 @@
   'use strict';
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---- brand reveal ---- */
-  var br = document.getElementById('brand-reveal');
-  if (br && !reduce) {
-    document.body.style.overflow = 'hidden';
-    var brRule = document.getElementById('brRule');
-    var brName = document.getElementById('brName');
-    var brTag  = document.getElementById('brTag');
-    setTimeout(function () { if (brRule) brRule.classList.add('br-open'); }, 900);
-    setTimeout(function () { if (brName) brName.classList.add('br-in'); }, 1100);
-    setTimeout(function () { if (brTag)  brTag.classList.add('br-in'); }, 1700);
-    setTimeout(function () {
-      /* release scroll so hero is live as curtain rises */
-      document.body.style.overflow = '';
-      br.classList.add('br-out');
-      setTimeout(function () { br.style.display = 'none'; }, 1200);
-    }, 4200);
-  } else if (br) {
-    br.style.display = 'none';
+  /* ---- hide nav while brand splash is in view ---- */
+  var brSection = document.getElementById('brand-reveal');
+  var navEl = document.querySelector('[data-nav]');
+  if (brSection && navEl && 'IntersectionObserver' in window) {
+    var brNavIO = new IntersectionObserver(function (entries) {
+      navEl.classList.toggle('nav-hidden', entries[0].isIntersecting);
+    }, { threshold: 0.15 });
+    brNavIO.observe(brSection);
   }
 
   /* ---- footer year ---- */
