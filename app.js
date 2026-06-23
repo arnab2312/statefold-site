@@ -116,31 +116,6 @@
     sections.forEach(function (s) { sio.observe(s); });
   }
 
-  /* ---- cursor follower ---- */
-  var dot = null;
-  if (!reduce && window.matchMedia('(pointer: fine)').matches) {
-    dot = document.createElement('div');
-    dot.className = 'cursor-dot';
-    document.body.appendChild(dot);
-    var cx = -200, cy = -200, tx = -200, ty = -200, dotVis = false;
-    document.addEventListener('mousemove', function (e) {
-      tx = e.clientX; ty = e.clientY;
-      if (!dotVis) { dotVis = true; dot.classList.add('vis'); }
-    });
-    document.addEventListener('mouseleave', function () { dot.classList.remove('vis'); dotVis = false; });
-    var hoverEls = 'a,button,.card,.cap,.sp,.t-item,.steps li,.kicker,.corpus-chips span';
-    document.querySelectorAll(hoverEls).forEach(function (el) {
-      el.addEventListener('mouseenter', function () { if (dot) dot.classList.add('on-link'); });
-      el.addEventListener('mouseleave', function () { if (dot) dot.classList.remove('on-link'); });
-    });
-    (function loop() {
-      cx += (tx - cx) * 0.1;
-      cy += (ty - cy) * 0.1;
-      dot.style.transform = 'translate3d(calc(' + cx + 'px - 50%),calc(' + cy + 'px - 50%),0)';
-      requestAnimationFrame(loop);
-    })();
-  }
-
   /* ---- magnetic buttons ---- */
   if (!reduce && window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.magnetic').forEach(function (el) {

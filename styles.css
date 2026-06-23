@@ -623,22 +623,6 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 600; line-height: 1.2;
 .reveal.in { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-/* ============================================================
-   CURSOR FOLLOWER
-   ============================================================ */
-.cursor-dot {
-  position: fixed; top: 0; left: 0;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--orange);
-  pointer-events: none; z-index: 9999;
-  transform: translate3d(-50%,-50%,0);
-  transition: width .4s var(--ease-spring), height .4s var(--ease-spring), opacity .3s var(--ease-smooth), background .3s var(--ease-smooth);
-  opacity: 0; will-change: transform;
-  mix-blend-mode: multiply;
-}
-.cursor-dot.vis { opacity: 0.55; }
-.cursor-dot.on-link { width: 36px; height: 36px; opacity: .14; background: var(--ink); }
-@media (pointer: coarse), (prefers-reduced-motion: reduce) { .cursor-dot { display: none; } }
 
 /* ============================================================
    RESPONSIVE
