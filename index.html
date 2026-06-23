@@ -16,7 +16,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -123,6 +123,14 @@
           <span><b data-count="347">0</b> facts</span><span><b data-count="487">0</b> AI events</span>
           <span><b data-count="75.5" data-suffix="k">0</b> tokens</span><span><b data-count="0.53" data-prefix="$" data-dec="2">0</b> AI bill</span>
         </div>
+        <div class="hero-feed" aria-hidden="true">
+          <div class="hf-head">
+            <span class="hf-pulse"></span>
+            <span class="hf-label">Live · endpoint feed</span>
+            <span class="hf-shield">6 / 6 surfaces</span>
+          </div>
+          <div class="hf-rows" id="hfRows"></div>
+        </div>
       </div>
     </div>
     <a class="scroll-cue" href="#surfaces" aria-label="Scroll"><span></span></a>
@@ -142,10 +150,10 @@
   <!-- ===================== STATS ===================== -->
   <section class="stats">
     <div class="wrap stats-grid">
-      <div class="stat reveal" style="--i:0"><b data-count="6">0</b><span>AI surfaces watched, per endpoint</span></div>
-      <div class="stat reveal" style="--i:1"><b data-count="4" data-prefix="">0</b><span>verdicts — allow · alert · redact · block</span></div>
-      <div class="stat reveal" style="--i:2"><b data-count="72" data-suffix="h">0</b><span>agent grants, then auto-expire</span></div>
-      <div class="stat reveal" style="--i:3"><b data-count="0" data-suffix=" LLM">0</b><span>external models in the trust path</span></div>
+      <div class="stat reveal" style="--i:0"><b data-count="6">0</b><span>AI surfaces watched, per endpoint</span><div class="spark" aria-hidden="true"><i style="--h:52%;--d:.04s"></i><i style="--h:64%;--d:.09s"></i><i style="--h:71%;--d:.14s"></i><i style="--h:80%;--d:.19s"></i><i style="--h:85%;--d:.24s"></i><i style="--h:93%;--d:.29s"></i><i style="--h:100%;--d:.34s"></i></div></div>
+      <div class="stat reveal" style="--i:1"><b data-count="4" data-prefix="">0</b><span>verdicts — allow · alert · redact · block</span><div class="spark" aria-hidden="true"><i style="--h:42%;--d:.04s"></i><i style="--h:58%;--d:.09s"></i><i style="--h:66%;--d:.14s"></i><i style="--h:74%;--d:.19s"></i><i style="--h:80%;--d:.24s"></i><i style="--h:76%;--d:.29s"></i><i style="--h:90%;--d:.34s"></i></div></div>
+      <div class="stat reveal" style="--i:2"><b data-count="72" data-suffix="h">0</b><span>agent grants, then auto-expire</span><div class="spark" aria-hidden="true"><i style="--h:30%;--d:.04s"></i><i style="--h:48%;--d:.09s"></i><i style="--h:62%;--d:.14s"></i><i style="--h:55%;--d:.19s"></i><i style="--h:70%;--d:.24s"></i><i style="--h:65%;--d:.29s"></i><i style="--h:82%;--d:.34s"></i></div></div>
+      <div class="stat reveal" style="--i:3"><b data-count="0" data-suffix=" LLM">0</b><span>external models in the trust path</span><div class="spark spark-zero" aria-hidden="true"><i style="--h:8%;--d:.04s"></i><i style="--h:8%;--d:.09s"></i><i style="--h:8%;--d:.14s"></i><i style="--h:8%;--d:.19s"></i><i style="--h:8%;--d:.24s"></i><i style="--h:8%;--d:.29s"></i><i style="--h:8%;--d:.34s"></i></div></div>
     </div>
   </section>
 
@@ -196,7 +204,7 @@
           <h4>Endpoint sensor</h4>
           <p>Observes every AI surface — proxy, browser, IDE, MCP, Bedrock, clipboard, DNS — decides on-box, and enforces <em>before data leaves the endpoint</em>.</p>
         </div>
-        <div class="arch-link"><span></span><span></span><span></span></div>
+        <div class="arch-link"><span></span><span></span><span></span><i class="flow-dot" aria-hidden="true"></i></div>
         <div class="arch-node console">
           <span class="tag">StatefoldConsole.exe</span>
           <h4>Management console</h4>

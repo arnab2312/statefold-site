@@ -106,6 +106,31 @@
     sections.forEach(function (s) { sio.observe(s); });
   }
 
+  /* ---- cursor follower ---- */
+  var dot = null;
+  if (!reduce && window.matchMedia('(pointer: fine)').matches) {
+    dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.appendChild(dot);
+    var cx = -200, cy = -200, tx = -200, ty = -200, dotVis = false;
+    document.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!dotVis) { dotVis = true; dot.classList.add('vis'); }
+    });
+    document.addEventListener('mouseleave', function () { dot.classList.remove('vis'); dotVis = false; });
+    var hoverEls = 'a,button,.card,.cap,.sp,.t-item,.steps li,.kicker,.corpus-chips span';
+    document.querySelectorAll(hoverEls).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { if (dot) dot.classList.add('on-link'); });
+      el.addEventListener('mouseleave', function () { if (dot) dot.classList.remove('on-link'); });
+    });
+    (function loop() {
+      cx += (tx - cx) * 0.1;
+      cy += (ty - cy) * 0.1;
+      dot.style.transform = 'translate3d(calc(' + cx + 'px - 50%),calc(' + cy + 'px - 50%),0)';
+      requestAnimationFrame(loop);
+    })();
+  }
+
   /* ---- magnetic buttons ---- */
   if (!reduce && window.matchMedia('(pointer: fine)').matches) {
     document.querySelectorAll('.magnetic').forEach(function (el) {
@@ -238,5 +263,45 @@
     suggest.querySelectorAll('button').forEach(function (b) {
       b.addEventListener('click', function () { answer(b.textContent); });
     });
+  }
+
+  /* ============================================================
+     ENDPOINT FEED WIDGET — live detection ticker in hero
+     ============================================================ */
+  var hfRows = document.getElementById('hfRows');
+  if (hfRows && !reduce) {
+    var FEED = [
+      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'Aadhaar number',  surface:'ChatGPT'   },
+      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'Credit card',     surface:'Cursor IDE' },
+      { v:'ALERT',  bg:'rgba(78,110,142,.11)', fg:'#3d5c78', type:'API key in prompt',surface:'Bedrock'  },
+      { v:'ALLOW',  bg:'rgba(92,125,90,.10)',  fg:'#4a6648', type:'Public question', surface:'Copilot'   },
+      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'PAN India',       surface:'MCP server' },
+      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'SSN pattern',     surface:'VS Code'   },
+      { v:'ALERT',  bg:'rgba(78,110,142,.11)', fg:'#3d5c78', type:'Agent spawn',     surface:'Clipboard' },
+      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'Secret key',      surface:'ChatGPT'   },
+      { v:'ALLOW',  bg:'rgba(92,125,90,.10)',  fg:'#4a6648', type:'Internal doc ref',surface:'Copilot'   },
+      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'Employee ID',     surface:'Cursor IDE' },
+    ];
+    var SHOW = 4;
+    var feedHead = 0;
+
+    function renderFeed() {
+      var rows = '';
+      for (var i = 0; i < SHOW; i++) {
+        var e = FEED[(feedHead + i) % FEED.length];
+        rows += '<div class="hf-row" style="animation-delay:' + (i * 55) + 'ms">' +
+          '<span class="hf-badge" style="background:' + e.bg + ';color:' + e.fg + '">' + e.v + '</span>' +
+          '<span class="hf-type">' + e.type + '</span>' +
+          '<span class="hf-surface">' + e.surface + '</span>' +
+          '</div>';
+      }
+      hfRows.innerHTML = rows;
+    }
+
+    renderFeed();
+    setInterval(function () {
+      feedHead = (feedHead + 1) % FEED.length;
+      renderFeed();
+    }, 2200);
   }
 })();
