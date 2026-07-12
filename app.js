@@ -131,62 +131,82 @@
 
   /* ============================================================
      HIVE MIND DEMO — deterministic answer router
-     Mirrors the product's intents (tokens / billing / license /
-     who-uses / alerts / prompts / code / mcp / swarm). Canned but faithful.
+     Mirrors the product's real hive_answer() legs: a verified query
+     (exact, provably-correct), a graph match, a hybrid semantic
+     search, or an honest abstain when confidence is too low. Canned
+     but faithful — no network, no model.
      ============================================================ */
   var KB = {
+    exfil: {
+      leg: 'verified',
+      head: '<b>2 identities</b> run an exfil-capable agent with a vuln on the same device — verified query, not a guess.',
+      rows: ['FIN\\a.rao · WS-FIN-118 · CVE-2025-31337 (critical)', 'ENG\\j.park · WS-ENG-204 · CVE-2025-40410 (high)']
+    },
     cost: {
+      leg: 'graph',
       head: 'Estimated AI billing: <b>$0.53</b> across 7 models.',
       rows: ['claude-3.5-sonnet · $0.32', 'gpt-4o · $0.11', 'titan-text · $0.06', 'cohere-command · $0.04']
     },
     tokens: {
+      leg: 'graph',
       head: 'Token usage: <b>75,533 tokens</b> across 7 models (22,513 in · 53,020 out).',
       rows: ['claude-3.5-sonnet · 41,208', 'gpt-4o · 18,442', 'amazon.titan · 9,310', 'others · 6,573']
     },
     license: {
+      leg: 'graph',
       head: 'License usage across <b>9 license pools</b> / seats.',
       rows: ['GitHub Copilot Business · 14 seats', 'Cursor Pro · 9 seats', 'ChatGPT Enterprise · 22 seats', 'Unlicensed (shadow AI) · 6 seats']
     },
     who: {
+      leg: 'graph',
       head: '<b>EXEC\\t.vance, ENG\\s.okafor, ENG\\j.park</b> and 7 others use Cursor.',
       rows: ['runs on WS-ENG-221, WS-ENG-204', 'privilege: Standard user', 'last seen 4 min ago']
     },
     alert: {
+      leg: 'graph',
       head: 'Recent alerts — the latest security responses across the fleet.',
       rows: ['WS-FIN-118 · BLOCK · secret → Bedrock', 'WS-ENG-204 · REDACT · PII in prompt', 'WS-OPS-009 · ALERT · MCP exfil attempt']
     },
     prompt: {
+      leg: 'graph',
       head: '<b>234 prompts &amp; questions</b> captured — most recent shown.',
       rows: ['ENG\\j.park → Cursor · "refactor the auth guard…"', 'FIN\\a.rao → ChatGPT · "summarize Q3 variance…"', 'OPS\\m.diaz → Claude · "write a PowerShell cleanup…"']
     },
     code: {
+      leg: 'graph',
       head: '<b>86 code generations</b> captured — most recent shown.',
       rows: ['Cursor · completion in payments.py', 'Copilot · suggestion in handler.ts', 'Claude · script in deploy.ps1']
     },
     mcp: {
+      leg: 'graph',
       head: '<b>47 MCP queries</b> captured across connected servers.',
       rows: ['filesystem.read · 18', 'github.search · 14', 'postgres.query · 9', 'shell.exec · 6']
     },
     snapshot: {
+      leg: 'graph',
       head: '<b>23 snapshots</b> retained for forensic review.',
       rows: ['WS-ENG-221 · screen-share capture', 'WS-FIN-118 · clipboard event', 'WS-OPS-009 · paste to web AI']
     },
     governance: {
+      leg: 'graph',
       head: 'Governance: an agent runs only if the <b>agent</b> and its <b>privilege</b> are both approved.',
       rows: ['12 agents approved', '3 pending decision', '2 halted + killed (unapproved)', 'grants auto-expire in 72h']
     },
     swarm: {
-      head: 'The <b>Hive Mind</b> is your own model, private to your tenant — and the <b>Swarm</b> keeps teaching it.',
-      rows: ['memory and intelligence as one', 'taught only by your own AI usage', 'flags AI usage that deviates from your norm', 'no external LLM, ever']
+      leg: 'semantic',
+      head: 'Found related evidence across the knowledge substrate — the <b>Hive Mind</b> is your own model; the <b>Swarm</b> keeps teaching it.',
+      rows: ['memory and intelligence as one', 'taught only by your own AI usage', 'flags activity that reads unlike anything seen before', 'no external LLM, ever']
     },
-    overview: {
-      head: 'I remember <b>347 facts</b> over 487 AI events — 75.5k tokens, ~$0.53 billed, across 10 endpoints &amp; 13 agents.',
-      rows: ['Ask about billing, tokens, licenses…', 'or who uses a tool, recent alerts, prompts, code, MCP, or the Swarm']
+    abstain: {
+      leg: 'abstain',
+      head: 'I don’t have enough evidence to answer that confidently.',
+      rows: []
     }
   };
 
   function route(q) {
     var s = (q || '').toLowerCase();
+    if (/exfil/.test(s)) return KB.exfil;
     if (/token/.test(s)) return KB.tokens;
     if (/cost|bill|spend|\$|price/.test(s)) return KB.cost;
     if (/licen|seat/.test(s)) return KB.license;
@@ -198,8 +218,10 @@
     if (/alert|block|redact|incident|anomal/.test(s)) return KB.alert;
     if (/govern|approv|privilege|kill/.test(s)) return KB.governance;
     if (/\bwho\b|uses|cursor|copilot|chatgpt|claude/.test(s)) return KB.who;
-    return KB.overview;
+    return KB.abstain;
   }
+
+  var LEG_LABEL = { verified: 'Verified', graph: 'Graph match', semantic: 'Semantic search', abstain: 'Low confidence' };
 
   var log = document.getElementById('demoLog');
   var form = document.getElementById('demoForm');
@@ -221,11 +243,13 @@
     var typing = bubble('hive', '<span class="frow">…thinking</span>');
     setTimeout(function () {
       var a = route(q);
-      var html = a.head;
+      var leg = a.leg || 'graph';
+      var html = '<span class="leg leg-' + leg + '">' + LEG_LABEL[leg] + '</span><br>' + a.head;
       if (a.rows && a.rows.length) {
         html += a.rows.map(function (r) { return '<span class="frow">' + r + '</span>'; }).join('');
       }
       typing.innerHTML = html;
+      typing.classList.toggle('abstain', leg === 'abstain');
       log.scrollTop = log.scrollHeight;
     }, 380);
   }
@@ -256,16 +280,16 @@
   var hfRows = document.getElementById('hfRows');
   if (hfRows && !reduce) {
     var FEED = [
-      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'Aadhaar number',  surface:'ChatGPT'   },
-      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'Credit card',     surface:'Cursor IDE' },
-      { v:'ALERT',  bg:'rgba(78,110,142,.11)', fg:'#3d5c78', type:'API key in prompt',surface:'Bedrock'  },
-      { v:'ALLOW',  bg:'rgba(92,125,90,.10)',  fg:'#4a6648', type:'Public question', surface:'Copilot'   },
-      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'PAN India',       surface:'MCP server' },
-      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'SSN pattern',     surface:'VS Code'   },
-      { v:'ALERT',  bg:'rgba(78,110,142,.11)', fg:'#3d5c78', type:'Agent spawn',     surface:'Clipboard' },
-      { v:'BLOCK',  bg:'rgba(166,68,60,.11)',  fg:'#a6443c', type:'Secret key',      surface:'ChatGPT'   },
-      { v:'ALLOW',  bg:'rgba(92,125,90,.10)',  fg:'#4a6648', type:'Internal doc ref',surface:'Copilot'   },
-      { v:'REDACT', bg:'rgba(229,85,43,.10)',  fg:'#c2431d', type:'Employee ID',     surface:'Cursor IDE' },
+      { v:'BLOCK',  bg:'rgba(213,51,63,.11)',  fg:'#d5333f', type:'Aadhaar number',  surface:'ChatGPT'   },
+      { v:'REDACT', bg:'rgba(181,106,18,.11)', fg:'#b56a12', type:'Credit card',     surface:'Cursor IDE' },
+      { v:'ALERT',  bg:'rgba(140,122,18,.13)', fg:'#8c7a12', type:'API key in prompt',surface:'Bedrock'  },
+      { v:'ALLOW',  bg:'rgba(20,122,78,.11)',  fg:'#147a4e', type:'Public question', surface:'Copilot'   },
+      { v:'BLOCK',  bg:'rgba(213,51,63,.11)',  fg:'#d5333f', type:'PAN India',       surface:'MCP server' },
+      { v:'REDACT', bg:'rgba(181,106,18,.11)', fg:'#b56a12', type:'SSN pattern',     surface:'VS Code'   },
+      { v:'ALERT',  bg:'rgba(140,122,18,.13)', fg:'#8c7a12', type:'Agent spawn',     surface:'Clipboard' },
+      { v:'BLOCK',  bg:'rgba(213,51,63,.11)',  fg:'#d5333f', type:'Secret key',      surface:'ChatGPT'   },
+      { v:'ALLOW',  bg:'rgba(20,122,78,.11)',  fg:'#147a4e', type:'Internal doc ref',surface:'Copilot'   },
+      { v:'REDACT', bg:'rgba(181,106,18,.11)', fg:'#b56a12', type:'Employee ID',     surface:'Cursor IDE' },
     ];
     var SHOW = 4;
     var feedHead = 0;
