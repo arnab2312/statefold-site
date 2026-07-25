@@ -1,36 +1,42 @@
 /* ============================================================
    Statefold — marketing site
-   Palette: dark — teal (matches the Kernel console's own Obsidian
-   dark theme). Typeface: JetBrains Mono throughout, display and
-   body — a committed, terminal-native identity for a product that
-   watches every AI surface at the kernel. Letter-spacing on large
-   type is kept near-zero (not tightened) since negative tracking
-   collides monospace glyphs, which a proportional-sans convention
-   doesn't have to account for.
+   Palette: strict monochrome — every token below is a true
+   achromatic gray (R=G=B, zero hue bias). No accent color anywhere,
+   including in the "brand" tokens: the accent IS brightness (near-
+   white against dark ground), not a hue. Verdict badges follow the
+   same rule — severity reads as weight/brightness (BLOCK brightest
+   and boldest, ALLOW dimmest and quietest), never as red/amber/green.
+   Typeface: JetBrains Mono throughout, display and body — a
+   committed, terminal-native identity. Letter-spacing on large type
+   is kept near-zero (not tightened) since negative tracking collides
+   monospace glyphs, which a proportional-sans convention doesn't have
+   to account for.
    ============================================================ */
 :root {
-  --bg:         #0A0F0D;   /* base ground — near-black, teal undertone   */
-  --bg-2:       #0E1512;   /* raised surface — nav, alt sections          */
-  --bg-3:       #131E1A;   /* card / component surface                    */
-  --bg-4:       #192824;   /* elevated surface — manifesto/cta/aside glow */
-  --tint:       rgba(53,224,196,.10);  /* translucent teal wash           */
-  --tint-2:     rgba(53,224,196,.18);
-  --ink:        #EEF7F4;   /* primary text — near-white, cool             */
-  --ink-soft:   #C3D3CD;   /* secondary text                              */
-  --muted:      #90A49C;   /* body copy, muted                            */
-  --faint:      #748A81;   /* faint / tertiary — clears 4.5:1 on --bg     */
-  --brand:      #35E0C4;   /* primary teal — the accent                   */
-  --brand-2:    #23C7AC;   /* deeper teal — hover / on-light text         */
-  --electric:   #7FF6E3;   /* brightest highlight, used sparingly         */
-  --line:       rgba(238,247,244,.08);  /* hairline                      */
-  --line-2:     rgba(238,247,244,.16); /* stronger hairline               */
+  --bg:         #0A0A0A;   /* base ground — near-black, true neutral      */
+  --bg-2:       #111111;   /* raised surface — nav, alt sections          */
+  --bg-3:       #1A1A1A;   /* card / component surface                    */
+  --bg-4:       #242424;   /* elevated surface — manifesto/cta/aside glow */
+  --tint:       rgba(242,242,242,.09);  /* translucent white wash        */
+  --tint-2:     rgba(242,242,242,.17);
+  --ink:        #F2F2F2;   /* primary text — near-white, neutral          */
+  --ink-soft:   #CFCFCF;   /* secondary text                              */
+  --muted:      #9A9A9A;   /* body copy, muted                            */
+  --faint:      #808080;   /* faint / tertiary — clears 4.5:1 on --bg     */
+  --brand:      #FFFFFF;   /* the accent — pure white, not a hue          */
+  --brand-2:    #3A3A3A;   /* dark accent, for use on inverted (light) surfaces */
+  --electric:   #FFFFFF;   /* boldest emphasis — same white, used sparingly */
+  --line:       rgba(242,242,242,.08);  /* hairline                      */
+  --line-2:     rgba(242,242,242,.16); /* stronger hairline               */
 
-  /* verdict colors — brightened for legibility on a dark ground;
-     same semantic mapping as the real product's decision palette */
-  --allow:  #3ED98C;
-  --alert:  #F0C24B;
-  --redact: #FF9B57;
-  --block:  #FF5C67;
+  /* verdict "colors" — a pure grayscale weight ramp. Severity reads
+     as brightness, not hue: BLOCK is pure white (max weight), ALLOW
+     is the dimmest gray (recedes). The text label carries the meaning;
+     brightness reinforces it without introducing a single hue. */
+  --block:  #FFFFFF;
+  --redact: #F2F2F2;
+  --alert:  #CFCFCF;
+  --allow:  #808080;
 
   --sans:  "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
   --body:  "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -45,7 +51,7 @@
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --shadow: 0 1px 2px rgba(0,0,0,.30), 0 12px 32px -14px rgba(0,0,0,.55);
-  --shadow-lg: 0 30px 70px -26px rgba(0,0,0,.65), 0 0 44px -12px rgba(53,224,196,.10);
+  --shadow-lg: 0 30px 70px -26px rgba(0,0,0,.65), 0 0 44px -12px rgba(242,242,242,.08);
   --maxw: 1180px;
 }
 
@@ -68,8 +74,8 @@ body {
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(238,247,244,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(238,247,244,.05) 1px, transparent 1px);
+    linear-gradient(rgba(242,242,242,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,242,242,.05) 1px, transparent 1px);
   background-size: 60px 60px;
   background-position: -1px -1px;
   -webkit-mask-image: repeating-linear-gradient(
@@ -103,7 +109,7 @@ img, svg { display: block; max-width: 100%; }
 .grain { position: fixed; inset: 0; z-index: 2000; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .scrollbar { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 2001;
-  background: linear-gradient(90deg, var(--electric), var(--brand)); box-shadow: 0 0 14px rgba(53,224,196,.55); transition: width .1s linear; }
+  background: linear-gradient(90deg, var(--electric), var(--brand)); box-shadow: 0 0 14px rgba(242,242,242,.45); transition: width .1s linear; }
 @media (prefers-reduced-motion: reduce) { .grain { display: none; } }
 
 /* ============================================================
@@ -191,8 +197,8 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .btn:hover::after { background: rgba(255,255,255,.06); }
 .btn:active { transform: translateY(1px) scale(.98) !important; transition-duration: .1s; }
 .btn-lg { padding: 15px 28px; font-size: 14.5px; }
-.btn-primary { background: var(--brand); color: var(--bg); box-shadow: 0 10px 26px -12px rgba(53,224,196,.45); }
-.btn-primary:hover { background: var(--electric); transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(127,246,227,.5); }
+.btn-primary { background: var(--brand); color: var(--bg); box-shadow: 0 10px 26px -12px rgba(242,242,242,.35); }
+.btn-primary:hover { background: var(--electric); transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(255,255,255,.4); }
 .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
 .btn-ghost:hover { background: var(--bg-3); border-color: var(--ink-soft); transform: translateY(-2px); }
 .btn .arr { display: inline-block; transition: transform .5s var(--ease); }
@@ -247,7 +253,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
   background: radial-gradient(circle, var(--tint-2), transparent 70%); animation: drift1 22s var(--ease) infinite alternate; }
 .hero-mesh span:nth-child(2) { display: none; }
 .hero-mesh span:nth-child(3) { width: 420px; height: 420px; bottom: -140px; left: -100px;
-  background: radial-gradient(circle, rgba(53,224,196,.07), transparent 68%); animation: drift1 26s var(--ease) infinite alternate-reverse; }
+  background: radial-gradient(circle, rgba(242,242,242,.06), transparent 68%); animation: drift1 26s var(--ease) infinite alternate-reverse; }
 @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px,24px) scale(1.08); } }
 @media (prefers-reduced-motion: reduce) { .hero-mesh span { animation: none; } }
 
@@ -257,8 +263,8 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
   padding: 7px 8px 7px 14px; margin-bottom: 22px; transition: .2s var(--ease); }
 .kicker:hover { border-color: var(--brand); transform: translateY(-1px); }
 .kicker-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand);
-  box-shadow: 0 0 0 0 rgba(53,224,196,.5); animation: ping 1.8s infinite; }
-@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(53,224,196,.5); } 70% { box-shadow: 0 0 0 8px rgba(53,224,196,0); } 100% { box-shadow: 0 0 0 0 rgba(53,224,196,0); } }
+  box-shadow: 0 0 0 0 rgba(242,242,242,.45); animation: ping 1.8s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(242,242,242,.45); } 70% { box-shadow: 0 0 0 8px rgba(242,242,242,0); } 100% { box-shadow: 0 0 0 0 rgba(242,242,242,0); } }
 .kicker-arrow { font-size: 14px; color: var(--brand); transition: transform .2s var(--ease); }
 .kicker:hover .kicker-arrow { transform: translateX(3px); }
 .hero-copy h1 { font-size: clamp(34px, 5vw, 60px); font-weight: 600; margin: 4px 0 20px; letter-spacing: -.005em; }
@@ -294,10 +300,10 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .frow { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 3px; }
 .leg { display: inline-flex; align-self: flex-start; font-family: var(--mono); font-size: 9.5px; font-weight: 700;
   letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; border-radius: var(--pill); margin-bottom: 6px; }
-.leg-verified  { color: var(--allow);  background: color-mix(in srgb, var(--allow) 16%, transparent); }
-.leg-graph     { color: var(--brand);  background: color-mix(in srgb, var(--brand) 16%, transparent); }
-.leg-semantic  { color: #B79BFF;       background: color-mix(in srgb, #B79BFF 16%, transparent); }
-.leg-abstain   { color: var(--faint);  background: color-mix(in srgb, var(--faint) 20%, transparent); }
+.leg-verified  { color: var(--ink);      background: color-mix(in srgb, var(--ink) 14%, transparent); }
+.leg-graph     { color: var(--ink-soft); background: color-mix(in srgb, var(--ink-soft) 14%, transparent); }
+.leg-semantic  { color: var(--muted);    background: color-mix(in srgb, var(--muted) 16%, transparent); }
+.leg-abstain   { color: var(--faint);    background: color-mix(in srgb, var(--faint) 20%, transparent); }
 
 /* ============================================================
    SURFACES MARQUEE — the one deliberate bright inversion: a
@@ -366,7 +372,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 @keyframes pulse-w { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
 .flow-dot {
   position: absolute; top: 50%; left: 0; width: 8px; height: 8px; border-radius: 50%;
-  background: var(--brand); box-shadow: 0 0 10px rgba(53,224,196,.7); transform: translateY(-50%);
+  background: var(--brand); box-shadow: 0 0 10px rgba(242,242,242,.55); transform: translateY(-50%);
   animation: flowAcross 1.8s cubic-bezier(.4,0,.6,1) infinite 0.6s; pointer-events: none;
 }
 @keyframes flowAcross { 0% { left: 0; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
@@ -433,7 +439,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
    ============================================================ */
 .swarm { background:
   radial-gradient(70% 60% at 0% 0%, var(--tint) 0%, transparent 50%),
-  radial-gradient(60% 60% at 100% 100%, rgba(53,224,196,.05) 0%, transparent 55%);
+  radial-gradient(60% 60% at 100% 100%, rgba(242,242,242,.04) 0%, transparent 55%);
   border-top: 1px solid var(--line); }
 .swarm-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; align-items: stretch; }
 
@@ -446,10 +452,10 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .sp h3 { font-size: 15px; margin-bottom: 7px; }
 .sp p { color: var(--muted); font-size: 12.5px; }
 
-/* an elevated dark card with a teal glow — not an inversion */
+/* an elevated dark card with a soft white glow — not an inversion */
 .swarm-aside { background: var(--bg-4); color: var(--ink); border-radius: var(--radius); padding: 30px 26px; box-shadow: var(--shadow-lg);
   display: flex; flex-direction: column; justify-content: center; gap: 15px; position: relative; overflow: hidden; }
-.swarm-aside::after { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 90% at 80% 0%, rgba(53,224,196,.20), transparent 60%); pointer-events: none; }
+.swarm-aside::after { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 90% at 80% 0%, rgba(242,242,242,.14), transparent 60%); pointer-events: none; }
 .aside-df { width: 54px; height: 54px; color: var(--ink); position: relative; z-index: 1; }
 .aside-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--electric); position: relative; z-index: 1; }
 .aside-line { font-family: var(--sans); font-size: clamp(17px, 1.8vw, 22px); font-weight: 600; line-height: 1.35; color: var(--ink); position: relative; z-index: 1; }
@@ -464,6 +470,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .hive { background:
   radial-gradient(90% 80% at 100% 0%, var(--tint) 0%, transparent 55%);
   border-top: 1px solid var(--line); }
+
 .hive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
 .hive-copy h2 { font-size: clamp(25px, 3vw, 37px); margin-bottom: 15px; }
 .ticks { list-style: none; margin: 21px 0; display: flex; flex-direction: column; gap: 10px; }
@@ -474,7 +481,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .corpus-chips span { font-size: 11px; font-weight: 500; color: var(--ink-soft); background: var(--bg-3);
   border: 1px solid var(--line-2); border-radius: var(--pill); padding: 6px 12px;
   transition: border-color .4s var(--ease-smooth), color .4s var(--ease-smooth), transform .5s var(--ease), box-shadow .5s var(--ease); }
-.corpus-chips span:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-3px); box-shadow: 0 6px 18px -6px rgba(53,224,196,.25); }
+.corpus-chips span:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-3px); box-shadow: 0 6px 18px -6px rgba(242,242,242,.2); }
 
 /* demo card */
 .demo-card { background: var(--bg-3); border: 1px solid var(--line-2); border-radius: var(--radius); box-shadow: var(--shadow-lg); overflow: hidden; }
@@ -494,12 +501,12 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
 .demo-foot { padding: 0 17px 15px; font-size: 10.5px; color: var(--faint); font-family: var(--mono); }
 
 /* ============================================================
-   MANIFESTO — an elevated dark card with a teal glow, not an
+   MANIFESTO — an elevated dark card with a soft white glow, not an
    inversion (restraint: only the marquee and the console node
    invert to light — everywhere else stays dark, glow-accented).
    ============================================================ */
 .manifesto { background: var(--bg-4); color: var(--ink); padding: 92px 0; position: relative; overflow: hidden; }
-.manifesto::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 120% at 50% -10%, rgba(53,224,196,.22), transparent 60%); }
+.manifesto::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 120% at 50% -10%, rgba(242,242,242,.16), transparent 60%); }
 .manifesto .wrap { position: relative; z-index: 1; max-width: 900px; text-align: center; }
 .manifesto-line { font-family: var(--sans); font-size: clamp(21px, 2.8vw, 33px); font-weight: 600; line-height: 1.4; color: var(--ink); letter-spacing: -.005em; }
 .manifesto-line em { font-style: normal; color: var(--electric); }
@@ -544,16 +551,16 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
    ============================================================ */
 .cta { background: var(--bg-4); color: var(--ink); padding: 96px 0; position: relative; overflow: hidden; }
 .cta-mesh { position: absolute; inset: 0; background:
-  radial-gradient(50% 120% at 80% 0%, rgba(53,224,196,.28), transparent 55%),
-  radial-gradient(50% 120% at 15% 100%, rgba(53,224,196,.16), transparent 55%); }
+  radial-gradient(50% 120% at 80% 0%, rgba(242,242,242,.18), transparent 55%),
+  radial-gradient(50% 120% at 15% 100%, rgba(242,242,242,.10), transparent 55%); }
 .cta-inner { position: relative; z-index: 1; text-align: center; max-width: 660px; margin: 0 auto; }
 .eyebrow.on-dark { color: var(--electric); justify-content: center; }
 .cta-inner h2 { color: var(--ink); font-size: clamp(27px, 3.8vw, 42px); margin-bottom: 14px; }
 .cta-inner p { color: color-mix(in srgb, var(--ink) 82%, transparent); font-size: 15.5px; margin-bottom: 28px; }
 .cta-inner p em { font-style: normal; color: var(--electric); font-weight: 500; }
 .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.cta .btn-primary { background: var(--electric); color: var(--bg); box-shadow: 0 10px 26px -12px rgba(127,246,227,.5); }
-.cta .btn-primary:hover { background: #a4faec; }
+.cta .btn-primary { background: var(--electric); color: var(--bg); box-shadow: 0 10px 26px -12px rgba(255,255,255,.4); }
+.cta .btn-primary:hover { background: #FFFFFF; box-shadow: 0 14px 34px -14px rgba(255,255,255,.55); }
 .cta .btn-ghost { color: var(--ink); border-color: var(--line-2); }
 .cta .btn-ghost:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); border-color: var(--ink-soft); }
 .cta-mail { margin-top: 20px; font-size: 13px; color: var(--faint); }
@@ -591,7 +598,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.25;
   border-bottom: 1px solid var(--line); background: var(--bg-4);
   font-size: 9.5px; letter-spacing: .11em; text-transform: uppercase; color: var(--faint);
 }
-.hf-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--allow); flex: none; animation: ping2 1.8s ease-in-out infinite; }
+.hf-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--electric); flex: none; animation: ping2 1.8s ease-in-out infinite; }
 @keyframes ping2 { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 .hf-label { color: var(--muted); }
 .hf-shield { margin-left: auto; color: var(--faint); font-size: 9px; }

@@ -280,16 +280,16 @@
   var hfRows = document.getElementById('hfRows');
   if (hfRows && !reduce) {
     var FEED = [
-      { v:'BLOCK',  bg:'rgba(255,92,103,.14)', fg:'#ff5c67', type:'Aadhaar number',  surface:'ChatGPT'   },
-      { v:'REDACT', bg:'rgba(255,155,87,.14)', fg:'#ff9b57', type:'Credit card',     surface:'Cursor IDE' },
-      { v:'ALERT',  bg:'rgba(240,194,75,.16)', fg:'#f0c24b', type:'API key in prompt',surface:'Bedrock'  },
-      { v:'ALLOW',  bg:'rgba(62,217,140,.14)', fg:'#3ed98c', type:'Public question', surface:'Copilot'   },
-      { v:'BLOCK',  bg:'rgba(255,92,103,.14)', fg:'#ff5c67', type:'PAN India',       surface:'MCP server' },
-      { v:'REDACT', bg:'rgba(255,155,87,.14)', fg:'#ff9b57', type:'SSN pattern',     surface:'VS Code'   },
-      { v:'ALERT',  bg:'rgba(240,194,75,.16)', fg:'#f0c24b', type:'Agent spawn',     surface:'Clipboard' },
-      { v:'BLOCK',  bg:'rgba(255,92,103,.14)', fg:'#ff5c67', type:'Secret key',      surface:'ChatGPT'   },
-      { v:'ALLOW',  bg:'rgba(62,217,140,.14)', fg:'#3ed98c', type:'Internal doc ref',surface:'Copilot'   },
-      { v:'REDACT', bg:'rgba(255,155,87,.14)', fg:'#ff9b57', type:'Employee ID',     surface:'Cursor IDE' },
+      { v:'BLOCK',  bg:'rgba(255,255,255,.16)', fg:'#ffffff', type:'Aadhaar number',  surface:'ChatGPT'   },
+      { v:'REDACT', bg:'rgba(242,242,242,.12)', fg:'#f2f2f2', type:'Credit card',     surface:'Cursor IDE' },
+      { v:'ALERT',  bg:'rgba(207,207,207,.10)', fg:'#cfcfcf', type:'API key in prompt',surface:'Bedrock'  },
+      { v:'ALLOW',  bg:'rgba(128,128,128,.10)', fg:'#808080', type:'Public question', surface:'Copilot'   },
+      { v:'BLOCK',  bg:'rgba(255,255,255,.16)', fg:'#ffffff', type:'PAN India',       surface:'MCP server' },
+      { v:'REDACT', bg:'rgba(242,242,242,.12)', fg:'#f2f2f2', type:'SSN pattern',     surface:'VS Code'   },
+      { v:'ALERT',  bg:'rgba(207,207,207,.10)', fg:'#cfcfcf', type:'Agent spawn',     surface:'Clipboard' },
+      { v:'BLOCK',  bg:'rgba(255,255,255,.16)', fg:'#ffffff', type:'Secret key',      surface:'ChatGPT'   },
+      { v:'ALLOW',  bg:'rgba(128,128,128,.10)', fg:'#808080', type:'Internal doc ref',surface:'Copilot'   },
+      { v:'REDACT', bg:'rgba(242,242,242,.12)', fg:'#f2f2f2', type:'Employee ID',     surface:'Cursor IDE' },
     ];
     var SHOW = 4;
     var feedHead = 0;
