@@ -135,7 +135,23 @@ img, svg { display: block; max-width: 100%; }
   width: 160px; height: 160px; color: var(--ink); margin-bottom: 56px;
   transform-style: preserve-3d;
   animation: dfEntrance3D .9s var(--ease) .2s both, dfIdleSway 8s ease-in-out 1.1s infinite;
+  /* the mark reads as an object resting on a dark glossy surface: a
+     live mirror of the rendered element (transforms, sway and all —
+     -webkit-box-reflect reflects whatever is currently painted, so it
+     stays in perfect sync with dfIdleSway with no extra markup or JS)
+     fading out below it, plus an ambient "wet sheen" pool underneath
+     that breathes slowly to sell a living surface, not a static mirror.
+     Chromium/WebKit-only; unsupported browsers simply see no
+     reflection, a harmless progressive-enhancement gap. */
+  -webkit-box-reflect: below 4px linear-gradient(to bottom, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 65%);
 }
+.br-pool {
+  width: 210px; height: 46px; margin-top: -18px; margin-bottom: 10px;
+  background: radial-gradient(ellipse at center, rgba(242,242,242,.10), transparent 72%);
+  animation: poolShimmer 6s ease-in-out infinite;
+}
+@keyframes poolShimmer { 0%, 100% { opacity: .55; transform: scaleX(1); } 50% { opacity: 1; transform: scaleX(1.08); } }
+@media (prefers-reduced-motion: reduce) { .br-pool { animation: none; opacity: .75; } }
 /* compound selector (not `.br-df .p`) is deliberate: the shared
    `.df .p` base rule below is equal-specificity (two classes) and
    sits later in source order, so it would silently win the cascade
@@ -323,8 +339,15 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   position: relative; z-index: 1; width: min(320px, 68%); display: block; color: var(--ink);
   transform-style: preserve-3d;
   animation: dfIdleSway 9s ease-in-out .4s infinite;
+  -webkit-box-reflect: below 4px linear-gradient(to bottom, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 65%);
 }
 .df.hero-df .p { stroke: url(#df-chrome-hero); stroke-width: 3.1; }
+.hero-pool {
+  position: relative; z-index: 0; width: min(280px, 60%); height: 40px; margin-top: -16px;
+  background: radial-gradient(ellipse at center, rgba(242,242,242,.09), transparent 72%);
+  animation: poolShimmer 7s ease-in-out .6s infinite;
+}
+@media (prefers-reduced-motion: reduce) { .hero-pool { animation: none; opacity: .75; } }
 .hero-cap { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center;
   gap: 8px 18px; margin-top: 18px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
 .hero-cap span { display: inline-flex; align-items: baseline; gap: 6px; }
