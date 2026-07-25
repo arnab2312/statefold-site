@@ -313,4 +313,58 @@
       renderFeed();
     }, 2200);
   }
+
+  /* ============================================================
+     SIGNATURE INTERACTIONS — custom cursor + hero spotlight.
+     Only enabled for a fine pointer (real mouse) with no reduced-
+     motion preference; touch/trackpad-only and accessibility
+     preferences get the untouched default cursor and no listeners
+     at all — nothing below runs for them.
+     ============================================================ */
+  var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer && !reduce) {
+    document.documentElement.classList.add('has-custom-cursor');
+
+    var dot = document.querySelector('.cursor-dot');
+    var ring = document.querySelector('.cursor-ring');
+    var ringX = 0, ringY = 0, mouseX = 0, mouseY = 0, ringRaf = null;
+
+    function moveCursor(e) {
+      mouseX = e.clientX; mouseY = e.clientY;
+      if (dot) dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+      if (!ringRaf) ringRaf = requestAnimationFrame(tickRing);
+    }
+    function tickRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (ring) ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+      if (Math.abs(mouseX - ringX) > 0.3 || Math.abs(mouseY - ringY) > 0.3) {
+        ringRaf = requestAnimationFrame(tickRing);
+      } else {
+        ringRaf = null;
+      }
+    }
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+
+    var hoverables = 'a, button, .card, .cap, .persona, .steps li, .sp, .t-item, .demo-suggest button, input';
+    document.addEventListener('mouseover', function (e) {
+      if (e.target.closest && e.target.closest(hoverables)) document.documentElement.classList.add('cursor-hover');
+    });
+    document.addEventListener('mouseout', function (e) {
+      if (e.target.closest && e.target.closest(hoverables)) document.documentElement.classList.remove('cursor-hover');
+    });
+
+    var heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      heroEl.addEventListener('mouseenter', function () { heroEl.classList.add('spotlight-on'); });
+      heroEl.addEventListener('mouseleave', function () { heroEl.classList.remove('spotlight-on'); });
+      heroEl.addEventListener('mousemove', function (e) {
+        var r = heroEl.getBoundingClientRect();
+        var mx = ((e.clientX - r.left) / r.width) * 100;
+        var my = ((e.clientY - r.top) / r.height) * 100;
+        heroEl.style.setProperty('--mx', mx + '%');
+        heroEl.style.setProperty('--my', my + '%');
+      }, { passive: true });
+    }
+  }
 })();

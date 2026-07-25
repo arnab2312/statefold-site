@@ -22,7 +22,7 @@
   --ink:        #F2F2F2;   /* primary text — near-white, neutral          */
   --ink-soft:   #CFCFCF;   /* secondary text                              */
   --muted:      #9A9A9A;   /* body copy, muted                            */
-  --faint:      #808080;   /* faint / tertiary — clears 4.5:1 on --bg     */
+  --faint:      #8C8C8C;   /* faint / tertiary — 5.9:1 on --bg, 5.2:1 on --bg-3 */
   --brand:      #FFFFFF;   /* the accent — pure white, not a hue          */
   --brand-2:    #3A3A3A;   /* dark accent, for use on inverted (light) surfaces */
   --electric:   #FFFFFF;   /* boldest emphasis — same white, used sparingly */
@@ -36,7 +36,7 @@
   --block:  #FFFFFF;
   --redact: #F2F2F2;
   --alert:  #CFCFCF;
-  --allow:  #808080;
+  --allow:  #8C8C8C;
 
   --sans:  "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
   --body:  "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -137,7 +137,8 @@ img, svg { display: block; max-width: 100%; }
   font-size: clamp(34px, 7vw, 92px);
   font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--ink); padding-left: 0.22em; line-height: 1;
-  animation: brSlideUp 0.9s var(--ease) 1.0s both;
+  transform: scaleX(.82); transform-origin: center;
+  animation: brSlideUpScale 0.9s var(--ease) 1.0s both;
 }
 .br-tag {
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.32em;
@@ -157,6 +158,11 @@ img, svg { display: block; max-width: 100%; }
 @keyframes brFadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes brScaleX  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes brSlideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+/* .br-name carries a permanent scaleX(.82) for the condensed wordmark
+   treatment — its own keyframe (not the shared brSlideUp) must end at
+   that scale, not `none`, or the entrance animation's fill-mode would
+   silently cancel the static transform once it completes. */
+@keyframes brSlideUpScale { from { opacity: 0; transform: translateY(16px) scaleX(.82); } to { opacity: 1; transform: scaleX(.82); } }
 @keyframes brCueDrop {
   0%   { height: 0;    opacity: 0; transform: translateY(0); }
   25%  { opacity: 0.6; }
@@ -175,8 +181,17 @@ img, svg { display: block; max-width: 100%; }
    sans). Weight and size carry the hierarchy instead — pushed to
    the top of JetBrains Mono's range (800) for a heavier, more
    editorial stance, with a denser line-height to match. */
+/* Editorial headlines read taller than wide. JetBrains Mono ships no
+   condensed cut, so width is faked with a post-layout scaleX — safe
+   because transform never affects box size or line-wrapping, only
+   the painted pixels, so it can't cause overflow or reflow. Origin
+   tracks each heading's own alignment (left by default, overridden
+   to center for the centered contexts below) so the scale reads as
+   "narrower from the text's anchor point," not a sideways shift. */
 h1, h2 { font-family: var(--sans); font-weight: 800; line-height: 1.02;
-  letter-spacing: -.008em; color: var(--ink); text-wrap: balance; }
+  letter-spacing: -.008em; color: var(--ink); text-wrap: balance;
+  transform: scaleX(.86); transform-origin: left center; }
+.sec-head.center h2, .cta-inner h2 { transform-origin: center; }
 h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   letter-spacing: 0; color: var(--ink); }
 .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em;
@@ -185,8 +200,10 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
 .eyebrow .sec-no { font-size: 11px; color: var(--faint); letter-spacing: .1em;
   border: 1px solid var(--line-2); border-radius: var(--pill); padding: 2px 8px; }
 .u { background: linear-gradient(transparent 60%, var(--tint-2) 60%); padding: 0 .05em; }
-.grad { background: linear-gradient(100deg, var(--brand) 10%, var(--electric) 90%);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+/* stroke-only "ghost" type — ink outline, transparent fill. Reads as
+   an inversion within a single achromatic value, not a second hue. */
+.stroke-ghost { color: transparent; -webkit-text-stroke: 2px var(--ink); text-stroke: 2px var(--ink); }
+@supports not (-webkit-text-stroke: 1px black) { .stroke-ghost { color: var(--ink); -webkit-text-stroke: 0; } }
 
 /* ---------- buttons ---------- */
 .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -399,7 +416,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
 .cap-ic.df-ic .df { width: 26px; height: 26px; color: var(--bg); }
 .cap-ic.tag-ic { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .01em; border-radius: 7px; }
 .cap h4 { font-size: 16px; margin-bottom: 6px; }
-.cap p { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+.cap p { color: var(--muted); font-size: 13px; line-height: 1.65; }
 .cap strong { color: var(--ink); }
 .cap em { font-style: normal; color: var(--ink-soft); font-weight: 500; }
 
@@ -452,7 +469,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
 .sp-ic { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px;
   background: var(--tint); color: var(--brand-2); font-size: 17px; margin-bottom: 12px; }
 .sp h3 { font-size: 16.5px; margin-bottom: 7px; }
-.sp p { color: var(--muted); font-size: 12.5px; }
+.sp p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 
 /* an elevated dark card with a soft white glow — not an inversion */
 .swarm-aside { background: var(--bg-4); color: var(--ink); border-radius: var(--radius); padding: 30px 26px; box-shadow: var(--shadow-lg);
@@ -529,11 +546,22 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
    STEPS
    ============================================================ */
 .steps { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; }
-.steps li { background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; position: relative; transition: transform .6s var(--ease), border-color .4s var(--ease-smooth), box-shadow .6s var(--ease); }
+.steps li { background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 20px 22px; position: relative; overflow: hidden;
+  transition: transform .6s var(--ease), border-color .4s var(--ease-smooth), box-shadow .6s var(--ease); }
 .steps li:hover { transform: translateY(-6px); border-color: var(--brand); box-shadow: var(--shadow); }
-.steps .num { font-family: var(--mono); font-size: 12px; color: var(--brand); font-weight: 500; }
-.steps h3 { font-size: 19px; margin: 10px 0 7px; }
-.steps p { color: var(--muted); font-size: 12.5px; }
+/* the step number, blown up into an oversized folio watermark — a
+   real 5-step sequence earns the editorial-spread numeral treatment. */
+.steps .num {
+  position: absolute; top: -.16em; right: 6px; z-index: 0;
+  font-family: var(--mono); font-size: clamp(64px, 7.6vw, 108px); font-weight: 800; line-height: 1;
+  letter-spacing: -.03em; color: transparent; -webkit-text-stroke: 1.5px var(--line-2);
+  pointer-events: none; transition: -webkit-text-stroke-color .5s var(--ease-smooth);
+}
+@supports not (-webkit-text-stroke: 1px black) { .steps .num { color: var(--line-2); } }
+.steps li:hover .num { -webkit-text-stroke-color: rgba(242,242,242,.4); }
+.steps h3, .steps p { position: relative; z-index: 1; }
+.steps h3 { font-size: 19px; margin: 34px 0 7px; }
+.steps p { color: var(--muted); font-size: 13px; line-height: 1.55; }
 
 /* ============================================================
    PERSONAS
@@ -635,6 +663,47 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   transition-delay: calc(var(--i, 0) * 75ms); }
 .reveal.in { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ============================================================
+   SIGNATURE INTERACTIONS — custom cursor, hero spotlight, grain.
+   All three are achromatic by construction (mix-blend-mode:difference
+   between two R=G=B values always yields R=G=B; the grain filter is
+   explicitly desaturated) so none of this can reintroduce a hue.
+   JS only enables these for a fine pointer + no reduced-motion —
+   see app.js. Until then the classes below have no effect.
+   ============================================================ */
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+  border-radius: 50%; mix-blend-mode: difference; will-change: transform;
+  display: none;
+}
+html.has-custom-cursor .cursor-dot,
+html.has-custom-cursor .cursor-ring { display: block; }
+html.has-custom-cursor, html.has-custom-cursor a, html.has-custom-cursor button,
+html.has-custom-cursor input, html.has-custom-cursor [role="button"] { cursor: none; }
+.cursor-dot { width: 6px; height: 6px; background: var(--ink); }
+.cursor-ring {
+  width: 34px; height: 34px; border: 1px solid var(--ink); opacity: .8;
+  transition: width .28s var(--ease-smooth), height .28s var(--ease-smooth), opacity .28s var(--ease-smooth);
+}
+html.cursor-hover .cursor-ring { width: 58px; height: 58px; opacity: 1; }
+html.cursor-hover .cursor-dot { transform: translate(-50%,-50%) scale(0); }
+
+.hero-spotlight {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 28%), rgba(242,242,242,.11), transparent 68%);
+  opacity: 0; transition: opacity .5s var(--ease-smooth);
+}
+.hero.spotlight-on .hero-spotlight { opacity: 1; }
+
+.grain {
+  position: fixed; inset: -120px; z-index: 30; pointer-events: none;
+  opacity: .035; mix-blend-mode: overlay; background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
 
 
 /* ============================================================
