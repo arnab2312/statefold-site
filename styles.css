@@ -155,10 +155,10 @@ img, svg { display: block; max-width: 100%; }
 }
 .br-name {
   font-family: var(--sans);
-  font-size: clamp(34px, 7vw, 92px);
+  font-size: clamp(38px, 8.4vw, 112px);
   font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--ink); padding-left: 0.22em; line-height: 1;
-  transform: scaleX(.82); transform-origin: center;
+  transform: scaleX(.75); transform-origin: center;
   animation: brSlideUpScale 0.9s var(--ease) 1.0s both;
 }
 .br-tag {
@@ -183,7 +183,7 @@ img, svg { display: block; max-width: 100%; }
    treatment — its own keyframe (not the shared brSlideUp) must end at
    that scale, not `none`, or the entrance animation's fill-mode would
    silently cancel the static transform once it completes. */
-@keyframes brSlideUpScale { from { opacity: 0; transform: translateY(16px) scaleX(.82); } to { opacity: 1; transform: scaleX(.82); } }
+@keyframes brSlideUpScale { from { opacity: 0; transform: translateY(16px) scaleX(.75); } to { opacity: 1; transform: scaleX(.75); } }
 @keyframes brCueDrop {
   0%   { height: 0;    opacity: 0; transform: translateY(0); }
   25%  { opacity: 0.6; }
@@ -210,9 +210,9 @@ img, svg { display: block; max-width: 100%; }
    tracks each heading's own alignment (left by default, overridden
    to center for the centered contexts below) so the scale reads as
    "narrower from the text's anchor point," not a sideways shift. */
-h1, h2 { font-family: var(--sans); font-weight: 800; line-height: 1.02;
+h1, h2 { font-family: var(--sans); font-weight: 800; line-height: .98;
   letter-spacing: -.008em; color: var(--ink); text-wrap: balance;
-  transform: scaleX(.86); transform-origin: left center; }
+  transform: scaleX(.78); transform-origin: left center; }
 .sec-head.center h2, .cta-inner h2 { transform-origin: center; }
 h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   letter-spacing: 0; color: var(--ink); }
@@ -308,7 +308,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
 @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(242,242,242,.45); } 70% { box-shadow: 0 0 0 8px rgba(242,242,242,0); } 100% { box-shadow: 0 0 0 0 rgba(242,242,242,0); } }
 .kicker-arrow { font-size: 14px; color: var(--brand); transition: transform .2s var(--ease); }
 .kicker:hover .kicker-arrow { transform: translateX(3px); }
-.hero-copy h1 { font-size: clamp(38px, 6.2vw, 74px); font-weight: 800; margin: 4px 0 20px; letter-spacing: -.01em; }
+.hero-copy h1 { font-size: clamp(44px, 7.6vw, 96px); font-weight: 800; margin: 4px 0 20px; letter-spacing: -.01em; }
 .lede { font-family: var(--body); font-size: clamp(15.5px, 1.5vw, 17px); color: var(--muted); max-width: 46ch; line-height: 1.7; }
 .lede em { font-style: normal; color: var(--ink); font-weight: 500; }
 .lede strong { color: var(--ink); font-weight: 700; }
@@ -384,7 +384,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
 .section.alt { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .sec-head { max-width: 740px; margin-bottom: 46px; }
 .sec-head.center { max-width: 660px; margin-inline: auto; text-align: center; }
-.sec-head h2 { font-size: clamp(30px, 4vw, 48px); margin-bottom: 15px; }
+.sec-head h2 { font-size: clamp(36px, 5.2vw, 64px); margin-bottom: 15px; }
 .sec-sub { font-size: 15.5px; color: var(--muted); line-height: 1.7; }
 .sec-sub em { font-style: normal; color: var(--ink); font-weight: 500; }
 
@@ -517,7 +517,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   border-top: 1px solid var(--line); }
 
 .hive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.hive-copy h2 { font-size: clamp(30px, 4vw, 48px); margin-bottom: 15px; }
+.hive-copy h2 { font-size: clamp(36px, 5.2vw, 64px); margin-bottom: 15px; }
 .ticks { list-style: none; margin: 21px 0; display: flex; flex-direction: column; gap: 10px; }
 .ticks li { position: relative; padding-left: 28px; font-size: 13.5px; color: var(--ink-soft); }
 .ticks li::before { content: "✓"; position: absolute; left: 0; top: -1px; color: var(--brand); font-weight: 700; }
@@ -611,7 +611,7 @@ h3, h4, h5 { font-family: var(--sans); font-weight: 700; line-height: 1.2;
   radial-gradient(50% 120% at 15% 100%, rgba(242,242,242,.10), transparent 55%); }
 .cta-inner { position: relative; z-index: 1; text-align: center; max-width: 660px; margin: 0 auto; }
 .eyebrow.on-dark { color: var(--electric); justify-content: center; }
-.cta-inner h2 { color: var(--ink); font-size: clamp(32px, 5vw, 54px); margin-bottom: 14px; }
+.cta-inner h2 { color: var(--ink); font-size: clamp(38px, 6vw, 72px); margin-bottom: 14px; }
 .cta-inner p { color: color-mix(in srgb, var(--ink) 82%, transparent); font-size: 15.5px; margin-bottom: 28px; }
 .cta-inner p em { font-style: normal; color: var(--electric); font-weight: 500; }
 .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
