@@ -16,6 +16,7 @@
   if (brSection && navEl && 'IntersectionObserver' in window) {
     var brNavIO = new IntersectionObserver(function (entries) {
       navEl.classList.toggle('nav-hidden', entries[0].isIntersecting);
+      document.body.classList.toggle('in-overture', entries[0].isIntersecting);
     }, { threshold: 0.15 });
     brNavIO.observe(brSection);
   }
@@ -322,7 +323,8 @@
      at all — nothing below runs for them.
      ============================================================ */
   var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (finePointer && !reduce) {
+  /* Native pointer only: the cinematic system does not chase the cursor. */
+  if (false && finePointer && !reduce) {
     document.documentElement.classList.add('has-custom-cursor');
 
     var dot = document.querySelector('.cursor-dot');
@@ -574,8 +576,8 @@
     fieldFrame = requestAnimationFrame(renderField);
   }
 
-  /* restrained perspective response for information surfaces */
-  if (finePointer && !reduce) {
+  /* Static editorial surfaces replace repeated template-like card tilts. */
+  if (false && finePointer && !reduce) {
     var tiltTargets = document.querySelectorAll('.card, .cap, .persona, .sp');
     tiltTargets.forEach(function (target) {
       target.addEventListener('pointermove', function (e) {

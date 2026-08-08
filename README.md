@@ -1,12 +1,13 @@
 # Statefold marketing site — `www.statefoldai.com`
 
-A dependency-free static site (HTML + CSS + vanilla JS) with a custom projected-3D canvas engine, spatial CSS architecture, adaptive render density, and reduced-motion fallbacks.
+A dependency-free static site (HTML + CSS + vanilla JS) with a physically inspired WebGL2 event horizon, monumental SVG brand system, adaptive render quality, and reduced-motion fallbacks.
 
 ```
 website/
 ├── index.html      # the whole landing page
 ├── styles.css      # design system + sections + responsive
-├── app.js          # spatial renderer, interaction system, nav, Hive Mind demo
+├── void.js         # gravitational-lensing and accretion-disk WebGL renderer
+├── app.js          # navigation, section choreography, Hive Mind demo
 ├── favicon.svg     # the stateFold "o" mark
 ├── CNAME           # www.statefoldai.com (custom domain for GitHub Pages)
 └── .nojekyll       # serve files as-is (no Jekyll processing)

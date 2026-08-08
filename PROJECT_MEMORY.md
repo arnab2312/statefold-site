@@ -2,12 +2,12 @@
 
 ## North star
 
-Create an award-calibre, ultra-modern product site that makes endpoint AI security feel tangible, spatial, and inevitable. The experience should be deep and cinematic without becoming noisy, slow, or difficult to understand.
+Create an award-calibre, ultra-modern site that establishes Statefold as the Total AI Governance control plane. The experience should feel monumental, cinematic, sovereign, and precise without becoming noisy, slow, or difficult to understand.
 
 ## Standing direction
 
-- Visual character: dimensional, dense, precise, technical, premium.
-- Motion: meaningful 3D storytelling tied to product concepts—not decorative motion everywhere.
+- Visual character: warm-white editorial world, obsidian mass, cobalt signal, restrained solar plasma.
+- Motion: three authored scenes—brand overture, event horizon, and kernel boundary—not decorative motion everywhere.
 - Narrative: endpoint signal → kernel decision → governed fleet → Hive Mind intelligence.
 - UX: clarity and conversion remain more important than spectacle.
 - Accessibility: reduced-motion mode, keyboard usability, readable contrast, semantic HTML.
@@ -18,15 +18,15 @@ Create an award-calibre, ultra-modern product site that makes endpoint AI securi
 ## Technical baseline
 
 - Static GitHub Pages site: HTML, CSS, vanilla JavaScript.
-- Current source: `index.html`, `styles.css`, `app.js`.
-- No build system or 3D runtime yet.
-- Existing CSS motion and faux depth should be consolidated into a coherent motion system.
+- Current source: `index.html`, `styles.css`, `void.js`, `app.js`.
+- No build system or external 3D dependency.
+- The actual favicon and shared SVG dragon mark are authoritative brand geometry.
 
 ## Modernization direction
 
-- Use one hero-grade WebGL scene plus lightweight CSS/SVG depth elsewhere.
+- Use one physically inspired ray-deflection WebGL scene plus lightweight CSS/SVG depth elsewhere.
 - Introduce scroll-directed spatial chapters rather than continuous parallax.
-- Use an abstract endpoint/fleet graph and folding signal field as the signature visual language.
+- Use gravitational mass, lensing, and the real dragon geometry as the signature visual language.
 - Keep HTML content authoritative and usable before 3D loads.
 - Keep the persistent project brief compact and stable; update it only when a durable decision changes.
 
@@ -39,12 +39,15 @@ Create an award-calibre, ultra-modern product site that makes endpoint AI securi
 
 ## Implemented foundation
 
-- Dependency-free projected-3D hero field with adaptive node density.
-- Signature folding core, fleet topology, threat signals, and enforcement telemetry.
-- Spatial kernel architecture sequence with four exploded trust layers.
-- Perspective-reactive product surfaces and section chapter rail.
-- Offscreen canvas pause, capped device pixel ratio, low-power mode, and reduced-motion fallback.
+- Monumental warm-white favicon overture using the real brand asset.
+- Shared, exact SVG dragon symbol used visibly inside the event horizon.
+- Dependency-free WebGL2 gravitational-lensing and accretion-disk renderer.
+- Editorial Manrope typography with IBM Plex Mono reserved for telemetry.
+- Warm paper, obsidian, cobalt, and scarce solar-plasma palette.
+- Spatial kernel architecture with a single enforcement-ray sequence.
+- Adaptive resolution, offscreen pause, low-power mode, and reduced-motion fallback.
+- Versioned CSS and JavaScript URLs to prevent mixed-release browser caches.
 
 ## Current phase
 
-Spatial overhaul implemented and verified; deployment is tracked on `main`.
+Cinematic Total AI Governance rebuild in final validation before deployment.
