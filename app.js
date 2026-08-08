@@ -367,4 +367,228 @@
       }, { passive: true });
     }
   }
+
+  /* chapter rail — quiet until a section becomes the current scene */
+  var chapterLinks = Array.prototype.slice.call(document.querySelectorAll('[data-chapter]'));
+  if (chapterLinks.length && 'IntersectionObserver' in window) {
+    var chapterMap = {};
+    chapterLinks.forEach(function (link) { chapterMap[link.getAttribute('data-chapter')] = link; });
+    var chapterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          chapterLinks.forEach(function (link) { link.classList.remove('active'); });
+          if (chapterMap[entry.target.id]) chapterMap[entry.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-36% 0px -58% 0px', threshold: 0 });
+    chapterLinks.forEach(function (link) {
+      var section = document.getElementById(link.getAttribute('data-chapter'));
+      if (section) chapterObserver.observe(section);
+    });
+  }
+
+  /* ============================================================
+     SPATIAL FIELD — dependency-free projected 3D scene.
+     One canvas, adaptive density, offscreen pause, and no animation
+     in reduced-motion mode. HTML remains the source of truth.
+     ============================================================ */
+  var fieldCanvas = document.getElementById('statefoldField');
+  var spatialStage = document.querySelector('[data-spatial]');
+  if (fieldCanvas && spatialStage && !reduce) {
+    var fctx = fieldCanvas.getContext('2d', { alpha: true });
+    var fieldVisible = true;
+    var fieldFrame = 0;
+    var fieldStart = performance.now();
+    var fieldMouse = { x: 0, y: 0, tx: 0, ty: 0 };
+    var fieldSize = { w: 0, h: 0, dpr: 1 };
+    var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (navigator.connection && navigator.connection.saveData);
+    var fieldCount = lowPower ? 92 : (window.innerWidth < 700 ? 120 : 190);
+    var fieldNodes = [];
+    var fieldSignals = [];
+
+    function seeded(i, salt) {
+      var x = Math.sin(i * 9283.17 + salt * 77.13) * 43758.5453;
+      return x - Math.floor(x);
+    }
+    for (var fi = 0; fi < fieldCount; fi++) {
+      var theta = seeded(fi, 1) * Math.PI * 2;
+      var phi = Math.acos(2 * seeded(fi, 2) - 1);
+      var radius = 118 + seeded(fi, 3) * 235;
+      fieldNodes.push({
+        x: Math.sin(phi) * Math.cos(theta) * radius,
+        y: Math.cos(phi) * radius * .72,
+        z: Math.sin(phi) * Math.sin(theta) * radius,
+        size: .55 + seeded(fi, 4) * 1.9,
+        hot: seeded(fi, 5) > .91,
+        phase: seeded(fi, 6) * Math.PI * 2
+      });
+    }
+    for (var fs = 0; fs < 7; fs++) {
+      fieldSignals.push({ offset: fs / 7, lane: (fs % 3) - 1 });
+    }
+
+    function resizeField() {
+      var r = spatialStage.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1.25 : 1.75);
+      fieldSize.w = Math.max(1, r.width);
+      fieldSize.h = Math.max(1, r.height);
+      fieldSize.dpr = dpr;
+      fieldCanvas.width = Math.round(fieldSize.w * dpr);
+      fieldCanvas.height = Math.round(fieldSize.h * dpr);
+      fieldCanvas.style.width = fieldSize.w + 'px';
+      fieldCanvas.style.height = fieldSize.h + 'px';
+      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fieldCanvas.classList.add('ready');
+    }
+
+    function rotatePoint(p, ry, rx) {
+      var cy = Math.cos(ry), sy = Math.sin(ry);
+      var cx = Math.cos(rx), sx = Math.sin(rx);
+      var x = p.x * cy - p.z * sy;
+      var z = p.x * sy + p.z * cy;
+      var y = p.y * cx - z * sx;
+      z = p.y * sx + z * cx;
+      return { x: x, y: y, z: z };
+    }
+    function projectPoint(p) {
+      var camera = 720;
+      var scale = camera / (camera + p.z);
+      return { x: fieldSize.w * .51 + p.x * scale, y: fieldSize.h * .47 + p.y * scale, z: p.z, s: scale };
+    }
+    function line(a, b, alpha, width, color) {
+      fctx.beginPath();
+      fctx.moveTo(a.x, a.y);
+      fctx.lineTo(b.x, b.y);
+      fctx.lineWidth = width || 1;
+      fctx.strokeStyle = color || ('rgba(255,255,255,' + alpha + ')');
+      fctx.stroke();
+    }
+    function drawRing(radius, tilt, rot, alpha) {
+      var previous = null;
+      for (var i = 0; i <= 84; i++) {
+        var a = (i / 84) * Math.PI * 2;
+        var raw = { x: Math.cos(a) * radius, y: Math.sin(a) * radius * tilt, z: Math.sin(a) * radius };
+        var point = projectPoint(rotatePoint(raw, rot, .18));
+        if (previous) line(previous, point, alpha, .7);
+        previous = point;
+      }
+    }
+    function drawPlane(time, ry, rx) {
+      var extent = 380;
+      for (var gx = -extent; gx <= extent; gx += 54) {
+        var lastX = null;
+        for (var gz = -extent; gz <= extent; gz += 28) {
+          var wave = Math.sin(gz * .018 + time * .0007) * 13 + Math.cos(gx * .02 - time * .0004) * 8;
+          var gp = projectPoint(rotatePoint({ x: gx, y: 155 + wave, z: gz }, ry, rx + .55));
+          if (lastX) line(lastX, gp, .035, .55);
+          lastX = gp;
+        }
+      }
+      for (var gz2 = -extent; gz2 <= extent; gz2 += 54) {
+        var lastZ = null;
+        for (var gx2 = -extent; gx2 <= extent; gx2 += 28) {
+          var wave2 = Math.sin(gz2 * .018 + time * .0007) * 13 + Math.cos(gx2 * .02 - time * .0004) * 8;
+          var gp2 = projectPoint(rotatePoint({ x: gx2, y: 155 + wave2, z: gz2 }, ry, rx + .55));
+          if (lastZ) line(lastZ, gp2, .025, .55);
+          lastZ = gp2;
+        }
+      }
+    }
+
+    function renderField(now) {
+      if (!fieldVisible) { fieldFrame = 0; return; }
+      fctx.clearRect(0, 0, fieldSize.w, fieldSize.h);
+      fieldMouse.x += (fieldMouse.tx - fieldMouse.x) * .045;
+      fieldMouse.y += (fieldMouse.ty - fieldMouse.y) * .045;
+      var elapsed = now - fieldStart;
+      var pageProgress = Math.min(1, Math.max(0, (window.pageYOffset - spatialStage.offsetTop + window.innerHeight) / (window.innerHeight * 1.7)));
+      var ry = elapsed * .000075 + fieldMouse.x * .24 + pageProgress * .22;
+      var rx = -.08 + fieldMouse.y * .14;
+
+      drawPlane(elapsed, ry * .22, rx);
+      drawRing(156, .2, ry, .12);
+      drawRing(252, .36, -ry * .62, .065);
+      drawRing(338, .12, ry * .28, .035);
+
+      var projected = [];
+      for (var n = 0; n < fieldNodes.length; n++) {
+        var node = fieldNodes[n];
+        var breathe = 1 + Math.sin(elapsed * .0007 + node.phase) * .025;
+        var rp = rotatePoint({ x: node.x * breathe, y: node.y * breathe, z: node.z * breathe }, ry, rx);
+        projected.push({ p: projectPoint(rp), node: node });
+      }
+      projected.sort(function (a, b) { return b.p.z - a.p.z; });
+
+      for (var c = 0; c < projected.length; c++) {
+        var current = projected[c];
+        var next = projected[(c + 11) % projected.length];
+        var dx = current.p.x - next.p.x, dy = current.p.y - next.p.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 105) line(current.p, next.p, Math.max(.018, (1 - dist / 105) * .085), .55);
+      }
+      for (var d = 0; d < projected.length; d++) {
+        var item = projected[d], pt = item.p, depth = Math.max(.16, 1 - (pt.z + 350) / 850);
+        var pulse = item.node.hot ? .65 + Math.sin(elapsed * .003 + item.node.phase) * .3 : .28;
+        fctx.beginPath();
+        fctx.arc(pt.x, pt.y, Math.max(.45, item.node.size * pt.s), 0, Math.PI * 2);
+        fctx.fillStyle = item.node.hot ? 'rgba(255,92,26,' + pulse + ')' : 'rgba(255,255,255,' + (depth * .58) + ')';
+        fctx.fill();
+        if (item.node.hot) {
+          fctx.beginPath(); fctx.arc(pt.x, pt.y, 7 + pulse * 5, 0, Math.PI * 2);
+          fctx.strokeStyle = 'rgba(255,92,26,' + (pulse * .18) + ')'; fctx.stroke();
+        }
+      }
+
+      var core = { x: fieldSize.w * .51, y: fieldSize.h * .47 };
+      for (var s = 0; s < fieldSignals.length; s++) {
+        var sig = fieldSignals[s];
+        var travel = (elapsed * .00016 + sig.offset) % 1;
+        var startX = sig.lane < 0 ? -40 : (sig.lane > 0 ? fieldSize.w + 40 : fieldSize.w * .5);
+        var startY = sig.lane === 0 ? -30 : fieldSize.h * (.19 + (s % 4) * .18);
+        var bend = Math.sin(travel * Math.PI) * (sig.lane * 70);
+        var sx = startX + (core.x - startX) * travel + bend;
+        var sy = startY + (core.y - startY) * travel;
+        fctx.beginPath(); fctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
+        fctx.fillStyle = travel > .78 ? 'rgba(255,92,26,.95)' : 'rgba(255,255,255,.72)'; fctx.fill();
+        line({x:sx,y:sy},{x:sx-(core.x-startX)*.035,y:sy-(core.y-startY)*.035},.24,1,travel > .78 ? 'rgba(255,92,26,.36)' : 'rgba(255,255,255,.16)');
+      }
+      fieldFrame = requestAnimationFrame(renderField);
+    }
+
+    spatialStage.addEventListener('pointermove', function (e) {
+      var r = spatialStage.getBoundingClientRect();
+      fieldMouse.tx = ((e.clientX - r.left) / r.width - .5) * 2;
+      fieldMouse.ty = ((e.clientY - r.top) / r.height - .5) * 2;
+    }, { passive: true });
+    spatialStage.addEventListener('pointerleave', function () { fieldMouse.tx = 0; fieldMouse.ty = 0; });
+    if ('ResizeObserver' in window) new ResizeObserver(resizeField).observe(spatialStage);
+    else window.addEventListener('resize', resizeField, { passive: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        fieldVisible = entries[0].isIntersecting;
+        if (fieldVisible && !fieldFrame) fieldFrame = requestAnimationFrame(renderField);
+      }, { rootMargin: '180px 0px' }).observe(spatialStage);
+    }
+    resizeField();
+    fieldFrame = requestAnimationFrame(renderField);
+  }
+
+  /* restrained perspective response for information surfaces */
+  if (finePointer && !reduce) {
+    var tiltTargets = document.querySelectorAll('.card, .cap, .persona, .sp');
+    tiltTargets.forEach(function (target) {
+      target.addEventListener('pointermove', function (e) {
+        var r = target.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        var ry = (px - .5) * 6;
+        var rx = (.5 - py) * 5;
+        target.style.setProperty('--glow-x', (px * 100) + '%');
+        target.style.setProperty('--glow-y', (py * 100) + '%');
+        target.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
+      }, { passive: true });
+      target.addEventListener('pointerleave', function () { target.style.transform = ''; });
+    });
+  }
 })();

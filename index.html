@@ -117,6 +117,16 @@
     </div>
   </header>
 
+  <nav class="chapter-rail" aria-label="Page chapters">
+    <span class="rail-line"></span>
+    <a href="#problem" data-chapter="problem"><i></i><span>01 / GAP</span></a>
+    <a href="#platform" data-chapter="platform"><i></i><span>02 / PLATFORM</span></a>
+    <a href="#swarm" data-chapter="swarm"><i></i><span>03 / SWARM</span></a>
+    <a href="#hive" data-chapter="hive"><i></i><span>04 / HIVE</span></a>
+    <a href="#trust" data-chapter="trust"><i></i><span>05 / TRUST</span></a>
+    <a href="#teams" data-chapter="teams"><i></i><span>07 / TEAMS</span></a>
+  </nav>
+
   <!-- ===================== HERO ===================== -->
   <section class="hero">
     <div class="hero-mesh" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -146,33 +156,26 @@
         </ul>
       </div>
 
-      <div class="hero-visual reveal" aria-hidden="true">
-        <svg class="df hero-df" viewBox="0 0 120 120" aria-hidden="true">
-<defs>
-  <linearGradient id="df-chrome-hero" gradientUnits="userSpaceOnUse" x1="8" y1="0" x2="112" y2="120">
-    <stop offset="0%" stop-color="#3a3a3a"/>
-    <stop offset="18%" stop-color="#d8d8d8"/>
-    <stop offset="32%" stop-color="#6e6e6e"/>
-    <stop offset="50%" stop-color="#ffffff"/>
-    <stop offset="68%" stop-color="#6e6e6e"/>
-    <stop offset="82%" stop-color="#d8d8d8"/>
-    <stop offset="100%" stop-color="#333333"/>
-  </linearGradient>
-</defs>
-<g class="df-hover">
-  <g class="df-body">
-    <path class="p c1" d="M60 13 L57 18.5 L60 24 L63 18.5 Z"></path>
-    <path class="p c1" d="M58 12 L54 6 M62 12 L66 6"></path>
-    <path class="p c2" d="M60 24 C63.5 30 63.5 38 62 44 L61 104 L60 110 L59 104 L58 44 C56.5 38 56.5 30 60 24 Z"></path>
-    <path class="p c2" d="M60 26 L60 107"></path>
-    <path class="p c3" d="M57 70 L60 73 L63 70 M57 82 L60 85 L63 82 M57 94 L60 97 L63 94"></path>
-  </g>
-  <g class="w up uf d-ul" style="--uf:-30deg"><g class="w up fl-ul"><path class="p" d="M60 43 L11 23 L43 51 Z"></path><path class="p" d="M60 43 L22 32"></path></g></g>
-  <g class="w up uf d-ur" style="--uf:30deg"><g class="w up fl-ur"><path class="p" d="M60 43 L109 23 L77 51 Z"></path><path class="p" d="M60 43 L98 32"></path></g></g>
-  <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
-  <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
-</g></svg>
-        <div class="hero-pool" aria-hidden="true"></div>
+      <div class="hero-visual hero-spatial reveal" data-spatial aria-hidden="true">
+        <canvas class="field-canvas" id="statefoldField"></canvas>
+        <div class="field-vignette"></div>
+        <div class="field-orbit orbit-a"></div>
+        <div class="field-orbit orbit-b"></div>
+        <div class="field-core">
+          <span class="core-axis"></span>
+          <span class="core-wing wing-left"></span>
+          <span class="core-wing wing-right"></span>
+          <i></i>
+        </div>
+        <div class="field-label label-kernel"><span></span>KERNEL / ENFORCING</div>
+        <div class="field-label label-fleet"><span></span>FLEET / 247 NODES</div>
+        <div class="field-label label-hive"><span></span>HIVE / PRIVATE</div>
+        <div class="field-scan"></div>
+        <div class="field-hud">
+          <div><span>THREAT VECTOR</span><b>CONTAINED</b></div>
+          <div><span>TRUST BOUNDARY</span><b>ON-BOX</b></div>
+          <div><span>POLICY LATENCY</span><b>&lt; 3 MS</b></div>
+        </div>
         <div class="hero-cap">
           <span><b data-count="347">0</b> facts</span><span><b data-count="487">0</b> AI events</span>
           <span><b data-count="75.5" data-suffix="k">0</b> tokens</span><span><b data-count="0.53" data-prefix="$" data-dec="2">0</b> AI bill</span>
@@ -263,6 +266,24 @@
           <span class="tag">StatefoldConsole.exe</span>
           <h4>Management console</h4>
           <p>Fleet telemetry, identity, risk and compliance reporting, the Hive Mind and the Swarm — one API, an embedded store, multi-tenant by design.</p>
+        </div>
+      </div>
+
+      <div class="kernel-lab reveal" data-tilt-root>
+        <div class="kernel-lab-copy">
+          <span class="lab-index">LIVE ARCHITECTURE / 01</span>
+          <h3>The decision happens before the network gets a vote.</h3>
+          <p>Move through the stack. Each layer exposes more context; only the kernel boundary can enforce across every application without trusting the application itself.</p>
+          <div class="lab-legend">
+            <span><i></i> observed</span><span><i></i> attributed</span><span class="hot"><i></i> enforced</span>
+          </div>
+        </div>
+        <div class="kernel-stack" aria-hidden="true">
+          <div class="ks-layer ks-app" style="--z:3"><b>APPLICATION</b><span>Browser / IDE / MCP / SDK</span></div>
+          <div class="ks-layer ks-agent" style="--z:2"><b>STATEFOLD AGENT</b><span>Identity / DLP / policy</span></div>
+          <div class="ks-layer ks-kernel" style="--z:1"><b>WINDOWS KERNEL</b><span>WFP / before-send enforcement</span></div>
+          <div class="ks-layer ks-wire" style="--z:0"><b>NETWORK</b><span>Nothing sensitive crosses</span></div>
+          <div class="ks-signal"><span></span></div>
         </div>
       </div>
 
