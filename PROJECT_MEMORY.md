@@ -42,7 +42,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
 - The landing reveal is deliberately slow and cinematic; the exact dragon and STATEFOLD wordmark resolve together as one smooth lockup, followed quietly by the governance line and entry cue.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
-- Dependency-free WebGL2 pseudo-volume renderer with layered cloud gates, differential rotation, turbulent spiral filaments, and blue-white gravitational corona.
+- Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.
 - The hero uses one full-bleed transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.
 - The hero contains one visual idea from its first frame: a slowly evolving face-on black hole with the exact dragon cut into its near-black stone horizon as a stationary intaglio engraving.
 - No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
@@ -55,4 +55,4 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Current phase
 
-Cinematic Total AI Governance rebuild with a volumetric engraved-singularity hero and collision-free typography deployed and production-verified on desktop and mobile.
+Cinematic Total AI Governance rebuild with a full-bleed engraved-singularity hero, continuous accretion flow, and synchronized brand reveal production-verified on desktop and mobile.

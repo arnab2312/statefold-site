@@ -42,8 +42,6 @@
     uniform float uQuality;
     uniform float uIntro;
 
-    #define MAX_LAYERS 7
-
     float hash21(vec2 p) {
       p = fract(p * vec2(123.34, 456.21));
       p += dot(p, p + 45.32);
@@ -90,114 +88,82 @@
 
       float resolve = uIntro * uIntro * (3.0 - 2.0 * uIntro);
       float baseRadius = length(p);
-      vec2 domain = rotate2(-uTime * 0.006) * fieldP;
-      float warpA = fbm3(domain * 3.45 + vec2(2.7, -1.9));
-      float warpB = fbm3(domain * 3.45 + vec2(-5.8, 4.2));
-      vec2 warp = vec2(warpA - 0.5, warpB - 0.5);
+      float spin = uTime *
+        (0.018 + 0.115 * exp(-baseRadius * 3.9));
+      vec2 domain = rotate2(-spin) * fieldP;
+      float radius = length(domain);
+      float angle = atan(domain.y, domain.x);
+      float logRadius = log(radius + 0.046);
+      vec2 spiralPoint = rotate2(-logRadius * 0.72) * domain;
+      float warpA = fbm3(
+        spiralPoint * 4.6 + vec2(uTime * 0.012, -uTime * 0.009)
+      );
+      float warpB = fbm3(
+        rotate2(0.93) * spiralPoint * 9.2 +
+        vec2(-uTime * 0.019, uTime * 0.014)
+      );
+      float breakup = fbm3(
+        rotate2(-0.57) * spiralPoint * 17.5 +
+        vec2(uTime * 0.024, -uTime * 0.017)
+      );
+      float micro = noise2(
+        spiralPoint * 47.0 + vec2(-uTime * 0.033, uTime * 0.027)
+      );
 
-      vec3 radiance = vec3(0.0);
-      float transmission = 1.0;
-      int layerCount = uQuality < 0.35 ? 4 :
-        (uQuality < 0.72 ? 6 : 7);
+      float outerRadius = mix(0.34, 0.88, resolve);
+      float inner = smoothstep(0.145, 0.190, radius);
+      float outer = 1.0 - smoothstep(
+        outerRadius - 0.24, outerRadius, radius
+      );
+      float disk = inner * outer;
+      float flowPhase = angle - logRadius * 1.16;
+      float broad = 0.5 + 0.5 * cos(
+        flowPhase * 3.0 + (warpA - 0.5) * 2.4
+      );
+      float ribbonA = ridge(
+        flowPhase * 6.0 + (warpB - 0.5) * 5.2, 6.0
+      );
+      float ribbonB = ridge(
+        flowPhase * 10.0 + 1.7 + (breakup - 0.5) * 6.8, 8.0
+      );
+      float fiberA = ridge(
+        flowPhase * 19.0 + (warpB - 0.5) * 9.4 +
+        sin(radius * 38.0) * 0.44, 16.0
+      );
+      float fiberB = ridge(
+        flowPhase * 29.0 - 2.1 + (warpA - 0.5) * 12.0 -
+        (breakup - 0.5) * 4.6, 20.0
+      );
+      float strandGate = 0.38 + 0.62 * smoothstep(
+        0.20, 0.82, breakup * 0.64 + micro * 0.36
+      );
+      float orbital = ridge(
+        radius * 84.0 - angle * 2.0 + warpB * 4.2, 13.0
+      );
+      float filaments = broad * 0.10 + ribbonA * 0.72 +
+        ribbonB * 0.48 + fiberA * 1.18 * strandGate +
+        fiberB * 0.76 * strandGate + orbital * 0.30;
+      float directional = 0.80 + 0.20 * cos(angle - 0.48);
+      float emission = disk * (0.07 + filaments) *
+        (0.62 + warpA * 0.52) * directional * resolve;
 
-      for (int layer = 0; layer < MAX_LAYERS; layer++) {
-        if (layer >= layerCount) break;
-        float slice = float(layer) / float(layerCount - 1);
-        float z = slice * 2.0 - 1.0;
-        vec2 lp = fieldP;
-        lp.x += z * 0.020;
-        lp.y = (lp.y - z * 0.032) * 1.09;
-        lp *= 1.0 + z * 0.025;
-
-        float initialRadius = length(lp);
-        float spin = uTime *
-          (0.025 + 0.16 * exp(-initialRadius * 3.8));
-        lp = rotate2(-spin) * lp;
-        lp += warp * (0.026 + initialRadius * 0.020);
-
-        float radius = length(lp);
-        float angle = atan(lp.y, lp.x);
-        float logRadius = log(radius + 0.042);
-        float layerSeed = hash21(
-          vec2(float(layer) + 0.37, 19.17)
-        );
-        float seedSigned = layerSeed - 0.5;
-        vec2 swirlPoint = rotate2(
-          -logRadius * 2.35 + warp.y * 0.85
-        ) * lp;
-        float cloudNoise = fbm3(
-          swirlPoint * 3.9 + vec2(layerSeed * 8.3, z * 3.7)
-        );
-        float breakup = fbm3(
-          rotate2(0.71) * swirlPoint * 8.8 +
-          vec2(-z * 7.2, layerSeed * 17.1)
-        );
-        float micro = noise2(
-          swirlPoint * 31.0 + vec2(layerSeed * 29.4, z * 11.3)
-        );
-        float armPhase = angle * 2.0 -
-          logRadius * (5.15 + seedSigned * 0.9) +
-          warp.x * 4.8 +
-          sin(angle * 3.0 + warp.y * 4.0) * 0.78 +
-          seedSigned * 0.9;
-        float armWave = 0.5 + 0.5 * cos(armPhase);
-        float cloudField = armWave * 0.54 +
-          cloudNoise * 0.36 + breakup * 0.10;
-        float cloudGate = smoothstep(0.38, 0.61, cloudField);
-        float broad = cloudGate * (0.24 + cloudNoise * 0.76);
-        float ribbonPhase = angle * 5.0 -
-          logRadius * (9.4 + seedSigned * 1.8) +
-          warp.y * 5.7 + cloudNoise * 3.8 + layerSeed * 2.1;
-        float ribbon = ridge(ribbonPhase, 8.0) * cloudGate *
-          (0.28 + breakup * 0.72);
-        float fiberPhase = angle * 13.0 -
-          logRadius * (18.2 + seedSigned * 3.2) +
-          warp.x * 8.1 + cloudNoise * 7.2 +
-          sin(angle * 7.0 + radius * 31.0) * 0.72 +
-          layerSeed * 7.0;
-        float wispGate = smoothstep(
-          0.33, 0.60, micro * 0.72 + cloudGate * 0.38
-        );
-        float fiber = ridge(fiberPhase, 27.0) * wispGate *
-          (0.22 + breakup * 0.78);
-
-        float inner = smoothstep(0.145, 0.190, radius);
-        float resolvedOuter = mix(0.34, 0.86, resolve);
-        float outer = 1.0 - smoothstep(
-          resolvedOuter - 0.27,
-          resolvedOuter,
-          radius
-        );
-        float vertical = exp(-z * z * 2.15);
-        float structure = broad * 0.48 +
-          ribbon * 1.08 + fiber * 1.82;
-        float density = inner * outer * vertical * structure *
-          (0.46 + breakup * 0.88) *
-          mix(0.65, 1.0, resolve);
-
-        float filament = clamp(
-          ribbon * 0.46 + fiber * 1.15, 0.0, 1.0
-        );
-        vec3 ion = vec3(0.12, 0.36, 1.42);
-        vec3 rose = vec3(1.16, 0.095, 0.25);
-        vec3 ivory = vec3(1.18, 0.78, 0.53);
-        float roseZone = smoothstep(0.24, 0.57, radius);
-        vec3 layerColor = mix(ion, rose, roseZone);
-        float ivoryAmount = clamp(
-          fiber * 0.92 + ribbon * 0.14, 0.0, 0.82
-        );
-        layerColor = mix(layerColor, ivory, ivoryAmount);
-        layerColor *= mix(0.70, 1.04, slice);
-
-        float absorption = 1.0 - exp(
-          -density * mix(0.62, 0.90, uQuality)
-        );
-        radiance += transmission * layerColor * absorption *
-          (2.05 + filament * 1.82);
-        transmission *= 1.0 - absorption * 0.48;
-      }
-
-      float volumeAlpha = 1.0 - transmission;
+      vec3 ion = vec3(0.10, 0.34, 1.36);
+      vec3 rose = vec3(1.12, 0.08, 0.23);
+      vec3 ivory = vec3(1.20, 0.82, 0.58);
+      float roseZone = smoothstep(0.26, 0.66, radius);
+      vec3 diskColor = mix(ion, rose, roseZone);
+      float ivoryAmount = clamp(
+        fiberA * 0.56 + fiberB * 0.38 + orbital * 0.18,
+        0.0, 0.72
+      );
+      diskColor = mix(diskColor, ivory, ivoryAmount);
+      vec3 radiance = diskColor * emission *
+        mix(1.72, 2.02, uQuality);
+      float volumeAlpha = clamp(
+        disk * (0.075 + filaments * 0.28 + warpA * 0.060) *
+        resolve,
+        0.0, 0.88
+      );
       float outerEnvelope = 1.0 - smoothstep(0.58, 0.91, baseRadius);
       float haze = outerEnvelope *
         (0.025 + 0.075 * warpA * warpB) * resolve;
@@ -306,7 +272,7 @@
   var pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   var origin = { x: 0.72, y: 0.52 };
   var quality = lowPower ? 0.18 : 0.62;
-  var scale = lowPower ? 0.48 : 0.58;
+  var scale = lowPower ? 0.52 : 0.66;
   var hasStarted = false;
   var inViewport = false;
   var visible = false;
