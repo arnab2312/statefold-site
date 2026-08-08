@@ -973,11 +973,11 @@ body::before {
   --ink-soft: #292c33;
   --muted: #666970;
   --faint: #85878d;
-  --brand: #315cff;
-  --brand-2: #1836c8;
-  --electric: #315cff;
-  --signal: #315cff;
-  --signal-soft: rgba(49,92,255,.14);
+  --brand: #587100;
+  --brand-2: #2d3b00;
+  --electric: #baf04a;
+  --signal: #baf04a;
+  --signal-soft: rgba(186,240,74,.16);
   --line: rgba(8,9,11,.10);
   --line-2: rgba(8,9,11,.20);
   --sans: "Inter Tight", Arial, sans-serif;
@@ -1053,7 +1053,7 @@ p { letter-spacing: -.012em; }
 .chapter-rail .rail-line { background:rgba(8,9,11,.12); }
 .chapter-rail a i { background:#c9c8c2;border-color:rgba(8,9,11,.2); }
 .chapter-rail a.active { color:var(--ink); }
-.chapter-rail a.active i { background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 5px rgba(49,92,255,.12); }
+.chapter-rail a.active i { background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 5px rgba(186,240,74,.18); }
 .chapter-rail a.active span { opacity:0;transform:translateX(-4px); }
 .chapter-rail:hover a.active span,.chapter-rail a.active:focus-visible span { opacity:1;transform:none; }
 .chapter-rail { transition:opacity .4s ease; }
@@ -1114,8 +1114,8 @@ p { letter-spacing: -.012em; }
 .cards-3,.cap-grid,.persona-grid,.trust-grid { gap:0;border-top:1px solid var(--ink); }
 .card,.cap,.persona,.t-item { background:transparent;border:0;border-right:1px solid var(--line);border-radius:0;padding:34px 30px 46px;box-shadow:none; }
 .card:last-child,.cap:last-child,.persona:last-child,.t-item:nth-child(3n) { border-right:0; }
-.card .ic,.cap-ic,.sp-ic { position:relative;display:grid;place-items:center;width:40px;height:40px;margin-bottom:26px;color:var(--brand);background:rgba(49,92,255,.025);border:1px solid rgba(49,92,255,.38);border-radius:2px;font-size:17px;line-height:1;transform:none; }
-.card .ic::after { content:"";position:absolute;left:7px;right:7px;bottom:6px;height:1px;background:rgba(49,92,255,.24); }
+.card .ic,.cap-ic,.sp-ic { position:relative;display:grid;place-items:center;width:40px;height:40px;margin-bottom:26px;color:var(--brand);background:rgba(88,113,0,.035);border:1px solid rgba(88,113,0,.44);border-radius:2px;font-size:17px;line-height:1;transform:none; }
+.card .ic::after { content:"";position:absolute;left:7px;right:7px;bottom:6px;height:1px;background:rgba(88,113,0,.32); }
 .card h3,.persona h3,.t-item h3 { font-size:22px;margin-bottom:12px; }
 .card p,.cap p,.persona p,.t-item p { color:#4f535a;font-size:14px;line-height:1.72; }
 .marquee-band { background:var(--ink);color:#fff;padding:30px 0; }
@@ -1139,23 +1139,23 @@ p { letter-spacing: -.012em; }
 .kernel-lab::before { opacity:.45; }
 .kernel-lab h3 { color:#fff;font-size:clamp(34px,4vw,58px);letter-spacing:-.05em; }
 .kernel-lab p { color:rgba(255,255,255,.58);font-size:15px; }
-.lab-index { color:#7fa0ff; }
+.lab-index { color:#c8ef79; }
 .ks-layer { border-color:rgba(255,255,255,.22);background:rgba(10,12,18,.82);border-radius:0; }
-.ks-kernel { border-color:#315cff;background:rgba(24,43,126,.56);box-shadow:-24px 30px 70px rgba(49,92,255,.18); }
-.ks-kernel b { color:#9db0ff; }
-.ks-signal { background:linear-gradient(transparent,#fff 35%,#315cff 66%,transparent);box-shadow:0 0 20px #315cff; }
+.ks-kernel { border-color:#baf04a;background:rgba(66,87,0,.58);box-shadow:-24px 30px 70px rgba(186,240,74,.10); }
+.ks-kernel b { color:#dcffae; }
+.ks-signal { background:linear-gradient(transparent,#fff 35%,#baf04a 66%,transparent);box-shadow:none; }
 .cap-groups { margin-top:100px; }
 .cap-group-head .rule { background:var(--line); }
 
 .swarm { background:#08090b;color:#fff;border:0; }
 .swarm .sec-head h2,.swarm .sec-sub strong,.swarm h3 { color:#fff; }
 .swarm .sec-sub { color:rgba(255,255,255,.62); }
-.swarm .eyebrow { color:#8ea5ff; }
+.swarm .eyebrow { color:#cdf38c; }
 .swarm-grid { gap:1px;background:rgba(255,255,255,.12); }
 .swarm-pillars { gap:1px;background:rgba(255,255,255,.12); }
 .sp { background:#0f1116;border:0;border-radius:0;padding:30px; }
 .sp p { color:rgba(255,255,255,.56);font-size:14px; }
-.sp-ic { color:#8ea5ff;border-color:rgba(255,255,255,.18); }
+.sp-ic { color:#cdf38c;border-color:rgba(255,255,255,.18); }
 .swarm-aside { background:var(--brand);border-radius:0;box-shadow:none;padding:48px; }
 .swarm-aside::after { background:radial-gradient(80% 80% at 80% 0%,rgba(255,255,255,.24),transparent 60%); }
 .aside-tag,.aside-line,.aside-line em,.aside-lock,.aside-lock .lk { color:#fff; }

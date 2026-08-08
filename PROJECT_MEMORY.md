@@ -6,7 +6,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Standing direction
 
-- Visual character: warm-white editorial world, obsidian mass, cobalt signal, restrained solar plasma.
+- Visual character: warm-white editorial world, obsidian mass, high-contrast chartreuse signal, restrained solar plasma.
 - Motion: three authored scenes—true brand lockup, event horizon, and kernel boundary—not decorative motion everywhere.
 - Narrative: endpoint signal → kernel decision → governed fleet → Hive Mind intelligence.
 - UX: clarity and conversion remain more important than spectacle.
@@ -49,7 +49,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
 - The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
 - Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
-- Warm paper, obsidian, cobalt, and scarce solar-plasma palette.
+- Warm paper, obsidian, contrast-safe chartreuse, and scarce solar-plasma palette.
 - Spatial kernel architecture with a single enforcement-ray sequence.
 - Adaptive resolution, offscreen pause, low-power mode, and reduced-motion fallback.
 - Versioned CSS and JavaScript URLs to prevent mixed-release browser caches.
