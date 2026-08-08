@@ -64,9 +64,10 @@
 
     void main() {
       vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
-      uv *= mix(1.18, 1.0, uIntro);
+      uv *= mix(1.035, 1.0, uIntro);
 
-      vec3 ro = vec3(uPointer.x * 0.16, 1.08 + uPointer.y * 0.12, 7.0);
+      float cameraDrift = sin(uTime * 0.028) * 0.028;
+      vec3 ro = vec3(uPointer.x * 0.13 + cameraDrift, 1.08 + uPointer.y * 0.10, 7.0);
       vec3 target = vec3(0.0);
       vec3 forward = normalize(target - ro);
       vec3 right = normalize(cross(forward, vec3(0.0, 1.0, 0.0)));
@@ -102,19 +103,20 @@
           float radial = smoothstep(1.12, 1.36, diskRadius) *
             (1.0 - smoothstep(4.25, 5.25, diskRadius));
           float angle = atan(p.z, p.x);
-          float grain = noise(vec2(angle * 5.0 - uTime * 0.025, diskRadius * 9.0));
-          float spiral = 0.52 +
-            0.30 * sin(angle * 7.0 - log(diskRadius) * 17.0 - uTime * 0.16) +
-            0.12 * sin(angle * 29.0 + diskRadius * 12.0) + grain * 0.18;
+          float flow = uTime * 0.035;
+          float grain = noise(vec2(angle * 5.0 - uTime * 0.006, diskRadius * 9.0));
+          float spiral = 0.54 +
+            0.28 * sin(angle * 7.0 - log(diskRadius) * 17.0 - flow) +
+            0.10 * sin(angle * 29.0 + diskRadius * 12.0) + grain * 0.14;
           float vertical = exp(-abs(p.y) / thickness);
           float density = radial * max(0.0, spiral) * vertical;
           float heat = pow(1.0 - clamp((diskRadius - 1.12) / 4.13, 0.0, 1.0), 1.62);
           vec3 tangent = normalize(vec3(-p.z, 0.0, p.x));
           float doppler = pow(clamp(1.0 + dot(tangent, -ray) * 0.73, 0.24, 1.82), 2.55);
 
-          vec3 ion = vec3(0.10, 0.18, 0.98);
-          vec3 solar = vec3(1.35, 0.31, 0.035);
-          vec3 whiteHot = vec3(1.75, 1.16, 0.52);
+          vec3 ion = vec3(0.13, 0.17, 0.48);
+          vec3 solar = vec3(1.42, 0.43, 0.065);
+          vec3 whiteHot = vec3(1.78, 1.22, 0.64);
           vec3 diskColor = mix(ion, solar, smoothstep(0.05, 0.72, heat));
           diskColor = mix(diskColor, whiteHot, pow(heat, 4.4));
           diskColor *= doppler;
@@ -129,35 +131,48 @@
         if (r > 10.5 && travelled > 7.0 && dot(p, ray) > 0.0) break;
       }
 
-      vec3 paper = vec3(0.961, 0.956, 0.925);
+      vec3 paper = vec3(0.961, 0.957, 0.933);
       float foldA = pow(0.5 + 0.5 * cos(42.0 * (ray.y + 0.12 * sin(ray.x * 5.0))), 30.0);
       float foldB = pow(0.5 + 0.5 * cos(29.0 * (ray.x - ray.y * 0.24)), 44.0);
       paper -= (foldA * 0.017 + foldB * 0.007);
 
       float lensHalo = exp(-pow((minRadius - 1.35) / 0.50, 2.0));
-      paper *= 1.0 - lensHalo * 0.14 * uIntro;
-      paper += vec3(0.02, 0.035, 0.12) * lensHalo * 0.12;
+      paper *= 1.0 - lensHalo * mix(0.055, 0.13, uIntro);
+      paper += vec3(0.018, 0.024, 0.075) * lensHalo * 0.075;
 
       vec3 base = swallowed ? vec3(0.0015, 0.002, 0.004) : paper;
-      vec3 color = emission * uIntro + base * transmission;
-      float photon = exp(-pow((minRadius - 1.035) / 0.045, 2.0));
-      color += vec3(1.42, 0.61, 0.17) * photon * 0.72 * uIntro;
+      vec3 color = emission * mix(0.28, 1.0, uIntro) + base * transmission;
 
-      // A precise optical silhouette anchors the ray-integrated lensing.
-      // Applying it after disk emission guarantees an uncompromised event
-      // horizon even on conservative mobile drivers.
+      // The horizon is a near-black stone surface, not a flat neon target.
       float screenRadius = length(uv);
-      float eventHorizon = 1.0 - smoothstep(0.145, 0.198, screenRadius);
-      color = mix(color, vec3(0.001, 0.0015, 0.003), eventHorizon * uIntro);
-      float screenPhoton = exp(-pow((screenRadius - 0.207) / 0.012, 2.0));
-      color += vec3(1.5, 0.72, 0.22) * screenPhoton * 0.75 * uIntro;
+      float horizonRadius = 0.192;
+      float pixel = 1.5 / min(uResolution.x, uResolution.y);
+      float horizonDistance = screenRadius - horizonRadius;
+      float insideHorizon = 1.0 - smoothstep(-pixel, pixel, horizonDistance);
+      vec2 stoneUv = uv / horizonRadius;
+      float stoneZ = sqrt(max(0.0, 1.0 - dot(stoneUv, stoneUv)));
+      vec3 stoneNormal = normalize(vec3(stoneUv, stoneZ * 0.72));
+      vec3 stoneLight = normalize(vec3(-0.55 + sin(uTime * 0.045) * 0.06, 0.72, 1.0));
+      float rock = noise(stoneUv * 15.0 + vec2(11.7)) * 0.68 +
+        noise(stoneUv * 51.0 - vec2(7.3)) * 0.32;
+      float stoneKey = max(dot(stoneNormal, stoneLight), 0.0);
+      float stoneGrazing = pow(1.0 - stoneZ, 4.5);
+      vec3 stone = vec3(0.0035, 0.0042, 0.0055);
+      stone += vec3(0.012, 0.013, 0.016) * (rock * 0.42 + stoneKey * 0.32);
+      stone += vec3(0.022, 0.012, 0.007) * stoneGrazing * 0.22;
 
-      float vignette = smoothstep(1.15, 0.10, length(uv * vec2(0.72, 0.92)));
-      color = mix(paper, color, 0.90 + vignette * 0.10);
       color = color / (1.0 + color * 0.30);
       color = pow(max(color, 0.0), vec3(0.92));
-      color = mix(color, vec3(0.001, 0.0015, 0.003), eventHorizon * uIntro);
-      color += vec3(1.0, 0.42, 0.10) * screenPhoton * 0.28 * uIntro;
+
+      float fieldMask = 1.0 - smoothstep(0.58, 1.08, length(uv * vec2(0.72, 0.92)));
+      color = mix(paper, color, fieldMask);
+
+      color = mix(color, stone, insideHorizon);
+      float azimuth = atan(uv.y, uv.x);
+      float ring = exp(-pow(horizonDistance / (0.0065 + pixel), 2.0));
+      float ringBreakup = 0.78 + 0.22 * noise(vec2(azimuth * 7.5, 2.7));
+      float beaming = 0.70 + 0.30 * smoothstep(-horizonRadius, horizonRadius, uv.x);
+      color += ring * ringBreakup * beaming * vec3(1.04, 0.49, 0.16) * mix(0.22, 0.38, uIntro);
       color += (hash21(gl_FragCoord.xy + uTime * 0.01) - 0.5) / 255.0;
       outColor = vec4(color, 1.0);
     }
@@ -227,12 +242,11 @@
   function render(now) {
     frame = 0;
     if (!visible) return;
-    resize();
     pointer.x += (pointer.tx - pointer.x) * 0.035;
     pointer.y += (pointer.ty - pointer.y) * 0.035;
     var elapsed = Math.max(0, elapsedBeforePause + now - activeSince);
-    var intro = reduced ? 1 : Math.min(1, elapsed / 7200);
-    intro = 1 - Math.pow(1 - intro, 3);
+    var intro = reduced ? 1 : Math.min(1, elapsed / 5600);
+    intro = intro * intro * (3 - 2 * intro);
 
     gl.useProgram(program);
     gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);

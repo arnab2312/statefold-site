@@ -43,9 +43,10 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - The landing reveal is deliberately slow and cinematic, with the mark, wordmark, governance line, and entry cue resolving in sequence.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 gravitational-lensing and accretion-disk renderer.
-- The hero begins as the exact Statefold lockup in depth: the solid O anchors the event horizon, the letters fall away, and the dragon descends from black ink into the white-hot horizon.
-- The hero sequence starts only when the event-horizon stage enters the viewport, then pauses again when offscreen or hidden.
-- Editorial Manrope typography with IBM Plex Mono reserved for telemetry.
+- The hero contains one visual idea from its first frame: a slowly evolving black hole with the exact dragon cut into its near-black stone horizon as an intaglio engraving.
+- No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
+- The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
+- Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
 - Warm paper, obsidian, cobalt, and scarce solar-plasma palette.
 - Spatial kernel architecture with a single enforcement-ray sequence.
 - Adaptive resolution, offscreen pause, low-power mode, and reduced-motion fallback.
@@ -53,4 +54,4 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Current phase
 
-Cinematic Total AI Governance rebuild with the logo-to-horizon hero sequence deployed and verified on desktop and mobile.
+Cinematic Total AI Governance rebuild with the engraved singularity hero and collision-free typography deployed and verified on desktop and mobile.

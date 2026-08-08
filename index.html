@@ -16,8 +16,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260808j" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260808o" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -159,7 +159,7 @@
     <div class="hero-v3 wrap">
       <div class="hero-v3-copy">
         <div class="hero-v3-eyebrow"><span></span>Total AI Governance</div>
-        <h1>Total intelligence.<br><em>Under control.</em></h1>
+        <h1><span>Total</span><span class="hero-intelligence">intelligence.</span><em>Under control.</em></h1>
         <p>One sovereign control plane for every model, agent, identity and endpoint. Statefold sees the whole system, intervenes before data leaves, and turns every decision into verifiable enterprise memory.</p>
         <div class="hero-v3-actions">
           <a class="btn btn-primary btn-lg" href="#platform">Enter the platform <span class="arr">→</span></a>
@@ -172,13 +172,22 @@
         </div>
       </div>
       <div class="void-stage" data-void aria-hidden="true">
-        <svg class="void-origin-word" width="410" height="54"><use href="#sf-word"></use></svg>
         <canvas id="voidCanvas" class="void-canvas"></canvas>
-        <div class="void-glass"></div>
-        <svg class="void-mark" viewBox="0 0 120 120"><use href="#sf-mark"></use></svg>
-        <div class="void-lock"><span>STATEFOLD</span><b>CONTROL PLANE / ACTIVE</b></div>
-        <div class="void-measure measure-a"><i></i><span>EVENT HORIZON / POLICY BOUNDARY</span></div>
-        <div class="void-measure measure-b"><i></i><span>SOVEREIGN INTELLIGENCE / ON-BOX</span></div>
+        <svg class="void-mark" viewBox="0 0 120 120">
+          <defs>
+            <filter id="sf-intaglio" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceAlpha" stdDeviation=".38" result="soft"></feGaussianBlur>
+              <feOffset in="soft" dx="-.65" dy="-.75" result="upper"></feOffset>
+              <feFlood flood-color="#000000" flood-opacity=".9" result="black"></feFlood>
+              <feComposite in="black" in2="upper" operator="in" result="shadow"></feComposite>
+              <feOffset in="soft" dx=".48" dy=".58" result="lower"></feOffset>
+              <feFlood flood-color="#b9bec0" flood-opacity=".2" result="silver"></feFlood>
+              <feComposite in="silver" in2="lower" operator="in" result="lip"></feComposite>
+              <feMerge><feMergeNode in="shadow"></feMergeNode><feMergeNode in="lip"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+          <use class="intaglio-cut" href="#sf-mark" filter="url(#sf-intaglio)"></use>
+        </svg>
       </div>
       <div class="hero-v3-folio" aria-hidden="true"><span>SF / 001</span><i></i><span>SCROLL TO GOVERN</span></div>
     </div>
@@ -690,7 +699,7 @@
     </div>
   </footer>
 
-  <script src="void.js?v=20260808j"></script>
-  <script src="app.js?v=20260808j"></script>
+  <script src="void.js?v=20260808o"></script>
+  <script src="app.js?v=20260808o"></script>
 </body>
 </html>
