@@ -6,7 +6,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Standing direction
 
-- Visual character: warm-white editorial world, obsidian mass, high-contrast chartreuse signal, restrained solar plasma.
+- Visual character: warm-white editorial world, obsidian mass, bright chartreuse signal with deep chartreuse ink for small type, restrained solar plasma.
 - Motion: three authored scenes—true brand lockup, event horizon, and kernel boundary—not decorative motion everywhere.
 - Narrative: endpoint signal → kernel decision → governed fleet → Hive Mind intelligence.
 - UX: clarity and conversion remain more important than spectacle.
