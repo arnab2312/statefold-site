@@ -7,7 +7,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 ## Standing direction
 
 - Visual character: warm-white editorial world, obsidian mass, cobalt signal, restrained solar plasma.
-- Motion: two authored scenes—event horizon and kernel boundary—not decorative motion everywhere.
+- Motion: three authored scenes—true brand lockup, event horizon, and kernel boundary—not decorative motion everywhere.
 - Narrative: endpoint signal → kernel decision → governed fleet → Hive Mind intelligence.
 - UX: clarity and conversion remain more important than spectacle.
 - Accessibility: reduced-motion mode, keyboard usability, readable contrast, semantic HTML.
@@ -39,7 +39,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Implemented foundation
 
-- The landing opens directly on the event-horizon product hero; there is no separate logo splash.
+- The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its eclipsed O.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 gravitational-lensing and accretion-disk renderer.
 - Editorial Manrope typography with IBM Plex Mono reserved for telemetry.

@@ -1242,8 +1242,105 @@ p { letter-spacing: -.012em; }
   .reveal { opacity:1;transform:none;transition:none; }
 }
 
-/* Immediate composition correction: the separate brand board competed
-   with the product hero. The cinematic event-horizon hero is the landing
-   surface; the favicon remains browser identity, not a billboard. */
-#brand-reveal { display:none !important; }
+/* Final brand overture: one exact dragon, one exact vector wordmark.
+   The eclipse belongs to the real O; nothing else competes with it. */
+#brand-reveal.brand-overture {
+  display:grid !important;
+  min-height:100svh;
+  place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse 44% 36% at 50% 42%,rgba(8,9,11,.035),transparent 72%),
+    linear-gradient(180deg,#ffffff 0%,#f7f6f1 100%);
+}
+#brand-reveal .overture-coordinates,
+#brand-reveal .overture-favicon,
+#brand-reveal .overture-name,
+#brand-reveal .overture-rule,
+#brand-reveal .overture-tag { display:none !important; }
+#brand-reveal .overture-horizon {
+  display:block;
+  z-index:0;
+  width:130vw;
+  height:1px;
+  left:50%;
+  top:43%;
+  border:0;
+  border-radius:0;
+  transform:translate(-50%,-50%);
+  background:linear-gradient(90deg,transparent 10%,rgba(8,9,11,.06) 38%,rgba(8,9,11,.20) 50%,rgba(8,9,11,.06) 62%,transparent 90%);
+  box-shadow:0 0 55px 18px rgba(8,9,11,.025);
+  animation:overtureHorizon 3.6s var(--ease) both;
+}
+#brand-reveal .overture-lockup {
+  position:relative;
+  z-index:2;
+  width:min(88vw,1080px);
+  height:auto;
+  min-height:72svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  transform:translateY(calc(var(--overture-progress) * -5vh));
+  opacity:calc(1 - var(--overture-progress) * .52);
+}
+#brand-reveal .overture-lockup::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:min(72vmin,720px);
+  height:min(72vmin,720px);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.96) 0 28%,rgba(255,255,255,.48) 47%,transparent 70%);
+  filter:blur(14px);
+}
+#brand-reveal .overture-mark {
+  position:relative;
+  inset:auto;
+  width:clamp(210px,34vmin,390px);
+  height:clamp(210px,34vmin,390px);
+  color:#08090b;
+  opacity:1;
+  transform:none;
+  filter:drop-shadow(0 28px 32px rgba(8,9,11,.10));
+  animation:overtureDragon 2.1s var(--ease) both;
+}
+.overture-wordframe {
+  position:relative;
+  width:min(78vw,960px);
+  margin-top:clamp(28px,5vh,58px);
+  color:#08090b;
+  animation:overtureWord 1.45s var(--ease) .55s both;
+}
+.overture-wordmark { position:relative;z-index:2;display:block;width:100%;height:auto;color:#08090b;overflow:visible; }
+.overture-eclipse {
+  position:absolute;
+  z-index:1;
+  left:71.08%;
+  top:50%;
+  width:11.1%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  box-shadow:0 0 0 1px rgba(8,9,11,.10),0 0 34px 12px rgba(49,92,255,.12),0 0 90px 28px rgba(8,9,11,.06);
+  animation:eclipseGravity 5.5s ease-in-out 1.5s infinite;
+}
+.overture-governance { margin-top:clamp(20px,3.6vh,40px);font:500 10px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:#555960;animation:overtureWord 1s var(--ease) .95s both; }
+#brand-reveal .overture-enter { bottom:clamp(24px,4vh,46px);color:#555960; }
+#brand-reveal .overture-enter i { background:rgba(8,9,11,.28); }
+#brand-reveal .overture-enter i::after { background:#08090b; }
 .void-mark { width:clamp(190px,16vw,270px);height:clamp(190px,16vw,270px); }
+@keyframes overtureDragon { from{opacity:0;transform:translateY(28px) scale(.88);filter:blur(10px)} to{opacity:1;transform:none;filter:drop-shadow(0 28px 32px rgba(8,9,11,.10))} }
+@keyframes overtureWord { from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateY(12px)} to{opacity:1;clip-path:inset(0 0 0 0);transform:none} }
+@keyframes overtureHorizon { from{opacity:0;transform:translate(-50%,-50%) scaleX(.15)} to{opacity:1;transform:translate(-50%,-50%) scaleX(1)} }
+@keyframes eclipseGravity { 0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.52} 50%{transform:translate(-50%,-50%) scale(1.08);opacity:1} }
+@media (max-width:700px) {
+  #brand-reveal .overture-lockup { width:92vw;min-height:68svh; }
+  #brand-reveal .overture-mark { width:min(58vw,300px);height:min(58vw,300px); }
+  .overture-wordframe { width:88vw;margin-top:30px; }
+  .overture-governance { font-size:8px;letter-spacing:.22em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-horizon,.overture-eclipse { animation:none; }
+}
