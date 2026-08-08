@@ -1270,7 +1270,7 @@ p { letter-spacing: -.012em; }
   transform:translate(-50%,-50%);
   background:linear-gradient(90deg,transparent 10%,rgba(8,9,11,.06) 38%,rgba(8,9,11,.20) 50%,rgba(8,9,11,.06) 62%,transparent 90%);
   box-shadow:0 0 55px 18px rgba(8,9,11,.025);
-  animation:overtureHorizon 3.6s var(--ease) both;
+  animation:overtureHorizon 6.8s cubic-bezier(.45,0,.2,1) both;
 }
 #brand-reveal .overture-lockup {
   position:relative;
@@ -1304,43 +1304,110 @@ p { letter-spacing: -.012em; }
   opacity:1;
   transform:none;
   filter:drop-shadow(0 28px 32px rgba(8,9,11,.10));
-  animation:overtureDragon 2.1s var(--ease) both;
+  animation:overtureDragon 5.2s cubic-bezier(.45,0,.2,1) both;
 }
 .overture-wordframe {
   position:relative;
   width:min(78vw,960px);
   margin-top:clamp(28px,5vh,58px);
   color:#08090b;
-  animation:overtureWord 1.45s var(--ease) .55s both;
+  animation:overtureWord 3.8s cubic-bezier(.55,0,.2,1) 1.6s both;
 }
 .overture-wordmark { position:relative;z-index:2;display:block;width:100%;height:auto;color:#08090b;overflow:visible; }
 .overture-eclipse {
-  position:absolute;
-  z-index:1;
-  left:71.08%;
-  top:50%;
-  width:11.1%;
-  aspect-ratio:1;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  box-shadow:0 0 0 1px rgba(8,9,11,.10),0 0 34px 12px rgba(49,92,255,.12),0 0 90px 28px rgba(8,9,11,.06);
-  animation:eclipseGravity 5.5s ease-in-out 1.5s infinite;
+  display:none;
 }
-.overture-governance { margin-top:clamp(20px,3.6vh,40px);font:500 10px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:#555960;animation:overtureWord 1s var(--ease) .95s both; }
-#brand-reveal .overture-enter { bottom:clamp(24px,4vh,46px);color:#555960; }
+.overture-governance { margin-top:clamp(20px,3.6vh,40px);font:500 10px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:#555960;animation:overtureWord 2.4s cubic-bezier(.45,0,.2,1) 3.8s both; }
+#brand-reveal .overture-enter { bottom:clamp(24px,4vh,46px);color:#555960;animation:overtureEnter 2s ease 5.25s both; }
 #brand-reveal .overture-enter i { background:rgba(8,9,11,.28); }
-#brand-reveal .overture-enter i::after { background:#08090b; }
-.void-mark { width:clamp(190px,16vw,270px);height:clamp(190px,16vw,270px); }
+#brand-reveal .overture-enter i::after { background:#08090b;animation-duration:5.4s;animation-delay:5.25s; }
+
+/* The exact lockup crosses the hero in depth. Its solid O is held on the
+   optical centre so the WebGL event horizon can grow out of the real mark. */
+.void-stage { perspective:1400px;perspective-origin:50% 49%; }
+.void-origin-word {
+  position:absolute;
+  z-index:5;
+  left:50%;
+  top:49%;
+  width:min(108%,760px);
+  height:auto;
+  color:#08090b;
+  opacity:0;
+  pointer-events:none;
+  transform-origin:71.08% 50%;
+  transform:translate3d(-71.08%,-50%,180px) rotateX(-16deg) scale(.86);
+  filter:blur(14px);
+  will-change:transform,opacity,filter;
+}
+.void-canvas { transition:none; }
+.void-canvas.ready { opacity:0; }
+.void-glass,.void-lock,.void-measure { opacity:0; }
+.void-mark {
+  width:clamp(190px,16vw,270px);
+  height:clamp(190px,16vw,270px);
+  top:30%;
+  color:#08090b;
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.54);
+  filter:blur(10px);
+  will-change:top,transform,opacity,filter,color;
+}
+.void-stage.void-awake .void-origin-word { animation:voidWordCollapse 9.6s cubic-bezier(.45,0,.55,1) both; }
+.void-stage.void-awake .void-canvas.ready { animation:voidFieldReveal 9.6s linear both; }
+.void-stage.void-awake .void-mark { animation:voidDragonDescent 9.6s cubic-bezier(.45,0,.55,1) both; }
+.void-stage.void-awake .void-glass { animation:voidLensOpen 9.6s linear both; }
+.void-stage.void-awake .void-lock { animation:voidTelemetryIn 1.8s ease 7.5s both; }
+.void-stage.void-awake .void-measure { animation:voidTelemetryIn 2s ease 8.1s both; }
+.void-stage.void-awake:not(.void-visible) .void-origin-word,
+.void-stage.void-awake:not(.void-visible) .void-canvas,
+.void-stage.void-awake:not(.void-visible) .void-mark,
+.void-stage.void-awake:not(.void-visible) .void-glass,
+.void-stage.void-awake:not(.void-visible) .void-lock,
+.void-stage.void-awake:not(.void-visible) .void-measure { animation-play-state:paused; }
+.void-stage.void-fallback .void-origin-word { display:none; }
+.void-stage.void-fallback .void-mark { top:49%;opacity:1;color:#fff;transform:translate(-50%,-50%);filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 30px rgba(255,124,42,.44)); }
+.void-stage.void-fallback .void-glass,.void-stage.void-fallback .void-lock,.void-stage.void-fallback .void-measure { opacity:1; }
 @keyframes overtureDragon { from{opacity:0;transform:translateY(28px) scale(.88);filter:blur(10px)} to{opacity:1;transform:none;filter:drop-shadow(0 28px 32px rgba(8,9,11,.10))} }
 @keyframes overtureWord { from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateY(12px)} to{opacity:1;clip-path:inset(0 0 0 0);transform:none} }
 @keyframes overtureHorizon { from{opacity:0;transform:translate(-50%,-50%) scaleX(.15)} to{opacity:1;transform:translate(-50%,-50%) scaleX(1)} }
-@keyframes eclipseGravity { 0%,100%{transform:translate(-50%,-50%) scale(.94);opacity:.52} 50%{transform:translate(-50%,-50%) scale(1.08);opacity:1} }
+@keyframes overtureEnter { from{opacity:0;transform:translate(-50%,12px)} to{opacity:1;transform:translate(-50%,0)} }
+@keyframes voidWordCollapse {
+  0% { opacity:0;transform:translate3d(-71.08%,-50%,180px) rotateX(-16deg) scale(.86);filter:blur(14px); }
+  14% { opacity:.96;transform:translate3d(-71.08%,-50%,90px) rotateX(-5deg) scale(.94);filter:blur(0); }
+  38% { opacity:.96;transform:translate3d(-71.08%,-50%,0) rotateX(0) scale(1);filter:blur(0); }
+  58% { opacity:.72;transform:translate3d(-71.08%,-50%,-80px) rotateX(8deg) scale(1.06);filter:blur(1px); }
+  76% { opacity:.14;transform:translate3d(-71.08%,-50%,-260px) rotateX(21deg) scale(1.24);filter:blur(8px); }
+  100% { opacity:0;transform:translate3d(-71.08%,-50%,-520px) rotateX(34deg) scale(1.5);filter:blur(18px); }
+}
+@keyframes voidDragonDescent {
+  0% { top:30%;opacity:0;color:#08090b;transform:translate(-50%,-50%) scale(.48);filter:blur(10px); }
+  14% { top:30%;opacity:1;color:#08090b;transform:translate(-50%,-50%) scale(.54);filter:blur(0); }
+  38% { top:30%;opacity:1;color:#08090b;transform:translate(-50%,-50%) scale(.54);filter:drop-shadow(0 18px 24px rgba(8,9,11,.10)); }
+  62% { top:41%;opacity:.88;color:#555764;transform:translate(-50%,-50%) scale(.76);filter:blur(1px) drop-shadow(0 0 16px rgba(49,92,255,.14)); }
+  78% { top:49%;opacity:1;color:#fff;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 34px rgba(255,124,42,.48)); }
+  100% { top:49%;opacity:1;color:#fff;transform:translate(-50%,-50%) scale(1);filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 26px rgba(255,124,42,.38)); }
+}
+@keyframes voidFieldReveal {
+  0%,45% { opacity:0;clip-path:circle(0 at 50% 49%);transform:scale(.96); }
+  46% { opacity:1;clip-path:circle(8% at 50% 49%);transform:scale(.97); }
+  62% { opacity:1;clip-path:circle(42% at 50% 49%);transform:scale(.99); }
+  78%,100% { opacity:1;clip-path:circle(78% at 50% 49%);transform:scale(1); }
+}
+@keyframes voidLensOpen { 0%,50%{opacity:0;transform:translate(-50%,-50%) scale(.74)} 82%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)} }
+@keyframes voidTelemetryIn { from{opacity:0;filter:blur(5px)} to{opacity:1;filter:blur(0)} }
 @media (max-width:700px) {
   #brand-reveal .overture-lockup { width:92vw;min-height:68svh; }
   #brand-reveal .overture-mark { width:min(58vw,300px);height:min(58vw,300px); }
   .overture-wordframe { width:88vw;margin-top:30px; }
   .overture-governance { font-size:8px;letter-spacing:.22em; }
+  .void-origin-word { width:118%; }
 }
 @media (prefers-reduced-motion: reduce) {
   #brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-horizon,.overture-eclipse { animation:none; }
+  #brand-reveal .overture-enter { animation:none; }
+  .void-origin-word { display:none; }
+  .void-stage .void-canvas.ready { opacity:1;animation:none;clip-path:none;filter:none;transform:none; }
+  .void-stage .void-mark { top:49%;opacity:1;color:#fff;transform:translate(-50%,-50%);filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 26px rgba(255,124,42,.38));animation:none; }
+  .void-stage .void-glass,.void-stage .void-lock,.void-stage .void-measure { opacity:1;animation:none;filter:none; }
 }

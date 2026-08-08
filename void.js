@@ -203,11 +203,14 @@
   var pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   var quality = lowPower ? 0.18 : 0.62;
   var scale = lowPower ? 0.62 : 0.78;
-  var started = performance.now();
-  var visible = true;
+  var hasStarted = false;
+  var inViewport = false;
+  var visible = false;
+  var elapsedBeforePause = 0;
+  var activeSince = 0;
   var frame = 0;
   var frameTimes = [];
-  var lastFrame = started;
+  var lastFrame = 0;
 
   function resize() {
     var rect = stage.getBoundingClientRect();
@@ -222,12 +225,13 @@
   }
 
   function render(now) {
-    if (!visible && !reduced) { frame = 0; return; }
+    frame = 0;
+    if (!visible) return;
     resize();
     pointer.x += (pointer.tx - pointer.x) * 0.035;
     pointer.y += (pointer.ty - pointer.y) * 0.035;
-    var elapsed = now - started;
-    var intro = reduced ? 1 : Math.min(1, elapsed / 3200);
+    var elapsed = Math.max(0, elapsedBeforePause + now - activeSince);
+    var intro = reduced ? 1 : Math.min(1, elapsed / 7200);
     intro = 1 - Math.pow(1 - intro, 3);
 
     gl.useProgram(program);
@@ -255,6 +259,32 @@
     }
   }
 
+  function wakeStage() {
+    if (!hasStarted) {
+      hasStarted = true;
+      activeSince = performance.now();
+      lastFrame = activeSince;
+      stage.classList.add('void-awake');
+    }
+    if (!frame) frame = requestAnimationFrame(render);
+  }
+
+  function setStageVisibility(nextVisible) {
+    if (nextVisible === visible) return;
+    var now = performance.now();
+    if (nextVisible) {
+      visible = true;
+      activeSince = now;
+      lastFrame = now;
+      stage.classList.add('void-visible');
+      wakeStage();
+    } else {
+      if (hasStarted) elapsedBeforePause += Math.max(0, now - activeSince);
+      visible = false;
+      stage.classList.remove('void-visible');
+    }
+  }
+
   stage.addEventListener('pointermove', function (event) {
     var rect = stage.getBoundingClientRect();
     pointer.tx = ((event.clientX - rect.left) / rect.width - 0.5) * 0.34;
@@ -267,13 +297,15 @@
 
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting && !document.hidden;
-      if (visible && !frame && !reduced) frame = requestAnimationFrame(render);
-    }, { rootMargin: '180px 0px' }).observe(stage);
+      inViewport = entries[0].isIntersecting;
+      setStageVisibility(inViewport && !document.hidden);
+    }, { rootMargin: '0px', threshold: 0.12 }).observe(stage);
+  } else {
+    inViewport = true;
+    setStageVisibility(!document.hidden);
   }
   document.addEventListener('visibilitychange', function () {
-    visible = !document.hidden;
-    if (visible && !frame && !reduced) frame = requestAnimationFrame(render);
+    setStageVisibility(inViewport && !document.hidden);
   });
   canvas.addEventListener('webglcontextlost', function (event) {
     event.preventDefault();
@@ -281,7 +313,6 @@
   });
 
   resize();
-  frame = requestAnimationFrame(render);
 
   var overture = document.getElementById('brand-reveal');
   var overtureTicking = false;
