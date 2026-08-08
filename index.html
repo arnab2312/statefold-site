@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260808ag" />
+  <link rel="stylesheet" href="styles.css?v=20260808am" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -156,6 +156,25 @@
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
+    <div class="void-stage" data-void aria-hidden="true">
+      <canvas id="voidCanvas" class="void-canvas"></canvas>
+      <svg class="void-mark" viewBox="0 0 120 120">
+        <defs>
+          <filter id="sf-intaglio" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceAlpha" stdDeviation=".3" result="soft"></feGaussianBlur>
+            <feOffset in="soft" dx="-.58" dy="-.68" result="upper"></feOffset>
+            <feFlood flood-color="#000000" flood-opacity=".9" result="black"></feFlood>
+            <feComposite in="black" in2="upper" operator="in" result="shadow"></feComposite>
+            <feOffset in="soft" dx=".42" dy=".5" result="lower"></feOffset>
+            <feFlood flood-color="#7693a4" flood-opacity=".3" result="silver"></feFlood>
+            <feComposite in="silver" in2="lower" operator="in" result="lip"></feComposite>
+            <feMerge><feMergeNode in="shadow"></feMergeNode><feMergeNode in="lip"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+          </filter>
+        </defs>
+        <use class="intaglio-cut" href="#sf-mark" filter="url(#sf-intaglio)"></use>
+      </svg>
+    </div>
+    <div class="hero-veil" aria-hidden="true"></div>
     <div class="hero-v3 wrap">
       <div class="hero-v3-copy">
         <div class="hero-v3-eyebrow"><span></span>Total AI Governance</div>
@@ -170,24 +189,6 @@
           <span><b>02</b> Private intelligence</span>
           <span><b>03</b> Verifiable memory</span>
         </div>
-      </div>
-      <div class="void-stage" data-void aria-hidden="true">
-        <canvas id="voidCanvas" class="void-canvas"></canvas>
-        <svg class="void-mark" viewBox="0 0 120 120">
-          <defs>
-            <filter id="sf-intaglio" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
-              <feGaussianBlur in="SourceAlpha" stdDeviation=".3" result="soft"></feGaussianBlur>
-              <feOffset in="soft" dx="-.58" dy="-.68" result="upper"></feOffset>
-              <feFlood flood-color="#000000" flood-opacity=".9" result="black"></feFlood>
-              <feComposite in="black" in2="upper" operator="in" result="shadow"></feComposite>
-              <feOffset in="soft" dx=".42" dy=".5" result="lower"></feOffset>
-              <feFlood flood-color="#7693a4" flood-opacity=".3" result="silver"></feFlood>
-              <feComposite in="silver" in2="lower" operator="in" result="lip"></feComposite>
-              <feMerge><feMergeNode in="shadow"></feMergeNode><feMergeNode in="lip"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
-            </filter>
-          </defs>
-          <use class="intaglio-cut" href="#sf-mark" filter="url(#sf-intaglio)"></use>
-        </svg>
       </div>
       <div class="hero-v3-folio" aria-hidden="true"><span>SF / 001</span><i></i><span>SCROLL TO GOVERN</span></div>
     </div>
@@ -699,7 +700,7 @@
     </div>
   </footer>
 
-  <script src="void.js?v=20260808ag"></script>
-  <script src="app.js?v=20260808ag"></script>
+  <script src="void.js?v=20260808am"></script>
+  <script src="app.js?v=20260808am"></script>
 </body>
 </html>

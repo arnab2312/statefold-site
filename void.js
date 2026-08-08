@@ -36,6 +36,7 @@
     precision highp float;
     out vec4 outColor;
     uniform vec2 uResolution;
+    uniform vec2 uOrigin;
     uniform vec2 uPointer;
     uniform float uTime;
     uniform float uQuality;
@@ -83,13 +84,13 @@
     }
 
     void main() {
-      vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) /
+      vec2 p = (gl_FragCoord.xy - uOrigin * uResolution.xy) /
         min(uResolution.x, uResolution.y);
-      p -= uPointer * vec2(0.008, 0.005);
+      vec2 fieldP = p - uPointer * vec2(0.008, 0.005);
 
       float resolve = uIntro * uIntro * (3.0 - 2.0 * uIntro);
       float baseRadius = length(p);
-      vec2 domain = rotate2(-uTime * 0.006) * p;
+      vec2 domain = rotate2(-uTime * 0.006) * fieldP;
       float warpA = fbm3(domain * 3.45 + vec2(2.7, -1.9));
       float warpB = fbm3(domain * 3.45 + vec2(-5.8, 4.2));
       vec2 warp = vec2(warpA - 0.5, warpB - 0.5);
@@ -103,7 +104,7 @@
         if (layer >= layerCount) break;
         float slice = float(layer) / float(layerCount - 1);
         float z = slice * 2.0 - 1.0;
-        vec2 lp = p;
+        vec2 lp = fieldP;
         lp.x += z * 0.020;
         lp.y = (lp.y - z * 0.032) * 1.09;
         lp *= 1.0 + z * 0.025;
@@ -296,14 +297,16 @@
   gl.useProgram(program);
   var uniforms = {
     resolution: gl.getUniformLocation(program, 'uResolution'),
+    origin: gl.getUniformLocation(program, 'uOrigin'),
     pointer: gl.getUniformLocation(program, 'uPointer'),
     time: gl.getUniformLocation(program, 'uTime'),
     quality: gl.getUniformLocation(program, 'uQuality'),
     intro: gl.getUniformLocation(program, 'uIntro')
   };
   var pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+  var origin = { x: 0.72, y: 0.52 };
   var quality = lowPower ? 0.18 : 0.62;
-  var scale = lowPower ? 0.62 : 0.78;
+  var scale = lowPower ? 0.48 : 0.58;
   var hasStarted = false;
   var inViewport = false;
   var visible = false;
@@ -315,6 +318,11 @@
 
   function resize() {
     var rect = stage.getBoundingClientRect();
+    var stageStyle = getComputedStyle(stage);
+    var originX = parseFloat(stageStyle.getPropertyValue('--void-origin-x'));
+    var originY = parseFloat(stageStyle.getPropertyValue('--void-origin-y'));
+    origin.x = Number.isFinite(originX) ? originX / 100 : 0.72;
+    origin.y = Number.isFinite(originY) ? originY / 100 : 0.52;
     var dpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1 : 1.45);
     var width = Math.max(2, Math.round(rect.width * dpr * scale));
     var height = Math.max(2, Math.round(rect.height * dpr * scale));
@@ -333,8 +341,24 @@
     var elapsed = Math.max(0, elapsedBeforePause + now - activeSince);
     var intro = reduced ? 1 : Math.min(1, elapsed / 4000);
 
+    if (!reduced) {
+      var delta = now - lastFrame;
+      lastFrame = now;
+      if (elapsed > 3500 && frameTimes.length < 90) frameTimes.push(delta);
+      if (frameTimes.length === 90) {
+        var average = frameTimes.reduce(function (sum, value) { return sum + value; }, 0) / frameTimes.length;
+        if (average > 22 && scale > 0.42) {
+          scale = Math.max(0.42, scale - 0.10);
+          quality = Math.max(0.12, quality - 0.18);
+          resize();
+        }
+        frameTimes.length = 0;
+      }
+    }
+
     gl.useProgram(program);
     gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+    gl.uniform2f(uniforms.origin, origin.x, 1 - origin.y);
     gl.uniform2f(uniforms.pointer, pointer.x, pointer.y);
     gl.uniform1f(uniforms.time, elapsed * 0.001);
     gl.uniform1f(uniforms.quality, quality);
@@ -343,17 +367,6 @@
     canvas.classList.add('ready');
 
     if (!reduced) {
-      var delta = now - lastFrame;
-      lastFrame = now;
-      if (elapsed > 3500 && frameTimes.length < 90) frameTimes.push(delta);
-      if (frameTimes.length === 90) {
-        var average = frameTimes.reduce(function (sum, value) { return sum + value; }, 0) / frameTimes.length;
-        if (average > 22 && scale > 0.58) {
-          scale = Math.max(0.58, scale - 0.12);
-          quality = Math.max(0.12, quality - 0.18);
-          frameTimes.length = 0;
-        }
-      }
       frame = requestAnimationFrame(render);
     }
   }
@@ -384,12 +397,13 @@
     }
   }
 
-  stage.addEventListener('pointermove', function (event) {
-    var rect = stage.getBoundingClientRect();
+  var pointerSurface = stage.closest('.hero') || stage;
+  pointerSurface.addEventListener('pointermove', function (event) {
+    var rect = pointerSurface.getBoundingClientRect();
     pointer.tx = ((event.clientX - rect.left) / rect.width - 0.5) * 0.34;
     pointer.ty = ((event.clientY - rect.top) / rect.height - 0.5) * 0.26;
   }, { passive: true });
-  stage.addEventListener('pointerleave', function () { pointer.tx = 0; pointer.ty = 0; });
+  pointerSurface.addEventListener('pointerleave', function () { pointer.tx = 0; pointer.ty = 0; });
 
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(stage);
   else window.addEventListener('resize', resize, { passive: true });
