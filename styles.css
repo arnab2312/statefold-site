@@ -1241,3 +1241,9 @@ p { letter-spacing: -.012em; }
   .overture-lockup { transform:none;opacity:1; }
   .reveal { opacity:1;transform:none;transition:none; }
 }
+
+/* Immediate composition correction: the separate brand board competed
+   with the product hero. The cinematic event-horizon hero is the landing
+   surface; the favicon remains browser identity, not a billboard. */
+#brand-reveal { display:none !important; }
+.void-mark { width:clamp(190px,16vw,270px);height:clamp(190px,16vw,270px); }
