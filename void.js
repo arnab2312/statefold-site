@@ -9,12 +9,12 @@
   var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
     (navigator.connection && navigator.connection.saveData);
   var gl = canvas.getContext('webgl2', {
-    alpha: false,
+    alpha: true,
+    premultipliedAlpha: false,
     antialias: false,
     depth: false,
     stencil: false,
-    powerPreference: 'high-performance',
-    desynchronized: true
+    powerPreference: 'high-performance'
   });
 
   if (!gl) {
@@ -41,7 +41,7 @@
     uniform float uQuality;
     uniform float uIntro;
 
-    #define MAX_STEPS 72
+    #define MAX_LAYERS 7
 
     float hash21(vec2 p) {
       p = fract(p * vec2(123.34, 456.21));
@@ -49,132 +49,218 @@
       return fract(p.x * p.y);
     }
 
-    float noise(vec2 p) {
+    float noise2(vec2 p) {
       vec2 i = floor(p);
       vec2 f = fract(p);
       f = f * f * (3.0 - 2.0 * f);
-      return mix(mix(hash21(i), hash21(i + vec2(1.0, 0.0)), f.x),
-                 mix(hash21(i + vec2(0.0, 1.0)), hash21(i + 1.0), f.x), f.y);
+      return mix(
+        mix(hash21(i), hash21(i + vec2(1.0, 0.0)), f.x),
+        mix(hash21(i + vec2(0.0, 1.0)), hash21(i + 1.0), f.x),
+        f.y
+      );
     }
 
-    mat2 rot(float a) {
-      float c = cos(a), s = sin(a);
+    float fbm3(vec2 p) {
+      float value = 0.0;
+      float amplitude = 0.52;
+      mat2 basis = mat2(0.80, 0.60, -0.60, 0.80);
+      for (int i = 0; i < 3; i++) {
+        value += noise2(p) * amplitude;
+        p = basis * p * 2.03 + 7.13;
+        amplitude *= 0.48;
+      }
+      return value;
+    }
+
+    mat2 rotate2(float angle) {
+      float c = cos(angle);
+      float s = sin(angle);
       return mat2(c, -s, s, c);
     }
 
+    float ridge(float phase, float sharpness) {
+      return pow(max(0.0, 0.5 + 0.5 * cos(phase)), sharpness);
+    }
+
     void main() {
-      vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
-      uv *= mix(1.035, 1.0, uIntro);
+      vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) /
+        min(uResolution.x, uResolution.y);
+      p -= uPointer * vec2(0.008, 0.005);
 
-      float cameraDrift = sin(uTime * 0.028) * 0.028;
-      vec3 ro = vec3(uPointer.x * 0.13 + cameraDrift, 1.08 + uPointer.y * 0.10, 7.0);
-      vec3 target = vec3(0.0);
-      vec3 forward = normalize(target - ro);
-      vec3 right = normalize(cross(forward, vec3(0.0, 1.0, 0.0)));
-      vec3 up = cross(right, forward);
-      vec3 ray = normalize(forward * 1.74 + right * uv.x * 1.62 + up * uv.y * 1.62);
+      float resolve = uIntro * uIntro * (3.0 - 2.0 * uIntro);
+      float baseRadius = length(p);
+      vec2 domain = rotate2(-uTime * 0.006) * p;
+      float warpA = fbm3(domain * 3.45 + vec2(2.7, -1.9));
+      float warpB = fbm3(domain * 3.45 + vec2(-5.8, 4.2));
+      vec2 warp = vec2(warpA - 0.5, warpB - 0.5);
 
-      vec3 p = ro;
-      vec3 emission = vec3(0.0);
+      vec3 radiance = vec3(0.0);
       float transmission = 1.0;
-      float minRadius = 100.0;
-      float travelled = 0.0;
-      bool swallowed = false;
-      float steps = mix(42.0, 68.0, uQuality);
+      int layerCount = uQuality < 0.35 ? 4 :
+        (uQuality < 0.72 ? 6 : 7);
 
-      for (int i = 0; i < MAX_STEPS; i++) {
-        if (float(i) >= steps) break;
-        float r = length(p);
-        minRadius = min(minRadius, r);
+      for (int layer = 0; layer < MAX_LAYERS; layer++) {
+        if (layer >= layerCount) break;
+        float slice = float(layer) / float(layerCount - 1);
+        float z = slice * 2.0 - 1.0;
+        vec2 lp = p;
+        lp.x += z * 0.020;
+        lp.y = (lp.y - z * 0.032) * 1.09;
+        lp *= 1.0 + z * 0.025;
 
-        if (r < 0.86) {
-          swallowed = true;
-          break;
-        }
+        float initialRadius = length(lp);
+        float spin = uTime *
+          (0.025 + 0.16 * exp(-initialRadius * 3.8));
+        lp = rotate2(-spin) * lp;
+        lp += warp * (0.026 + initialRadius * 0.020);
 
-        float dt = mix(0.032, 0.23, smoothstep(1.0, 6.5, r));
-        vec3 gravity = -p * (2.12 / max(r * r * r, 0.16));
-        ray = normalize(ray + gravity * dt);
-        vec3 nextP = p + ray * dt;
+        float radius = length(lp);
+        float angle = atan(lp.y, lp.x);
+        float logRadius = log(radius + 0.042);
+        float layerSeed = hash21(
+          vec2(float(layer) + 0.37, 19.17)
+        );
+        float seedSigned = layerSeed - 0.5;
+        vec2 swirlPoint = rotate2(
+          -logRadius * 2.35 + warp.y * 0.85
+        ) * lp;
+        float cloudNoise = fbm3(
+          swirlPoint * 3.9 + vec2(layerSeed * 8.3, z * 3.7)
+        );
+        float breakup = fbm3(
+          rotate2(0.71) * swirlPoint * 8.8 +
+          vec2(-z * 7.2, layerSeed * 17.1)
+        );
+        float micro = noise2(
+          swirlPoint * 31.0 + vec2(layerSeed * 29.4, z * 11.3)
+        );
+        float armPhase = angle * 2.0 -
+          logRadius * (5.15 + seedSigned * 0.9) +
+          warp.x * 4.8 +
+          sin(angle * 3.0 + warp.y * 4.0) * 0.78 +
+          seedSigned * 0.9;
+        float armWave = 0.5 + 0.5 * cos(armPhase);
+        float cloudField = armWave * 0.54 +
+          cloudNoise * 0.36 + breakup * 0.10;
+        float cloudGate = smoothstep(0.38, 0.61, cloudField);
+        float broad = cloudGate * (0.24 + cloudNoise * 0.76);
+        float ribbonPhase = angle * 5.0 -
+          logRadius * (9.4 + seedSigned * 1.8) +
+          warp.y * 5.7 + cloudNoise * 3.8 + layerSeed * 2.1;
+        float ribbon = ridge(ribbonPhase, 8.0) * cloudGate *
+          (0.28 + breakup * 0.72);
+        float fiberPhase = angle * 13.0 -
+          logRadius * (18.2 + seedSigned * 3.2) +
+          warp.x * 8.1 + cloudNoise * 7.2 +
+          sin(angle * 7.0 + radius * 31.0) * 0.72 +
+          layerSeed * 7.0;
+        float wispGate = smoothstep(
+          0.33, 0.60, micro * 0.72 + cloudGate * 0.38
+        );
+        float fiber = ridge(fiberPhase, 27.0) * wispGate *
+          (0.22 + breakup * 0.78);
 
-        float diskRadius = length(p.xz);
-        float thickness = 0.024 + diskRadius * 0.012;
-        if (diskRadius > 1.12 && diskRadius < 5.25 && abs(p.y) < thickness * 4.3) {
-          float radial = smoothstep(1.12, 1.36, diskRadius) *
-            (1.0 - smoothstep(4.25, 5.25, diskRadius));
-          float angle = atan(p.z, p.x);
-          float flow = uTime * 0.035;
-          float grain = noise(vec2(angle * 5.0 - uTime * 0.006, diskRadius * 9.0));
-          float spiral = 0.54 +
-            0.28 * sin(angle * 7.0 - log(diskRadius) * 17.0 - flow) +
-            0.10 * sin(angle * 29.0 + diskRadius * 12.0) + grain * 0.14;
-          float vertical = exp(-abs(p.y) / thickness);
-          float density = radial * max(0.0, spiral) * vertical;
-          float heat = pow(1.0 - clamp((diskRadius - 1.12) / 4.13, 0.0, 1.0), 1.62);
-          vec3 tangent = normalize(vec3(-p.z, 0.0, p.x));
-          float doppler = pow(clamp(1.0 + dot(tangent, -ray) * 0.73, 0.24, 1.82), 2.55);
+        float inner = smoothstep(0.145, 0.190, radius);
+        float resolvedOuter = mix(0.34, 0.86, resolve);
+        float outer = 1.0 - smoothstep(
+          resolvedOuter - 0.27,
+          resolvedOuter,
+          radius
+        );
+        float vertical = exp(-z * z * 2.15);
+        float structure = broad * 0.48 +
+          ribbon * 1.08 + fiber * 1.82;
+        float density = inner * outer * vertical * structure *
+          (0.46 + breakup * 0.88) *
+          mix(0.65, 1.0, resolve);
 
-          vec3 ion = vec3(0.13, 0.17, 0.48);
-          vec3 solar = vec3(1.42, 0.43, 0.065);
-          vec3 whiteHot = vec3(1.78, 1.22, 0.64);
-          vec3 diskColor = mix(ion, solar, smoothstep(0.05, 0.72, heat));
-          diskColor = mix(diskColor, whiteHot, pow(heat, 4.4));
-          diskColor *= doppler;
+        float filament = clamp(
+          ribbon * 0.46 + fiber * 1.15, 0.0, 1.0
+        );
+        vec3 ion = vec3(0.12, 0.36, 1.42);
+        vec3 rose = vec3(1.16, 0.095, 0.25);
+        vec3 ivory = vec3(1.18, 0.78, 0.53);
+        float roseZone = smoothstep(0.24, 0.57, radius);
+        vec3 layerColor = mix(ion, rose, roseZone);
+        float ivoryAmount = clamp(
+          fiber * 0.92 + ribbon * 0.14, 0.0, 0.82
+        );
+        layerColor = mix(layerColor, ivory, ivoryAmount);
+        layerColor *= mix(0.70, 1.04, slice);
 
-          float absorb = 1.0 - exp(-density * dt * 4.1);
-          emission += transmission * diskColor * absorb * 1.62;
-          transmission *= 1.0 - absorb * 0.60;
-        }
-
-        p = nextP;
-        travelled += dt;
-        if (r > 10.5 && travelled > 7.0 && dot(p, ray) > 0.0) break;
+        float absorption = 1.0 - exp(
+          -density * mix(0.62, 0.90, uQuality)
+        );
+        radiance += transmission * layerColor * absorption *
+          (2.05 + filament * 1.82);
+        transmission *= 1.0 - absorption * 0.48;
       }
 
-      vec3 paper = vec3(0.961, 0.957, 0.933);
-      float foldA = pow(0.5 + 0.5 * cos(42.0 * (ray.y + 0.12 * sin(ray.x * 5.0))), 30.0);
-      float foldB = pow(0.5 + 0.5 * cos(29.0 * (ray.x - ray.y * 0.24)), 44.0);
-      paper -= (foldA * 0.017 + foldB * 0.007);
+      float volumeAlpha = 1.0 - transmission;
+      float outerEnvelope = 1.0 - smoothstep(0.58, 0.91, baseRadius);
+      float haze = outerEnvelope *
+        (0.025 + 0.075 * warpA * warpB) * resolve;
+      vec3 color = radiance +
+        vec3(0.005, 0.009, 0.035) * haze * 1.6;
+      float alpha = max(volumeAlpha, haze * 0.75);
 
-      float lensHalo = exp(-pow((minRadius - 1.35) / 0.50, 2.0));
-      paper *= 1.0 - lensHalo * mix(0.055, 0.13, uIntro);
-      paper += vec3(0.018, 0.024, 0.075) * lensHalo * 0.075;
+      float coreRadius = 0.135;
+      float corona = exp(-pow(
+        (baseRadius - coreRadius) / 0.025,
+        2.0
+      ));
+      float bloom = exp(-pow(baseRadius / 0.235, 2.0));
+      float coronaAngle = atan(p.y, p.x);
+      float lensTexture = 0.68 + 0.32 * noise2(
+        vec2(cos(coronaAngle), sin(coronaAngle)) * 4.4 +
+        vec2(uTime * 0.045, -uTime * 0.032)
+      );
+      alpha = max(
+        alpha,
+        corona * mix(0.48, 0.94, resolve) + bloom * 0.13 * resolve
+      );
 
-      vec3 base = swallowed ? vec3(0.0015, 0.002, 0.004) : paper;
-      vec3 color = emission * mix(0.28, 1.0, uIntro) + base * transmission;
-
-      // The horizon is a near-black stone surface, not a flat neon target.
-      float screenRadius = length(uv);
-      float horizonRadius = 0.192;
       float pixel = 1.5 / min(uResolution.x, uResolution.y);
-      float horizonDistance = screenRadius - horizonRadius;
-      float insideHorizon = 1.0 - smoothstep(-pixel, pixel, horizonDistance);
-      vec2 stoneUv = uv / horizonRadius;
+      float core = 1.0 - smoothstep(
+        coreRadius - pixel,
+        coreRadius + pixel,
+        baseRadius
+      );
+      vec2 stoneUv = p / coreRadius;
       float stoneZ = sqrt(max(0.0, 1.0 - dot(stoneUv, stoneUv)));
       vec3 stoneNormal = normalize(vec3(stoneUv, stoneZ * 0.72));
-      vec3 stoneLight = normalize(vec3(-0.55 + sin(uTime * 0.045) * 0.06, 0.72, 1.0));
-      float rock = noise(stoneUv * 15.0 + vec2(11.7)) * 0.68 +
-        noise(stoneUv * 51.0 - vec2(7.3)) * 0.32;
+      vec3 stoneLight = normalize(vec3(-0.52, 0.66, 1.0));
+      float stoneNoise =
+        noise2(stoneUv * 16.0 + vec2(3.2)) * 0.68 +
+        noise2(stoneUv * 49.0 - vec2(8.1)) * 0.32;
       float stoneKey = max(dot(stoneNormal, stoneLight), 0.0);
-      float stoneGrazing = pow(1.0 - stoneZ, 4.5);
-      vec3 stone = vec3(0.0035, 0.0042, 0.0055);
-      stone += vec3(0.012, 0.013, 0.016) * (rock * 0.42 + stoneKey * 0.32);
-      stone += vec3(0.022, 0.012, 0.007) * stoneGrazing * 0.22;
+      vec3 stone = vec3(0.0025, 0.0035, 0.0070);
+      stone += vec3(0.012, 0.015, 0.024) *
+        (stoneNoise * 0.35 + stoneKey * 0.28);
+      color = mix(color, stone, core);
+      alpha = max(alpha, core * 0.995);
+      color += (vec3(0.88, 1.05, 1.55) * corona * lensTexture *
+        mix(0.76, 1.92, resolve) +
+        vec3(0.22, 0.40, 1.08) * bloom * 0.12) *
+        (1.0 - core);
 
-      color = color / (1.0 + color * 0.30);
-      color = pow(max(color, 0.0), vec3(0.92));
+      float peak = max(color.r, max(color.g, color.b));
+      float mappedPeak = 1.0 - exp(-peak * 0.78);
+      color *= mappedPeak / max(peak, 0.0001);
+      float luminance = dot(
+        color, vec3(0.2126, 0.7152, 0.0722)
+      );
+      color = mix(vec3(luminance), color, 1.12);
+      color = pow(max(color, 0.0), vec3(0.94));
+      color = clamp(color, 0.0, 1.0);
 
-      float fieldMask = 1.0 - smoothstep(0.58, 1.08, length(uv * vec2(0.72, 0.92)));
-      color = mix(paper, color, fieldMask);
-
-      color = mix(color, stone, insideHorizon);
-      float azimuth = atan(uv.y, uv.x);
-      float ring = exp(-pow(horizonDistance / (0.0065 + pixel), 2.0));
-      float ringBreakup = 0.78 + 0.22 * noise(vec2(azimuth * 7.5, 2.7));
-      float beaming = 0.70 + 0.30 * smoothstep(-horizonRadius, horizonRadius, uv.x);
-      color += ring * ringBreakup * beaming * vec3(1.04, 0.49, 0.16) * mix(0.22, 0.38, uIntro);
-      color += (hash21(gl_FragCoord.xy + uTime * 0.01) - 0.5) / 255.0;
-      outColor = vec4(color, 1.0);
+      alpha *= 1.0 - smoothstep(0.78, 0.94, baseRadius);
+      alpha = clamp(alpha, 0.0, 1.0);
+      float dither =
+        (hash21(gl_FragCoord.xy + uTime * 0.01) - 0.5) / 255.0;
+      color += dither * alpha;
+      if (alpha < 0.001) color = vec3(0.0);
+      outColor = vec4(color, alpha);
     }
   `;
 
@@ -245,8 +331,7 @@
     pointer.x += (pointer.tx - pointer.x) * 0.035;
     pointer.y += (pointer.ty - pointer.y) * 0.035;
     var elapsed = Math.max(0, elapsedBeforePause + now - activeSince);
-    var intro = reduced ? 1 : Math.min(1, elapsed / 5600);
-    intro = intro * intro * (3 - 2 * intro);
+    var intro = reduced ? 1 : Math.min(1, elapsed / 4000);
 
     gl.useProgram(program);
     gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);

@@ -24,7 +24,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Modernization direction
 
-- Use one physically inspired ray-deflection WebGL scene plus lightweight CSS/SVG depth elsewhere.
+- Use one physically inspired, face-on WebGL accretion vortex plus lightweight CSS/SVG depth elsewhere.
 - Introduce scroll-directed spatial chapters rather than continuous parallax.
 - Use gravitational mass, lensing, and the real dragon geometry as the signature visual language.
 - Keep HTML content authoritative and usable before 3D loads.
@@ -42,8 +42,9 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
 - The landing reveal is deliberately slow and cinematic, with the mark, wordmark, governance line, and entry cue resolving in sequence.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
-- Dependency-free WebGL2 gravitational-lensing and accretion-disk renderer.
-- The hero contains one visual idea from its first frame: a slowly evolving black hole with the exact dragon cut into its near-black stone horizon as an intaglio engraving.
+- Dependency-free WebGL2 pseudo-volume renderer with layered cloud gates, differential rotation, turbulent spiral filaments, and blue-white gravitational corona.
+- The hero uses a deliberate warm-white/dark-field split with no CSS mask or pale glow panel; the vortex lives in one continuous deep-navy field.
+- The hero contains one visual idea from its first frame: a slowly evolving face-on black hole with the exact dragon cut into its near-black stone horizon as a stationary intaglio engraving.
 - No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
 - The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
 - Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
@@ -54,4 +55,4 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 ## Current phase
 
-Cinematic Total AI Governance rebuild with the engraved singularity hero and collision-free typography deployed and verified on desktop and mobile.
+Cinematic Total AI Governance rebuild with a volumetric engraved-singularity hero and collision-free typography ready for deployment verification.
