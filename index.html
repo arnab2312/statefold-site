@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260808au" />
+  <link rel="stylesheet" href="styles.css?v=20260808av" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -307,7 +307,8 @@
   </section>
 
   <!-- ===================== PLATFORM ===================== -->
-  <section class="section alt" id="platform">
+  <section class="section alt spatial-platform" id="platform">
+    <canvas class="governance-lattice" data-governance-lattice aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="eyebrow"><span class="sec-no">02</span> The platform</div>
@@ -318,7 +319,7 @@
           per tenant for MSSPs and global enterprises alike.</p>
       </div>
 
-      <div class="arch reveal">
+      <div class="arch reveal depth-layer" data-depth="8">
         <div class="arch-node agent">
           <span class="tag">StatefoldAgent.exe</span>
           <h4>Endpoint sensor</h4>
@@ -332,7 +333,7 @@
         </div>
       </div>
 
-      <div class="kernel-lab reveal" data-tilt-root>
+      <div class="kernel-lab reveal depth-layer" data-tilt-root data-depth="15">
         <div class="kernel-lab-copy">
           <span class="lab-index">LIVE ARCHITECTURE / 01</span>
           <h3>The decision happens before the network gets a vote.</h3>
@@ -347,6 +348,10 @@
           <div class="ks-layer ks-kernel" style="--z:1"><b>WINDOWS KERNEL</b><span>WFP / before-send enforcement</span></div>
           <div class="ks-layer ks-wire" style="--z:0"><b>NETWORK</b><span>Nothing sensitive crosses</span></div>
           <div class="ks-signal"><span></span></div>
+        </div>
+        <div class="kernel-lens depth-layer" data-depth="24" aria-hidden="true">
+          <span class="lens-ring lens-ring-a"></span><span class="lens-ring lens-ring-b"></span><span class="lens-ring lens-ring-c"></span>
+          <svg viewBox="0 0 120 120"><use href="#sf-mark"></use></svg>
         </div>
       </div>
 
@@ -455,7 +460,8 @@
   </section>
 
   <!-- ===================== SWARM INTELLIGENCE ===================== -->
-  <section class="section swarm" id="swarm">
+  <section class="section swarm spatial-swarm" id="swarm">
+    <canvas class="endpoint-constellation" data-endpoint-constellation aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="eyebrow"><span class="sec-no">03</span> Swarm Intelligence</div>
@@ -468,7 +474,7 @@
           data never trains anyone else's model.</p>
       </div>
 
-      <div class="swarm-grid reveal">
+      <div class="swarm-grid reveal depth-layer" data-depth="10">
         <div class="swarm-pillars">
           <div class="sp"><div class="sp-ic">◈</div><h3>Yours, outright</h3><p>The model — and its weights — belong to your tenant. Not a seat on someone else's platform.</p></div>
           <div class="sp"><div class="sp-ic">⊘</div><h3>Private by construction</h3><p>It learns inside your perimeter, from your signal alone. Nothing is shipped out to be modelled.</p></div>
@@ -521,7 +527,12 @@
         </div>
       </div>
 
-      <div class="hive-demo reveal">
+      <div class="hive-demo reveal depth-layer" data-depth="15">
+        <div class="memory-monolith depth-layer" data-depth="26" aria-hidden="true">
+          <div class="memory-face"><svg viewBox="0 0 120 120"><use href="#sf-mark"></use></svg></div>
+          <div class="memory-side"></div><div class="memory-top"></div>
+          <span class="memory-trace trace-a"></span><span class="memory-trace trace-b"></span><span class="memory-trace trace-c"></span>
+        </div>
         <div class="demo-card">
           <div class="demo-top">
             <svg class="df" viewBox="0 0 120 120" aria-hidden="true"><g class="df-hover">
@@ -561,7 +572,7 @@
 
   <!-- ===================== MANIFESTO ===================== -->
   <section class="manifesto">
-    <div class="wrap reveal">
+    <div class="wrap reveal depth-layer" data-depth="12">
       <p class="manifesto-line">
         AI is reached from <em>every</em> surface on a machine. The network sees a slice. The browser
         sees a tab. <span class="grad">The endpoint — down to the kernel — sees all of it</span> — and
@@ -700,7 +711,8 @@
     </div>
   </footer>
 
-  <script src="void.js?v=20260808au"></script>
-  <script src="app.js?v=20260808au"></script>
+  <script src="void.js?v=20260808av"></script>
+  <script src="app.js?v=20260808av"></script>
+  <script src="spatial.js?v=20260808av"></script>
 </body>
 </html>
