@@ -52,7 +52,6 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - Warm paper, obsidian, contrast-safe chartreuse, and scarce solar-plasma palette.
 - Chartreuse is now one canonical signal token across fills, markers, borders, and dark-panel accents; only the dark ink companion changes for light-surface legibility, and green-filled boxes use black text.
 - Spatial kernel architecture with a single enforcement-ray sequence.
-- Secondary spatial system: a projected governance lattice behind Platform, a refracting 3D kernel lens, a sparse endpoint constellation in Swarm, an engraved memory monolith beside the Hive Mind, and low-amplitude scroll depth layers. These remain quieter than the hero singularity.
 - Adaptive resolution, offscreen pause, low-power mode, and reduced-motion fallback.
 - Versioned CSS and JavaScript URLs to prevent mixed-release browser caches.
 
