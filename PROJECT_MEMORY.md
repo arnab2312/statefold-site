@@ -50,6 +50,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
 - Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
 - Warm paper, obsidian, contrast-safe chartreuse, and scarce solar-plasma palette.
+- Chartreuse is now one canonical signal token across fills, markers, borders, and dark-panel accents; only the dark ink companion changes for light-surface legibility, and green-filled boxes use black text.
 - Spatial kernel architecture with a single enforcement-ray sequence.
 - Adaptive resolution, offscreen pause, low-power mode, and reduced-motion fallback.
 - Versioned CSS and JavaScript URLs to prevent mixed-release browser caches.
