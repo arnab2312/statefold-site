@@ -41,7 +41,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
 - The landing runs a concise monochrome reaction-diffusion overture inspired by the user-supplied Houdini pin: full-frame branching membranes evolve on pristine white, clear from the center, then resolve into the exact upright dragon and STATEFOLD wordmark. No sphere, mercury cavity, metallic shell, or drips.
-- The field must read as one continuous, organic skin: delicate charcoal cores, restrained soft bodies, smooth branching and merging, no faceted geometry, self-intersection seams, rigid contour rings, or noisy grain.
+- The field is a genuine GPU Gray-Scott reaction-diffusion simulation, not analytical FBM contour lines. It renders at native display resolution from a high-resolution evolving state texture so membranes branch and merge continuously without dotted aliases, map-like fragments, faceted geometry, seams, or noisy grain.
 - The dragon and wordmark are state-synchronized with the field clearing; the wordmark must never appear through a dense graphic layer.
 - The landing has an opt-in cinematic sound control. Enabling sound replays the sequence and synchronizes the procedural breath, dragon resolution, and brand lock; never attempt unsolicited autoplay.
 - The landing dragon must be explicitly locked upright; legacy overture CSS once rotated `.overture-mark` by -90 degrees and must never leak into the final reveal.
