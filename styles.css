@@ -1130,7 +1130,9 @@ p { letter-spacing: -.012em; }
 .stat { border-color:var(--line);padding:54px 22px; }
 .stat b { color:var(--ink);font-weight:600;letter-spacing:-.055em; }
 .stat span { color:#65686e; }
-.spark { opacity:.36; }
+.spark { opacity:1; }
+.spark i { background:var(--brand);box-shadow:inset 0 -2px rgba(8,9,11,.22),0 1px 0 rgba(8,9,11,.14); }
+.spark-zero i { background:rgba(var(--brand-ink-rgb),.42);box-shadow:none;opacity:1; }
 
 .arch { gap:0;border:1px solid var(--ink);border-radius:0; }
 .arch-node { border:0;border-radius:0;padding:38px; }
