@@ -1636,3 +1636,169 @@ p { letter-spacing: -.012em; }
   .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none;clip-path:none; }
   #brand-reveal .overture-enter { transform:translateX(-50%); }
 }
+
+/* ============================================================
+   ORBIT FILM / USER-AUTHORED BRAND OVERTURE
+   One supplied motion asset. One exact logo. Nothing ornamental.
+   ============================================================ */
+#brand-reveal.brand-overture {
+  display:grid!important;
+  min-height:100svh;
+  place-items:center;
+  overflow:hidden;
+  isolation:isolate;
+  background:#000!important;
+  color:#fff;
+}
+#brand-reveal .overture-coordinates,
+#brand-reveal .overture-horizon,
+#brand-reveal .overture-favicon,
+#brand-reveal .overture-name,
+#brand-reveal .overture-rule,
+#brand-reveal .overture-tag { display:none!important; }
+.orbit-film {
+  position:absolute;
+  z-index:0;
+  left:50%;
+  top:50%;
+  display:block;
+  width:min(68vmin,540px);
+  height:auto;
+  max-width:none;
+  pointer-events:none;
+  transform:translate(-50%,-52%);
+  transform-origin:50% 50%;
+  opacity:1;
+  animation:orbitFilmSequence 5.15s cubic-bezier(.48,0,.2,1) both;
+}
+#brand-reveal .overture-lockup {
+  position:relative;
+  z-index:2;
+  width:min(88vw,840px);
+  height:auto;
+  min-height:72svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  opacity:1;
+  transform:none;
+  pointer-events:none;
+}
+#brand-reveal .overture-lockup::before { display:none!important; }
+.dragon-birth {
+  position:relative;
+  width:clamp(112px,18vmin,178px);
+  height:clamp(112px,18vmin,178px);
+  opacity:0;
+  animation:none;
+}
+#brand-reveal .overture-mark {
+  position:relative;
+  inset:auto;
+  display:block;
+  width:100%;
+  height:100%;
+  color:#fff;
+  opacity:1;
+  transform:none;
+  transform-origin:50% 50%;
+  filter:none;
+  animation:none;
+}
+.orbit-dragon .dragon-birth { animation:orbitDragonResolve .86s cubic-bezier(.16,.84,.18,1) both; }
+.overture-wordframe {
+  position:relative;
+  width:min(70vw,720px);
+  margin-top:clamp(18px,2.7vh,28px);
+  color:#fff;
+  opacity:0;
+  transform:none;
+  clip-path:none;
+  filter:none;
+  animation:none;
+}
+.overture-wordmark {
+  position:relative;
+  z-index:2;
+  display:block;
+  width:100%;
+  height:auto;
+  color:#fff;
+  overflow:visible;
+}
+.overture-eclipse { display:none; }
+.orbit-brand .overture-wordframe { animation:orbitWordResolve .72s cubic-bezier(.18,.78,.2,1) both; }
+.overture-governance {
+  margin-top:clamp(16px,2.2vh,24px);
+  color:rgba(255,255,255,.62);
+  font:500 9px/1 var(--mono);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  opacity:0;
+  transform:none;
+  animation:none;
+}
+.orbit-brand .overture-governance { animation:orbitCaptionResolve .48s ease .22s both; }
+#brand-reveal .overture-enter {
+  bottom:clamp(24px,4vh,42px);
+  color:rgba(255,255,255,.64);
+  opacity:0;
+  animation:none;
+}
+#brand-reveal .overture-enter i { background:rgba(255,255,255,.3); }
+#brand-reveal .overture-enter i::after { background:#fff;animation:none; }
+.orbit-brand #brand-reveal .overture-enter,
+.orbit-brand .overture-enter { animation:orbitEnterResolve .42s ease .34s both; }
+.orbit-brand .overture-enter i::after { animation:enterSweep 4.8s ease-in-out .34s infinite; }
+.overture-sound {
+  position:absolute;
+  z-index:7;
+  left:clamp(18px,2.6vw,42px);
+  bottom:clamp(18px,3vh,34px);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:99px;
+  background:rgba(0,0,0,.82);
+  color:rgba(255,255,255,.72);
+  font:500 9px/1 var(--mono);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  cursor:pointer;
+  backdrop-filter:none;
+}
+.overture-sound i { width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.52);box-shadow:none;transition:background .25s ease,transform .25s ease; }
+.overture-sound[aria-pressed="true"] i { background:#fff;transform:scale(1.2);animation:soundPulse 1.2s ease-in-out infinite; }
+.overture-sound:focus-visible { outline:2px solid #fff;outline-offset:3px; }
+@keyframes orbitFilmSequence {
+  0% { opacity:0;transform:translate(-50%,-52%) scale(.985); }
+  9%,67% { opacity:1;transform:translate(-50%,-52%) scale(1); }
+  86%,100% { opacity:0;transform:translate(-50%,-52%) scale(1.035); }
+}
+@keyframes orbitDragonResolve {
+  0% { opacity:0;transform:scale(.84);clip-path:inset(48% 0 48% 0); }
+  100% { opacity:1;transform:scale(1);clip-path:inset(0); }
+}
+@keyframes orbitWordResolve {
+  0% { opacity:0;transform:translateY(7px);clip-path:inset(0 50% 0 50%); }
+  100% { opacity:1;transform:none;clip-path:inset(0); }
+}
+@keyframes orbitCaptionResolve { from { opacity:0;transform:translateY(5px); } to { opacity:1;transform:none; } }
+@keyframes orbitEnterResolve { from { opacity:0;transform:translate(-50%,6px); } to { opacity:1;transform:translate(-50%,0); } }
+@media (max-width:700px) {
+  .orbit-film { width:min(88vw,500px);transform:translate(-50%,-55%); }
+  #brand-reveal .overture-lockup { width:92vw;min-height:68svh; }
+  .dragon-birth { width:min(36vw,154px);height:min(36vw,154px); }
+  .overture-wordframe { width:88vw;margin-top:20px; }
+  .overture-governance { font-size:8px;letter-spacing:.22em; }
+  .overture-sound { left:18px;bottom:18px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .orbit-film { display:none!important; }
+  .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none!important;opacity:1;filter:none;transform:none;clip-path:none; }
+  #brand-reveal .overture-enter { transform:translateX(-50%); }
+  .overture-sound { display:none; }
+}
