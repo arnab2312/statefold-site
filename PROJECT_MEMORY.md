@@ -49,7 +49,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.
 - The hero uses one full-bleed transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.
 - Editorial problem cards use compact square signal markers with no stretched orbital borders or text shadows.
-- The hero contains one visual idea from its first frame: a slowly evolving face-on black hole with the exact dragon cut into its near-black stone horizon as a stationary intaglio engraving.
+- The hero core uses the user-supplied glossy black-orb GIF, circularly cropped over the existing vortex. The exact dragon briefly burns orange, then cools into a dark beveled intaglio; never revert to the synthetic stone circle or a flat logo overlay.
 - No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
 - The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
 - Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
