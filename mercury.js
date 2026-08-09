@@ -56,18 +56,17 @@
     q.x*=1.0+sin(t*.42)*.028;
     q.y*=.96+cos(t*.36)*.026;
     vec3 dir=normalize(q+vec3(.0001));
-    float n=fbm(dir.xy*2.25+vec2(dir.z*1.7+t*.08,-t*.055));
-    float fine=fbm(dir.yz*4.1+vec2(t*.11,-t*.07));
-    float travelling=sin(dir.y*18.0+dir.x*4.0-t*4.5+n*2.2)*.060;
-    float echo=sin((dir.y+dir.x*.23)*29.0-t*3.2+fine)*.024;
-    float radius=mix(1.03,.74,release)+(n-.5)*.17+travelling+echo;
+    float n=fbm(dir.xy*1.72+vec2(dir.z*1.18+t*.055,-t*.038));
+    float fine=fbm(dir.yz*2.62+vec2(-t*.046,t*.063));
+    float flow=smoothstep(.18,.82,n*.68+fine*.32);
+    float radius=mix(1.03,.74,release)+(n-.5)*.19+(fine-.5)*.075+(flow-.5)*.055;
     float cavityFront=smoothstep(.08,.82,dir.z);
     float cavityProfile=exp(-dot(q.xy,q.xy)*3.7);
     float cavity=b*cavityFront*cavityProfile*(.18+.34*b);
     return length(q)-radius+cavity;
   }
   vec3 normalAt(vec3 p){
-    float e=.006;
+    float e=.004;
     vec2 h=vec2(e,-e);
     return normalize(h.xyy*field(p+h.xyy)+h.yyx*field(p+h.yyx)+h.yxy*field(p+h.yxy)+h.xxx*field(p+h.xxx));
   }
@@ -93,11 +92,11 @@
     float travel=0.0;
     bool hit=false;
     vec3 p=ro;
-    for(int i=0;i<48;i++){
+    for(int i=0;i<68;i++){
       p=ro+rd*travel;
       float d=field(p);
-      if(abs(d)<.0025){hit=true;break;}
-      travel+=max(d*.68,.008);
+      if(d<.0018){hit=true;break;}
+      travel+=clamp(d*.54,.003,.105);
       if(travel>6.2)break;
     }
 
@@ -122,7 +121,7 @@
     float exit=smoothstep(2.92,3.58,t);
     color=mix(vec3(1.0),color,intro);
     color=mix(color,vec3(1.0),exit);
-    float grain=(hash21(gl_FragCoord.xy+uTime*41.0)-.5)*.018*(1.0-exit);
+    float grain=(hash21(gl_FragCoord.xy+uTime*41.0)-.5)*.006*(1.0-exit);
     color+=grain;
     color=pow(max(color,0.0),vec3(.90));
     outColor=vec4(color,1.0);
@@ -158,7 +157,7 @@
   var resolution = gl.getUniformLocation(program, 'uResolution');
   var time = gl.getUniformLocation(program, 'uTime');
   var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.connection && navigator.connection.saveData);
-  var scale = lowPower ? .48 : .72;
+  var scale = lowPower ? .58 : .86;
   var start = performance.now();
   var frame = 0;
   var samples = [];
@@ -184,7 +183,7 @@
     if (!sampled && samples.length === 50) {
       sampled = true;
       var average = (samples[49] - samples[0]) / 49;
-      if (average > 23 && scale > .54) { scale = .54; resize(); }
+      if (average > 23 && scale > .68) { scale = .68; resize(); }
       samples.length = 0;
     }
     if (elapsed < 4.5 && !document.hidden) frame = requestAnimationFrame(draw);

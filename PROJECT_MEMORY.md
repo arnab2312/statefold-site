@@ -41,7 +41,8 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
 - The landing runs a 4.5-second monochrome Mercury Birth on pristine white: one isolated, asymmetrical zero-gravity mercury sphere ripples and caves inward, the exact dragon emerges from it with short liquid-metal drips, the sphere clears, and only then does the exact STATEFOLD wordmark resolve underneath. No chromatic effects or extra imagery. It never blocks scrolling.
-- Its material motion uses a procedural travelling ripple height-map inspired by real zero-gravity liquid behavior, with irregular surface tension and minimal rotation rather than particles.
+- Its material motion uses continuous low-frequency fluid deformation inspired by zero-gravity mercury. Avoid repeated sine bands: they read as cuts. The ray marcher must terminate on the first surface crossing, render at high internal resolution, and keep grain extremely subtle for a molten finish.
+- The landing dragon must be explicitly locked upright; legacy overture CSS once rotated `.overture-mark` by -90 degrees and must never leak into the final reveal.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.
 - The hero uses one full-bleed transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.

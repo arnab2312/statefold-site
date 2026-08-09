@@ -1400,8 +1400,8 @@ p { letter-spacing: -.012em; }
   aspect-ratio:1;
   border-radius:46% 54% 48% 52% / 52% 44% 56% 48%;
   background:
-    radial-gradient(circle at 50% 50%,#050607 0 9%,transparent 23%),
-    repeating-conic-gradient(from 20deg,#f7f7f5 0 8deg,#4b5055 14deg,#d6d9dc 21deg,#111316 29deg,#fff 37deg);
+    radial-gradient(circle at 50% 50%,#040506 0 8%,rgba(13,15,16,.94) 12%,transparent 27%),
+    radial-gradient(circle at 28% 22%,#fff 0 7%,#e4e6e7 18%,#8b9094 39%,#24272a 67%,#bbc0c3 88%,#f8f8f6 100%);
   box-shadow:inset -46px -36px 80px rgba(0,0,0,.34),inset 34px 26px 70px rgba(255,255,255,.88),0 38px 90px rgba(8,9,11,.14);
   filter:grayscale(1) contrast(138%);
   animation:mercuryFallbackCollapse 3.65s cubic-bezier(.45,0,.18,1) both;
@@ -1427,6 +1427,8 @@ p { letter-spacing: -.012em; }
   height:100%;
   color:#08090b;
   opacity:1;
+  transform:none;
+  transform-origin:50% 50%;
   --reveal-y:0px;
   --reveal-scale:.88;
   animation:mercuryMarkSettle 1.15s cubic-bezier(.13,.84,.18,1) 2.18s both;
