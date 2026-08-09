@@ -1,5 +1,14 @@
 # Statefold Website — Project Memory
 
+> Canonical durable context for every Statefold Codex task. Root `AGENTS.md` requires this file to be loaded before work begins and maintained whenever a lasting project decision changes.
+
+## Continuity protocol
+
+- Read this file in full at the start of every new task or compacted continuation.
+- Treat the latest explicit user request as authoritative when it conflicts with an older entry here, then update the affected entry.
+- Store only stable product direction, implemented facts, source-of-truth assets, guardrails, and operating rules—not a transcript or rejected experiments.
+- Keep this file concise and stable so repeated context remains prompt-cache friendly.
+
 ## North star
 
 Create an award-calibre, ultra-modern site that establishes Statefold as the Total AI Governance control plane. The experience should feel monumental, cinematic, sovereign, and precise without becoming noisy, slow, or difficult to understand.
@@ -21,6 +30,13 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 - Current source: `index.html`, `styles.css`, `orbit.js`, `void.js`, `app.js`.
 - No build system or external 3D dependency.
 - The actual favicon and shared SVG dragon mark are authoritative brand geometry.
+
+## Repository and deployment
+
+- Repository: `https://github.com/arnab2312/statefold-site`, branch `main`.
+- Production: `https://www.statefoldai.com/` via GitHub Pages and the committed `CNAME`.
+- Completed website changes must be validated, committed, pushed to `main`, and confirmed on the live custom domain.
+- Cache-bust every changed production CSS, JavaScript, image, animation, or media reference with a new version query.
 
 ## Modernization direction
 
