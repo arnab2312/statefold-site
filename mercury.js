@@ -1,4 +1,4 @@
-/* Statefold Mercury Collapse — one 4.5 second WebGL2 brand overture. */
+/* Statefold Mercury Birth — cavity, dragon, then wordmark. */
 (function () {
   'use strict';
 
@@ -71,18 +71,14 @@
     float hz=surfaceHeight(p.xz+vec2(0,e));
     return normalize(vec3((h-hx)/e,1.0,(h-hz)/e));
   }
-  vec3 environment(vec3 d,float burst){
+  vec3 environment(vec3 d){
     d=normalize(d);
-    vec3 silver=mix(vec3(.055,.065,.078),vec3(.82,.86,.90),smoothstep(-.45,.76,d.y));
-    float blue=pow(max(0.0,dot(d,normalize(vec3(-.72,.16,.68)))),10.0);
-    float violet=pow(max(0.0,dot(d,normalize(vec3(.56,.08,.82)))),13.0);
-    float crimson=pow(max(0.0,dot(d,normalize(vec3(-.12,-.28,.96)))),15.0);
-    float acid=pow(max(0.0,dot(d,normalize(vec3(.78,.48,.39)))),18.0);
-    vec3 spectral=vec3(.08,.26,1.35)*blue+vec3(.92,.10,1.28)*violet+vec3(1.28,.08,.035)*crimson+vec3(.60,1.15,.07)*acid;
-    float ribbon=pow(.5+.5*sin(atan(d.y,d.x)*7.0+d.z*12.0+uTime*.72),8.0);
-    spectral+=mix(vec3(.1,.32,1.0),vec3(1.0,.06,.24),smoothstep(-.4,.55,d.x))*ribbon*.34;
+    vec3 silver=mix(vec3(.025,.028,.032),vec3(.88,.90,.92),smoothstep(-.48,.78,d.y));
+    float softbox=pow(max(0.0,dot(d,normalize(vec3(-.72,.20,.66)))),9.0);
+    float rimlight=pow(max(0.0,dot(d,normalize(vec3(.58,.08,.81)))),15.0);
+    float floorlight=pow(max(0.0,dot(d,normalize(vec3(-.10,-.32,.94)))),18.0);
     float strip=pow(max(0.0,dot(d,normalize(vec3(-.16,.94,.30)))),72.0);
-    return silver+spectral*(.34+1.16*burst)+vec3(1.0)*strip*2.7;
+    return silver+vec3(.72)*softbox+vec3(.96)*rimlight+vec3(.34)*floorlight+vec3(1.0)*strip*2.8;
   }
 
   void main(){
@@ -115,27 +111,24 @@
     }
 
     vec3 color=vec3(1.0);
-    float burst=smoothstep(.18,.72,t)*(1.0-smoothstep(2.45,3.28,t));
     if(hit){
       vec3 n=normalAt(p);
       vec3 reflected=reflect(rd,n);
       float fresnel=pow(1.0-max(0.0,dot(-rd,n)),4.0);
-      vec3 env=environment(reflected,burst);
+      vec3 env=environment(reflected);
       vec3 metal=mix(vec3(.055,.065,.076),env,.73+.27*fresnel);
       float q=length(p.xz-vec2(0.0,1.22));
       float abyss=(1.0-smoothstep(.045,.68,q))*c;
       float rim=exp(-abs(q-(.48-.19*c))*18.0)*c;
-      metal+=vec3(.52,.72,1.0)*rim*.28+vec3(.72,1.0,.16)*rim*.10;
+      metal+=vec3(.92)*rim*.34;
       metal*=1.0-abyss*.97;
       float glint=pow(max(0.0,dot(n,normalize(vec3(-.42,.86,-.28)))),54.0);
       metal+=vec3(1.0)*glint*1.7;
       color=metal;
     }
 
-    float streak=pow(abs(sin(ang*11.0-r*34.0+t*7.0)),18.0)*smoothstep(.35,.02,r)*smoothstep(2.15,3.15,t);
-    color+=mix(vec3(.10,.32,1.0),vec3(1.0,.08,.28),fract(ang/6.283+1.0))*streak*.54;
     float intro=smoothstep(.02,.58,t);
-    float exit=smoothstep(3.42,4.14,t);
+    float exit=smoothstep(3.08,3.72,t);
     color=mix(vec3(1.0),color,intro);
     color=mix(color,vec3(1.0),exit);
     float grain=(hash21(gl_FragCoord.xy+uTime*41.0)-.5)*.018*(1.0-exit);
