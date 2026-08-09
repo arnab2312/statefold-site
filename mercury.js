@@ -53,15 +53,15 @@
     float c=collapse();
     vec2 q=xz-vec2(0.0,1.22);
     float r=length(q);
-    float a=atan(q.y,q.x);
     float n=fbm(xz*1.16+vec2(t*.11,-t*.08));
     float fine=fbm(xz*3.1+vec2(-t*.16,t*.13));
-    float folds=sin(xz.x*3.4+xz.y*2.0+t*.68+n*4.6)*.095;
-    folds+=sin(xz.x*7.2-xz.y*2.8-t*.42+fine*3.0)*.038;
-    float spiral=sin(a*3.0-r*5.8-t*1.38+n*2.7)*exp(-r*.72)*.13*c;
+    float folds=sin(xz.x*2.7+xz.y*1.8+t*.56+n*3.4)*.070;
+    folds+=sin(xz.x*6.1-xz.y*2.2-t*.34+fine*2.4)*.026;
+    float ripple=sin(r*19.0-t*5.0+n*1.65)*exp(-r*.46)*.088*c;
+    float echo=sin(length(q+vec2(-.42,.24))*25.0-t*3.6+fine)*exp(-r*.68)*.034*c;
     float funnel=(.42/(r+.18)+.62*exp(-r*1.55))*c;
-    float inward=sin(r*12.0-t*4.0+a*2.0)*exp(-r*1.65)*.045*c;
-    return (n-.5)*.20+(fine-.5)*.065+folds+spiral+inward-funnel;
+    float inward=sin(r*12.0-t*4.2)*exp(-r*1.72)*.040*c;
+    return (n-.5)*.12+(fine-.5)*.038+folds+ripple+echo+inward-funnel;
   }
   float field(vec3 p){ return p.y-surfaceHeight(p.xz); }
   vec3 normalAt(vec3 p){
@@ -88,7 +88,7 @@
     float r=length(uv);
     float ang=atan(uv.y,uv.x);
     float pull=smoothstep(.95,3.10,t);
-    ang+=pull*(1.0-smoothstep(.05,.88,r))*.48;
+    ang+=pull*(1.0-smoothstep(.05,.88,r))*.08;
     r*=mix(1.0,.60,pull);
     uv=vec2(cos(ang),sin(ang))*r;
 
