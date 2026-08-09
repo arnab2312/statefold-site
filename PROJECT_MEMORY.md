@@ -18,7 +18,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 ## Technical baseline
 
 - Static GitHub Pages site: HTML, CSS, vanilla JavaScript.
-- Current source: `index.html`, `styles.css`, `void.js`, `app.js`.
+- Current source: `index.html`, `styles.css`, `reaction.js`, `void.js`, `app.js`.
 - No build system or external 3D dependency.
 - The actual favicon and shared SVG dragon mark are authoritative brand geometry.
 
@@ -40,8 +40,10 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 ## Implemented foundation
 
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
-- The landing runs a 4.5-second monochrome Mercury Birth on pristine white: one isolated, asymmetrical zero-gravity mercury sphere ripples and caves inward, the exact dragon emerges from it with short liquid-metal drips, the sphere clears, and only then does the exact STATEFOLD wordmark resolve underneath. No chromatic effects or extra imagery. It never blocks scrolling.
-- Its material motion uses continuous low-frequency fluid deformation inspired by zero-gravity mercury. Avoid repeated sine bands: they read as cuts. The ray marcher must terminate on the first surface crossing, render at high internal resolution, and keep grain extremely subtle for a molten finish.
+- The landing runs a concise monochrome reaction-diffusion overture inspired by the user-supplied Houdini pin: full-frame branching membranes evolve on pristine white, clear from the center, then resolve into the exact upright dragon and STATEFOLD wordmark. No sphere, mercury cavity, metallic shell, or drips.
+- The field must read as one continuous, organic skin: delicate charcoal cores, restrained soft bodies, smooth branching and merging, no faceted geometry, self-intersection seams, rigid contour rings, or noisy grain.
+- The dragon and wordmark are state-synchronized with the field clearing; the wordmark must never appear through a dense graphic layer.
+- The landing has an opt-in cinematic sound control. Enabling sound replays the sequence and synchronizes the procedural breath, dragon resolution, and brand lock; never attempt unsolicited autoplay.
 - The landing dragon must be explicitly locked upright; legacy overture CSS once rotated `.overture-mark` by -90 degrees and must never leak into the final reveal.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.

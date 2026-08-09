@@ -1420,8 +1420,9 @@ p { letter-spacing: -.012em; }
   width:clamp(150px,22vmin,260px);
   height:clamp(150px,22vmin,260px);
   opacity:0;
-  animation:mercuryDragonBirth 1.08s cubic-bezier(.13,.84,.18,1) 2.18s both;
+  animation:none;
 }
+.mercury-dragon .dragon-birth { animation:mercuryDragonBirth 1.08s cubic-bezier(.13,.84,.18,1) both; }
 #brand-reveal .overture-mark {
   width:100%;
   height:100%;
@@ -1431,8 +1432,9 @@ p { letter-spacing: -.012em; }
   transform-origin:50% 50%;
   --reveal-y:0px;
   --reveal-scale:.88;
-  animation:mercuryMarkSettle 1.15s cubic-bezier(.13,.84,.18,1) 2.18s both;
+  animation:none;
 }
+.mercury-dragon .overture-mark { animation:mercuryMarkSettle 1.15s cubic-bezier(.13,.84,.18,1) both; }
 .mercury-drip {
   position:absolute;
   z-index:-1;
@@ -1443,30 +1445,60 @@ p { letter-spacing: -.012em; }
   background:linear-gradient(180deg,#23272a 0%,#d8dcdf 38%,#5a5f63 72%,transparent 100%);
   box-shadow:0 0 7px rgba(8,9,11,.18);
   transform-origin:top;
-  animation:mercuryDrip 1.12s cubic-bezier(.18,.72,.2,1) 2.18s both;
+  animation:none;
 }
 .mercury-drip::after { content:"";position:absolute;left:50%;bottom:-2px;width:8px;height:11px;border-radius:50%;background:#8d9397;transform:translateX(-50%);box-shadow:inset 2px 2px 3px rgba(255,255,255,.7); }
-.drip-one { left:31%;height:31%;animation-delay:2.22s; }
-.drip-two { left:50%;height:48%;animation-delay:2.18s; }
-.drip-three { left:69%;height:27%;animation-delay:2.28s; }
-}
+.mercury-dragon .mercury-drip { animation:mercuryDrip 1.12s cubic-bezier(.18,.72,.2,1) both; }
+.drip-one { left:31%;height:31%;animation-delay:.04s !important; }
+.drip-two { left:50%;height:48%; }
+.drip-three { left:69%;height:27%;animation-delay:.10s !important; }
 .overture-wordframe {
   width:min(72vw,820px);
   margin-top:clamp(22px,3.5vh,38px);
   --reveal-y:0px;
   --reveal-scale:.97;
-  animation:mercuryWordReveal .82s cubic-bezier(.16,.84,.22,1) 3.42s both;
+  opacity:0;
+  animation:none;
 }
+.mercury-brand .overture-wordframe { animation:mercuryWordReveal .82s cubic-bezier(.16,.84,.22,1) both; }
 .overture-governance {
   margin-top:clamp(18px,2.8vh,30px);
   color:#303339;
-  animation:mercuryCaptionReveal .58s cubic-bezier(.22,.72,.18,1) 3.88s both;
+  opacity:0;
+  animation:none;
 }
+.mercury-brand .overture-governance { animation:mercuryCaptionReveal .58s cubic-bezier(.22,.72,.18,1) .32s both; }
 #brand-reveal .overture-enter {
   color:#303339;
-  animation:mercuryEnterReveal .45s ease 4.10s both;
+  opacity:0;
+  animation:none;
 }
-#brand-reveal .overture-enter i::after { animation:enterSweep 4.8s ease-in-out 4.10s infinite; }
+.mercury-brand .overture-enter { animation:mercuryEnterReveal .45s ease .48s both; }
+#brand-reveal .overture-enter i::after { animation:none; }
+.mercury-brand .overture-enter i::after { animation:enterSweep 4.8s ease-in-out .48s infinite; }
+.overture-sound {
+  position:absolute;
+  z-index:7;
+  left:clamp(18px,2.6vw,42px);
+  bottom:clamp(22px,3.2vh,38px);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 11px;
+  border:1px solid rgba(8,9,11,.18);
+  border-radius:99px;
+  background:rgba(255,255,255,.76);
+  color:#303339;
+  font:500 9px/1 var(--mono);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+}
+.overture-sound i { width:6px;height:6px;border-radius:50%;background:#7d8286;box-shadow:none;transition:background .25s ease,transform .25s ease; }
+.overture-sound[aria-pressed="true"] i { background:#08090b;transform:scale(1.24);animation:soundPulse 1.15s ease-in-out infinite; }
+.overture-sound:focus-visible { outline:2px solid #08090b;outline-offset:3px; }
+@keyframes soundPulse { 50% { opacity:.42;transform:scale(.72); } }
 @keyframes mercuryDragonBirth {
   0% { opacity:0;transform:translateY(18px) scale(.34);filter:blur(12px);clip-path:circle(0 at 50% 50%); }
   58% { opacity:.72;filter:blur(2px);clip-path:circle(46% at 50% 50%); }
@@ -1506,10 +1538,105 @@ p { letter-spacing: -.012em; }
   #brand-reveal .overture-lockup { min-height:70svh; }
   .dragon-birth { width:min(39vw,190px);height:min(39vw,190px); }
   .overture-wordframe { width:86vw;margin-top:24px; }
+  .overture-sound { bottom:18px;left:18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mercury-canvas,.mercury-fallback { display:none !important; }
   .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none; }
   .mercury-drip { display:none; }
+  #brand-reveal .overture-enter { transform:translateX(-50%); }
+  .overture-sound { display:none; }
+}
+
+/* ============================================================
+   REACTION FIELD / 5.2 SECOND BRAND OVERTURE
+   Full-frame branching membranes on white; dragon and wordmark resolve after.
+   ============================================================ */
+#brand-reveal.brand-overture { background:#fff;isolation:isolate; }
+.flow-canvas,.flow-fallback {
+  position:absolute;
+  z-index:0;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+.flow-canvas { display:block;opacity:1; }
+.flow-complete .flow-canvas { visibility:hidden; }
+.flow-fallback {
+  opacity:1;
+  background:
+    radial-gradient(ellipse at 18% 72%,transparent 0 20%,rgba(8,9,11,.10) 20.4% 20.7%,transparent 21.1% 32%,rgba(8,9,11,.055) 32.3% 32.6%,transparent 33%),
+    radial-gradient(ellipse at 76% 28%,transparent 0 24%,rgba(8,9,11,.09) 24.3% 24.6%,transparent 25% 39%,rgba(8,9,11,.045) 39.2% 39.5%,transparent 40%),
+    #fff;
+  animation:flowFallbackFade 4.5s ease both;
+}
+.flow-ready .flow-fallback { opacity:0;visibility:hidden;animation:none; }
+.flow-fallback-active .flow-canvas { display:none; }
+.flow-fallback-active .flow-fallback { opacity:1;visibility:visible;animation:flowFallbackFade 4.5s ease both; }
+#brand-reveal .overture-lockup { z-index:3;min-height:74svh;pointer-events:none; }
+#brand-reveal .overture-lockup::before { display:none; }
+.dragon-birth {
+  position:relative;
+  width:clamp(150px,22vmin,260px);
+  height:clamp(150px,22vmin,260px);
+  opacity:0;
+  animation:none;
+}
+#brand-reveal .overture-mark {
+  width:100%;
+  height:100%;
+  color:#08090b;
+  opacity:1;
+  transform:none;
+  transform-origin:50% 50%;
+  animation:none;
+  filter:none;
+}
+.flow-dragon .dragon-birth { animation:flowDragonReveal 1.08s cubic-bezier(.16,.86,.2,1) both; }
+.flow-dragon .overture-mark { animation:flowMarkResolve 1.08s cubic-bezier(.16,.86,.2,1) both; }
+.overture-wordframe {
+  width:min(72vw,820px);
+  margin-top:clamp(22px,3.5vh,38px);
+  opacity:0;
+  animation:none;
+}
+.flow-brand .overture-wordframe { animation:flowWordReveal .82s cubic-bezier(.16,.84,.22,1) both; }
+.overture-governance {
+  margin-top:clamp(18px,2.8vh,30px);
+  color:#303339;
+  opacity:0;
+  animation:none;
+}
+.flow-brand .overture-governance { animation:flowCaptionReveal .58s cubic-bezier(.22,.72,.18,1) .30s both; }
+#brand-reveal .overture-enter { color:#303339;opacity:0;animation:none; }
+.flow-brand .overture-enter { animation:flowEnterReveal .45s ease .46s both; }
+#brand-reveal .overture-enter i::after { animation:none; }
+.flow-brand .overture-enter i::after { animation:enterSweep 4.8s ease-in-out .46s infinite; }
+@keyframes flowDragonReveal {
+  0% { opacity:0;transform:scale(.82);clip-path:circle(0 at 50% 50%); }
+  62% { opacity:.78;clip-path:circle(52% at 50% 50%); }
+  100% { opacity:1;transform:scale(1);clip-path:circle(78% at 50% 50%); }
+}
+@keyframes flowMarkResolve {
+  0% { opacity:.08;transform:scale(.86); }
+  45% { opacity:.56; }
+  100% { opacity:1;transform:scale(1); }
+}
+@keyframes flowWordReveal {
+  0% { opacity:0;transform:translateY(8px) scale(.988);clip-path:inset(0 50% 0 50%); }
+  100% { opacity:1;transform:none;clip-path:inset(0); }
+}
+@keyframes flowCaptionReveal { from { opacity:0;transform:translateY(7px); } to { opacity:1;transform:none; } }
+@keyframes flowEnterReveal { from { opacity:0;transform:translate(-50%,7px); } to { opacity:1;transform:translate(-50%,0); } }
+@keyframes flowFallbackFade { 0% { opacity:0;transform:scale(1.04); } 15%,68% { opacity:1; } 100% { opacity:0;transform:scale(.98); } }
+@media (max-width:700px) {
+  #brand-reveal .overture-lockup { min-height:70svh; }
+  .dragon-birth { width:min(39vw,190px);height:min(39vw,190px); }
+  .overture-wordframe { width:86vw;margin-top:24px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .flow-canvas,.flow-fallback { display:none!important; }
+  .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none;clip-path:none; }
   #brand-reveal .overture-enter { transform:translateX(-50%); }
 }
