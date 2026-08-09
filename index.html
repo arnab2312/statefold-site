@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260809bv" />
+  <link rel="stylesheet" href="styles.css?v=20260809bw" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -38,7 +38,10 @@
 
   <!-- ===================== BRAND SPLASH / REACTION FIELD ===================== -->
   <section id="brand-reveal" class="brand-overture" aria-label="Statefold — Total AI Governance">
-    <canvas id="reactionCanvas" class="flow-canvas" aria-hidden="true"></canvas>
+    <video id="reactionFilm" class="flow-film" autoplay muted playsinline preload="auto" disablepictureinpicture poster="media/reaction-field-poster.jpg" aria-hidden="true">
+      <source src="media/reaction-field.mp4?v=20260809bw" type="video/mp4" />
+      <source src="media/reaction-field.webm?v=20260809bw" type="video/webm" />
+    </video>
     <div class="flow-fallback" aria-hidden="true"></div>
     <div class="overture-coordinates" aria-hidden="true"><span>00° / GOVERNANCE LAYER</span><span>STATEFOLD / 2026</span></div>
     <div class="overture-horizon" aria-hidden="true"></div>
@@ -705,8 +708,8 @@
     </div>
   </footer>
 
-  <script src="reaction.js?v=20260809bv"></script>
-  <script src="void.js?v=20260809bv"></script>
-  <script src="app.js?v=20260809bv"></script>
+  <script src="reaction.js?v=20260809bw"></script>
+  <script src="void.js?v=20260809bw"></script>
+  <script src="app.js?v=20260809bw"></script>
 </body>
 </html>

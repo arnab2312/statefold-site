@@ -1549,11 +1549,12 @@ p { letter-spacing: -.012em; }
 }
 
 /* ============================================================
-   REACTION FIELD / 5.2 SECOND BRAND OVERTURE
-   Full-frame branching membranes on white; dragon and wordmark resolve after.
+   FILAMENT FILM / 5.2 SECOND BRAND OVERTURE
+   Pre-rendered 3D volume on pearl white; dragon and wordmark resolve after.
    ============================================================ */
 #brand-reveal.brand-overture { background:#fff;isolation:isolate; }
-.flow-canvas,.flow-fallback {
+#brand-reveal .overture-horizon { display:none!important; }
+.flow-film,.flow-fallback {
   position:absolute;
   z-index:0;
   inset:0;
@@ -1561,19 +1562,15 @@ p { letter-spacing: -.012em; }
   height:100%;
   pointer-events:none;
 }
-.flow-canvas { display:block;opacity:1; }
-.flow-complete .flow-canvas { visibility:hidden; }
+.flow-film { display:block;object-fit:cover;object-position:50% 50%;background:#fff;opacity:1;transition:opacity .42s ease; }
+.flow-complete .flow-film { opacity:0;visibility:hidden; }
 .flow-fallback {
   opacity:1;
-  background:
-    radial-gradient(ellipse at 18% 72%,transparent 0 20%,rgba(8,9,11,.10) 20.4% 20.7%,transparent 21.1% 32%,rgba(8,9,11,.055) 32.3% 32.6%,transparent 33%),
-    radial-gradient(ellipse at 76% 28%,transparent 0 24%,rgba(8,9,11,.09) 24.3% 24.6%,transparent 25% 39%,rgba(8,9,11,.045) 39.2% 39.5%,transparent 40%),
-    #fff;
-  animation:flowFallbackFade 4.5s ease both;
+  background:#fff;
 }
 .flow-ready .flow-fallback { opacity:0;visibility:hidden;animation:none; }
-.flow-fallback-active .flow-canvas { display:none; }
-.flow-fallback-active .flow-fallback { opacity:1;visibility:visible;animation:flowFallbackFade 4.5s ease both; }
+.flow-fallback-active .flow-film { display:none; }
+.flow-fallback-active .flow-fallback { opacity:1;visibility:visible;animation:none; }
 #brand-reveal .overture-lockup { z-index:3;min-height:74svh;pointer-events:none; }
 #brand-reveal .overture-lockup::before { display:none; }
 .dragon-birth {
@@ -1629,14 +1626,13 @@ p { letter-spacing: -.012em; }
 }
 @keyframes flowCaptionReveal { from { opacity:0;transform:translateY(7px); } to { opacity:1;transform:none; } }
 @keyframes flowEnterReveal { from { opacity:0;transform:translate(-50%,7px); } to { opacity:1;transform:translate(-50%,0); } }
-@keyframes flowFallbackFade { 0% { opacity:0;transform:scale(1.04); } 15%,68% { opacity:1; } 100% { opacity:0;transform:scale(.98); } }
 @media (max-width:700px) {
   #brand-reveal .overture-lockup { min-height:70svh; }
   .dragon-birth { width:min(39vw,190px);height:min(39vw,190px); }
   .overture-wordframe { width:86vw;margin-top:24px; }
 }
 @media (prefers-reduced-motion:reduce) {
-  .flow-canvas,.flow-fallback { display:none!important; }
+  .flow-film,.flow-fallback { display:none!important; }
   .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none;clip-path:none; }
   #brand-reveal .overture-enter { transform:translateX(-50%); }
 }
