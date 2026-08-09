@@ -46,30 +46,30 @@
     return v;
   }
   float phase(){ return clamp(uTime,0.0,4.5); }
-  float collapse(){ return smoothstep(.75,3.15,phase()); }
+  float birth(){ return smoothstep(.78,2.56,phase()); }
 
-  float surfaceHeight(vec2 xz){
+  float field(vec3 p){
     float t=phase();
-    float c=collapse();
-    vec2 q=xz-vec2(0.0,1.22);
-    float r=length(q);
-    float n=fbm(xz*1.16+vec2(t*.11,-t*.08));
-    float fine=fbm(xz*3.1+vec2(-t*.16,t*.13));
-    float folds=sin(xz.x*2.7+xz.y*1.8+t*.56+n*3.4)*.070;
-    folds+=sin(xz.x*6.1-xz.y*2.2-t*.34+fine*2.4)*.026;
-    float ripple=sin(r*19.0-t*5.0+n*1.65)*exp(-r*.46)*.088*c;
-    float echo=sin(length(q+vec2(-.42,.24))*25.0-t*3.6+fine)*exp(-r*.68)*.034*c;
-    float funnel=(.42/(r+.18)+.62*exp(-r*1.55))*c;
-    float inward=sin(r*12.0-t*4.2)*exp(-r*1.72)*.040*c;
-    return (n-.5)*.12+(fine-.5)*.038+folds+ripple+echo+inward-funnel;
+    float b=birth();
+    float release=smoothstep(2.34,3.22,t);
+    vec3 q=p-vec3(0.0,.12+release*.12,0.0);
+    q.x*=1.0+sin(t*.42)*.028;
+    q.y*=.96+cos(t*.36)*.026;
+    vec3 dir=normalize(q+vec3(.0001));
+    float n=fbm(dir.xy*2.25+vec2(dir.z*1.7+t*.08,-t*.055));
+    float fine=fbm(dir.yz*4.1+vec2(t*.11,-t*.07));
+    float travelling=sin(dir.y*18.0+dir.x*4.0-t*4.5+n*2.2)*.060;
+    float echo=sin((dir.y+dir.x*.23)*29.0-t*3.2+fine)*.024;
+    float radius=mix(1.03,.74,release)+(n-.5)*.17+travelling+echo;
+    float cavityFront=smoothstep(.08,.82,dir.z);
+    float cavityProfile=exp(-dot(q.xy,q.xy)*3.7);
+    float cavity=b*cavityFront*cavityProfile*(.18+.34*b);
+    return length(q)-radius+cavity;
   }
-  float field(vec3 p){ return p.y-surfaceHeight(p.xz); }
   vec3 normalAt(vec3 p){
-    float e=.012;
-    float h=surfaceHeight(p.xz);
-    float hx=surfaceHeight(p.xz+vec2(e,0));
-    float hz=surfaceHeight(p.xz+vec2(0,e));
-    return normalize(vec3((h-hx)/e,1.0,(h-hz)/e));
+    float e=.006;
+    vec2 h=vec2(e,-e);
+    return normalize(h.xyy*field(p+h.xyy)+h.yyx*field(p+h.yyx)+h.yxy*field(p+h.yxy)+h.xxx*field(p+h.xxx));
   }
   vec3 environment(vec3 d){
     d=normalize(d);
@@ -84,30 +84,21 @@
   void main(){
     vec2 uv=(gl_FragCoord.xy-.5*uResolution.xy)/min(uResolution.x,uResolution.y);
     float t=phase();
-    float c=collapse();
-    float r=length(uv);
-    float ang=atan(uv.y,uv.x);
-    float pull=smoothstep(.95,3.10,t);
-    ang+=pull*(1.0-smoothstep(.05,.88,r))*.08;
-    r*=mix(1.0,.60,pull);
-    uv=vec2(cos(ang),sin(ang))*r;
-
-    vec3 ro=vec3(0.0,1.20,-2.62+pull*.86);
-    vec3 target=vec3(0.0,-.12,1.10+pull*.24);
-    vec3 fw=normalize(target-ro);
-    vec3 rt=normalize(cross(fw,vec3(0,1,0)));
-    vec3 up=cross(rt,fw);
-    vec3 rd=normalize(fw+uv.x*rt+uv.y*up);
+    float b=birth();
+    float pull=smoothstep(.84,2.72,t);
+    uv*=mix(1.0,.91,pull);
+    vec3 ro=vec3(0.0,.02,3.25-pull*.12);
+    vec3 rd=normalize(vec3(uv.x,uv.y,-1.62));
 
     float travel=0.0;
     bool hit=false;
     vec3 p=ro;
-    for(int i=0;i<40;i++){
+    for(int i=0;i<48;i++){
       p=ro+rd*travel;
       float d=field(p);
-      if(abs(d)<.0035 || d<0.0){hit=true;break;}
-      travel+=clamp(abs(d)*.40,.012,.19);
-      if(travel>7.2)break;
+      if(abs(d)<.0025){hit=true;break;}
+      travel+=max(d*.68,.008);
+      if(travel>6.2)break;
     }
 
     vec3 color=vec3(1.0);
@@ -117,18 +108,18 @@
       float fresnel=pow(1.0-max(0.0,dot(-rd,n)),4.0);
       vec3 env=environment(reflected);
       vec3 metal=mix(vec3(.055,.065,.076),env,.73+.27*fresnel);
-      float q=length(p.xz-vec2(0.0,1.22));
-      float abyss=(1.0-smoothstep(.045,.68,q))*c;
-      float rim=exp(-abs(q-(.48-.19*c))*18.0)*c;
-      metal+=vec3(.92)*rim*.34;
-      metal*=1.0-abyss*.97;
+      float front=smoothstep(.12,.85,normalize(p-vec3(0,.12,0)).z);
+      float cavity=exp(-dot(p.xy,p.xy)*5.2)*front*b;
+      float rim=exp(-abs(length(p.xy)-(.39-.10*b))*22.0)*front*b;
+      metal+=vec3(.98)*rim*.42;
+      metal*=1.0-cavity*.74;
       float glint=pow(max(0.0,dot(n,normalize(vec3(-.42,.86,-.28)))),54.0);
       metal+=vec3(1.0)*glint*1.7;
       color=metal;
     }
 
-    float intro=smoothstep(.02,.58,t);
-    float exit=smoothstep(3.08,3.72,t);
+    float intro=smoothstep(.02,.48,t);
+    float exit=smoothstep(2.92,3.58,t);
     color=mix(vec3(1.0),color,intro);
     color=mix(color,vec3(1.0),exit);
     float grain=(hash21(gl_FragCoord.xy+uTime*41.0)-.5)*.018*(1.0-exit);

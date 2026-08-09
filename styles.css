@@ -1370,7 +1370,7 @@ p { letter-spacing: -.012em; }
 
 /* ============================================================
    MERCURY BIRTH / 4.5 SECOND BRAND OVERTURE
-   An unbounded silver cavity gives birth to the dragon; the word follows.
+   An isolated amorphous silver sphere gives birth to the dragon; the word follows.
    ============================================================ */
 #brand-reveal.brand-overture {
   background:#fff;
@@ -1388,13 +1388,23 @@ p { letter-spacing: -.012em; }
 .mercury-canvas { display:block;opacity:1; }
 .mercury-complete .mercury-canvas { visibility:hidden; }
 .mercury-fallback {
-  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:transparent;
+  filter:none;
+  transform:none;
+}
+.mercury-fallback::before {
+  content:"";
+  width:min(58vmin,620px);
+  aspect-ratio:1;
+  border-radius:46% 54% 48% 52% / 52% 44% 56% 48%;
   background:
-    radial-gradient(circle at 50% 50%,#020304 0 5%,rgba(8,9,11,.97) 8%,transparent 25%),
-    repeating-conic-gradient(from 18deg at 50% 50%,#f7f7f5 0 7deg,#55595e 12deg,#d7dadd 18deg,#111316 26deg,#ffffff 34deg);
+    radial-gradient(circle at 50% 50%,#050607 0 9%,transparent 23%),
+    repeating-conic-gradient(from 20deg,#f7f7f5 0 8deg,#4b5055 14deg,#d6d9dc 21deg,#111316 29deg,#fff 37deg);
+  box-shadow:inset -46px -36px 80px rgba(0,0,0,.34),inset 34px 26px 70px rgba(255,255,255,.88),0 38px 90px rgba(8,9,11,.14);
   filter:grayscale(1) contrast(138%);
-  transform:scale(1.4) rotate(-7deg);
-  animation:mercuryFallbackCollapse 4.5s cubic-bezier(.45,0,.18,1) both;
+  animation:mercuryFallbackCollapse 3.65s cubic-bezier(.45,0,.18,1) both;
 }
 .mercury-ready .mercury-fallback { opacity:0; }
 .mercury-fallback-active .mercury-canvas { display:none; }
@@ -1405,14 +1415,38 @@ p { letter-spacing: -.012em; }
   pointer-events:none;
 }
 #brand-reveal .overture-lockup::before { display:none; }
-#brand-reveal .overture-mark {
+.dragon-birth {
+  position:relative;
   width:clamp(150px,22vmin,260px);
   height:clamp(150px,22vmin,260px);
+  opacity:0;
+  animation:mercuryDragonBirth 1.08s cubic-bezier(.13,.84,.18,1) 2.18s both;
+}
+#brand-reveal .overture-mark {
+  width:100%;
+  height:100%;
   color:#08090b;
-  filter:none;
+  opacity:1;
   --reveal-y:0px;
   --reveal-scale:.88;
-  animation:mercuryDragonBirth 1.05s cubic-bezier(.13,.84,.18,1) 2.52s both;
+  animation:mercuryMarkSettle 1.15s cubic-bezier(.13,.84,.18,1) 2.18s both;
+}
+.mercury-drip {
+  position:absolute;
+  z-index:-1;
+  top:64%;
+  width:3px;
+  height:46%;
+  border-radius:99px;
+  background:linear-gradient(180deg,#23272a 0%,#d8dcdf 38%,#5a5f63 72%,transparent 100%);
+  box-shadow:0 0 7px rgba(8,9,11,.18);
+  transform-origin:top;
+  animation:mercuryDrip 1.12s cubic-bezier(.18,.72,.2,1) 2.18s both;
+}
+.mercury-drip::after { content:"";position:absolute;left:50%;bottom:-2px;width:8px;height:11px;border-radius:50%;background:#8d9397;transform:translateX(-50%);box-shadow:inset 2px 2px 3px rgba(255,255,255,.7); }
+.drip-one { left:31%;height:31%;animation-delay:2.22s; }
+.drip-two { left:50%;height:48%;animation-delay:2.18s; }
+.drip-three { left:69%;height:27%;animation-delay:2.28s; }
 }
 .overture-wordframe {
   width:min(72vw,820px);
@@ -1436,6 +1470,17 @@ p { letter-spacing: -.012em; }
   58% { opacity:.72;filter:blur(2px);clip-path:circle(46% at 50% 50%); }
   100% { opacity:1;transform:translateY(0) scale(1);filter:blur(0);clip-path:circle(78% at 50% 50%); }
 }
+@keyframes mercuryMarkSettle {
+  0% { color:#c8cccf;filter:drop-shadow(0 9px 9px rgba(8,9,11,.22)); }
+  62% { color:#62676b;filter:drop-shadow(0 5px 5px rgba(8,9,11,.14)); }
+  100% { color:#08090b;filter:none; }
+}
+@keyframes mercuryDrip {
+  0% { opacity:0;transform:scaleY(.08) translateY(-9px); }
+  28% { opacity:.92;transform:scaleY(1) translateY(0); }
+  72% { opacity:.72;transform:scaleY(.74) translateY(18px); }
+  100% { opacity:0;transform:scaleY(.12) translateY(52px); }
+}
 @keyframes mercuryWordReveal {
   0% { opacity:0;transform:translateY(8px) scale(.985);clip-path:inset(0 50% 0 50%); }
   100% { opacity:1;transform:none;clip-path:inset(0 0 0 0); }
@@ -1449,19 +1494,20 @@ p { letter-spacing: -.012em; }
   to { opacity:1;transform:translate(-50%,0); }
 }
 @keyframes mercuryFallbackCollapse {
-  0% { opacity:0;transform:scale(1.65) rotate(-12deg);filter:blur(18px) grayscale(1) contrast(130%); }
+  0% { opacity:0;transform:scale(.72) rotate(-7deg);filter:blur(16px) grayscale(1) contrast(130%); }
   16% { opacity:1; }
-  62% { opacity:1;transform:scale(1.08) rotate(22deg);filter:blur(3px) grayscale(1) contrast(145%); }
-  78% { opacity:1;transform:scale(.36) rotate(72deg);filter:blur(0) grayscale(1) contrast(165%); }
-  100% { opacity:0;transform:scale(.02) rotate(120deg);filter:blur(2px); }
+  58% { opacity:1;transform:scale(1) rotate(5deg);filter:blur(1px) grayscale(1) contrast(145%);border-radius:52% 48% 43% 57% / 45% 58% 42% 55%; }
+  82% { opacity:.74;transform:scale(.70) rotate(-3deg);filter:blur(0) grayscale(1) contrast(158%); }
+  100% { opacity:0;transform:scale(.48) rotate(0);filter:blur(3px); }
 }
 @media (max-width:700px) {
   #brand-reveal .overture-lockup { min-height:70svh; }
-  #brand-reveal .overture-mark { width:min(39vw,190px);height:min(39vw,190px); }
+  .dragon-birth { width:min(39vw,190px);height:min(39vw,190px); }
   .overture-wordframe { width:86vw;margin-top:24px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mercury-canvas,.mercury-fallback { display:none !important; }
-  #brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none; }
+  .dragon-birth,#brand-reveal .overture-mark,.overture-wordframe,.overture-governance,#brand-reveal .overture-enter { animation:none;opacity:1;filter:none;transform:none; }
+  .mercury-drip { display:none; }
   #brand-reveal .overture-enter { transform:translateX(-50%); }
 }
