@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260809aw" />
+  <link rel="stylesheet" href="styles.css?v=20260809ax" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -38,6 +38,8 @@
 
   <!-- ===================== BRAND SPLASH (cinematic launch — kept as-is) ===================== -->
   <section id="brand-reveal" class="brand-overture" aria-label="Statefold — Total AI Governance">
+    <canvas id="mercuryCanvas" class="mercury-canvas" aria-hidden="true"></canvas>
+    <div class="mercury-fallback" aria-hidden="true"></div>
     <div class="overture-coordinates" aria-hidden="true"><span>00° / GOVERNANCE LAYER</span><span>STATEFOLD / 2026</span></div>
     <div class="overture-horizon" aria-hidden="true"></div>
     <div class="overture-lockup">
@@ -700,7 +702,8 @@
     </div>
   </footer>
 
-  <script src="void.js?v=20260809aw"></script>
-  <script src="app.js?v=20260809aw"></script>
+  <script src="mercury.js?v=20260809ax"></script>
+  <script src="void.js?v=20260809ax"></script>
+  <script src="app.js?v=20260809ax"></script>
 </body>
 </html>

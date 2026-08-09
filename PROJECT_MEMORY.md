@@ -40,7 +40,7 @@ Create an award-calibre, ultra-modern site that establishes Statefold as the Tot
 ## Implemented foundation
 
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
-- The landing reveal is deliberately slow and cinematic; the exact dragon and STATEFOLD wordmark resolve together as one smooth lockup, followed quietly by the governance line and entry cue.
+- The landing runs a 4.5-second Mercury Collapse: an unbounded reflective liquid field develops spectral colour, opens into a central abyss, collapses to white, then reveals the exact dragon and STATEFOLD wordmark together. It never blocks scrolling.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.
 - The hero uses one full-bleed transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.
