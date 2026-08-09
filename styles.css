@@ -1669,7 +1669,7 @@ p { letter-spacing: -.012em; }
   transform:translate(-50%,-52%);
   transform-origin:50% 50%;
   opacity:1;
-  animation:orbitFilmSequence 5.15s cubic-bezier(.48,0,.2,1) both;
+  animation:orbitFilmSequence 5.65s cubic-bezier(.48,0,.2,1) both;
 }
 #brand-reveal .overture-lockup {
   position:relative;

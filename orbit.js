@@ -25,9 +25,9 @@
 
   function armReveal() {
     clearTimers();
-    timers.push(window.setTimeout(function () { stage.classList.add('orbit-dragon'); }, 3460));
-    timers.push(window.setTimeout(function () { stage.classList.add('orbit-brand'); }, 4260));
-    timers.push(window.setTimeout(function () { stage.classList.add('orbit-complete'); }, 5160));
+    timers.push(window.setTimeout(function () { stage.classList.add('orbit-dragon'); }, 3780));
+    timers.push(window.setTimeout(function () { stage.classList.add('orbit-brand'); }, 4660));
+    timers.push(window.setTimeout(function () { stage.classList.add('orbit-complete'); }, 5660));
   }
 
   function restartOrbit() {
@@ -85,7 +85,7 @@
       compressor.ratio.value = 3;
       master.connect(compressor).connect(audioContext.destination);
 
-      var duration = 4.32;
+      var duration = 4.90;
       var buffer = audioContext.createBuffer(1, Math.ceil(audioContext.sampleRate * duration), audioContext.sampleRate);
       var data = buffer.getChannelData(0);
       var drift = 0;
@@ -101,21 +101,21 @@
       filter.type = 'bandpass';
       filter.Q.value = .42;
       filter.frequency.setValueAtTime(96, startAt);
-      filter.frequency.exponentialRampToValueAtTime(420, startAt + 3.75);
+      filter.frequency.exponentialRampToValueAtTime(420, startAt + 4.18);
       gain.gain.setValueAtTime(.0001, startAt);
       gain.gain.exponentialRampToValueAtTime(.018, startAt + .7);
-      gain.gain.exponentialRampToValueAtTime(.010, startAt + 3.4);
+      gain.gain.exponentialRampToValueAtTime(.010, startAt + 4.02);
       gain.gain.exponentialRampToValueAtTime(.0001, startAt + duration);
       source.connect(filter).connect(gain).connect(master);
       source.start(startAt);
       source.stop(startAt + duration + .04);
       activeSources.push(source);
 
-      tone(master, 'sine', 34, 46, 0, 3.76, .016, startAt);
-      tone(master, 'triangle', 68, 92, .18, 3.46, .0035, startAt);
-      tone(master, 'sine', 154, 226, 3.40, .72, .010, startAt);
-      tone(master, 'sine', 308, 452, 3.45, .54, .0032, startAt);
-      tone(master, 'sine', 58, 44, 4.18, .46, .012, startAt);
+      tone(master, 'sine', 34, 46, 0, 4.20, .016, startAt);
+      tone(master, 'triangle', 68, 92, .18, 3.92, .0035, startAt);
+      tone(master, 'sine', 154, 226, 3.72, .72, .010, startAt);
+      tone(master, 'sine', 308, 452, 3.78, .54, .0032, startAt);
+      tone(master, 'sine', 58, 44, 4.58, .46, .012, startAt);
     }
 
     if (audioContext.state === 'suspended') audioContext.resume().then(startSound);
