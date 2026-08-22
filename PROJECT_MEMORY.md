@@ -115,4 +115,6 @@ Create an award-calibre, ultra-modern site that establishes the real Statefold p
 
 ## Current phase
 
-Cinematic foundation is live. The next product phase is claim and narrative alignment against `EP-Agent-AI`: preserve the approved brand experience while replacing abstract or inaccurate kernel language with concrete, verifiable Total AI Governance capabilities.
+Cinematic foundation is live and frozen. The below-fold narrative now presents Statefold as an evidence-backed governance loop — observe, resolve, decide, act, prove — rather than a feature catalogue. Product coverage is expressed through three explicit states: enforced, observed, and opaque. This distinction is a permanent trust device and must remain visible wherever coverage claims are made.
+
+The platform story now prioritizes the shipped, demo-relevant system: prompt inventory, agent and MCP discovery, software provenance, supported before-send prompt controls, the provider-neutral AI Gateway, explicit agent kill-switch lifecycle, identity, DSPM/attack graph context, decision evidence, MRM/model review, efficacy, Hive Mind, and Swarm Intelligence. The landing and hero visual composition remain unchanged; narrative work belongs below the fold unless the user explicitly reopens the hero.

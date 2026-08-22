@@ -10,14 +10,14 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Statefold — Total AI Governance" />
-  <meta property="og:description" content="Discover, enforce at the kernel, govern identity and risk, prove compliance — and ask the Hive Mind, your enterprise's own model, taught by its Swarm. On-box, offline-safe, no external LLM." />
+  <meta property="og:description" content="Discover every model and agent, enforce policy at supported control points before data is sent, govern identity and risk across the fleet, and retain verifiable enterprise memory." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.statefoldai.com" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260809ca" />
+  <link rel="stylesheet" href="styles.css?v=20260822b" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -182,7 +182,7 @@
           <a class="text-link" href="mailto:hello@statefoldai.com">Request a private walkthrough <span>↗</span></a>
         </div>
         <div class="hero-v3-proof">
-          <span><b>01</b> Kernel enforcement</span>
+          <span><b>01</b> Local enforcement</span>
           <span><b>02</b> Private intelligence</span>
           <span><b>03</b> Verifiable memory</span>
         </div>
@@ -255,7 +255,7 @@
 
   <!-- ===================== SURFACES MARQUEE ===================== -->
   <section class="marquee-band" id="surfaces" aria-label="AI surfaces Statefold watches">
-    <div class="marquee-label">Watches every AI surface on the machine</div>
+    <div class="marquee-label">One governance plane across the AI estate</div>
     <div class="marquee">
       <div class="marquee-track">
         <span>Browser AI</span><i>·</i><span>IDE assistants</span><i>·</i><span>MCP servers</span><i>·</i><span>Amazon Bedrock</span><i>·</i><span>Native SDKs</span><i>·</i><span>Clipboard</span><i>·</i><span>Local proxy</span><i>·</i><span>DNS</span><i>·</i><span>Autonomous agents</span><i>·</i><span>File egress</span><i>·</i>
@@ -267,9 +267,9 @@
   <!-- ===================== STATS ===================== -->
   <section class="stats">
     <div class="wrap stats-grid">
-      <div class="stat reveal" style="--i:0"><b data-count="6">0</b><span>AI surfaces watched, per endpoint</span><div class="spark" aria-hidden="true"><i style="--h:52%;--d:.04s"></i><i style="--h:64%;--d:.09s"></i><i style="--h:71%;--d:.14s"></i><i style="--h:80%;--d:.19s"></i><i style="--h:85%;--d:.24s"></i><i style="--h:93%;--d:.29s"></i><i style="--h:100%;--d:.34s"></i></div></div>
+      <div class="stat reveal" style="--i:0"><b data-count="1">0</b><span>control plane across endpoint and gateway</span><div class="spark" aria-hidden="true"><i style="--h:52%;--d:.04s"></i><i style="--h:64%;--d:.09s"></i><i style="--h:71%;--d:.14s"></i><i style="--h:80%;--d:.19s"></i><i style="--h:85%;--d:.24s"></i><i style="--h:93%;--d:.29s"></i><i style="--h:100%;--d:.34s"></i></div></div>
       <div class="stat reveal" style="--i:1"><b data-count="4" data-prefix="">0</b><span>verdicts — allow · alert · redact · block</span><div class="spark" aria-hidden="true"><i style="--h:42%;--d:.04s"></i><i style="--h:58%;--d:.09s"></i><i style="--h:66%;--d:.14s"></i><i style="--h:74%;--d:.19s"></i><i style="--h:80%;--d:.24s"></i><i style="--h:76%;--d:.29s"></i><i style="--h:90%;--d:.34s"></i></div></div>
-      <div class="stat reveal" style="--i:2"><b data-count="72" data-suffix="h">0</b><span>agent grants, then auto-expire</span><div class="spark" aria-hidden="true"><i style="--h:30%;--d:.04s"></i><i style="--h:48%;--d:.09s"></i><i style="--h:62%;--d:.14s"></i><i style="--h:55%;--d:.19s"></i><i style="--h:70%;--d:.24s"></i><i style="--h:65%;--d:.29s"></i><i style="--h:82%;--d:.34s"></i></div></div>
+      <div class="stat reveal" style="--i:2"><b data-count="2">0</b><span>independent approvals — agent and privilege</span><div class="spark" aria-hidden="true"><i style="--h:30%;--d:.04s"></i><i style="--h:48%;--d:.09s"></i><i style="--h:62%;--d:.14s"></i><i style="--h:55%;--d:.19s"></i><i style="--h:70%;--d:.24s"></i><i style="--h:65%;--d:.29s"></i><i style="--h:82%;--d:.34s"></i></div></div>
       <div class="stat reveal" style="--i:3"><b data-count="0" data-suffix=" LLM">0</b><span>external models in the trust path</span><div class="spark spark-zero" aria-hidden="true"><i style="--h:8%;--d:.04s"></i><i style="--h:8%;--d:.09s"></i><i style="--h:8%;--d:.14s"></i><i style="--h:8%;--d:.19s"></i><i style="--h:8%;--d:.24s"></i><i style="--h:8%;--d:.29s"></i><i style="--h:8%;--d:.34s"></i></div></div>
     </div>
   </section>
@@ -281,8 +281,8 @@
         <div class="eyebrow"><span class="sec-no">01</span> The gap</div>
         <h2>Shadow AI is already inside your perimeter.</h2>
         <p class="sec-sub">Copilots, chat tabs, IDE assistants, MCP servers and autonomous agents arrive
-          faster than security can review them. The old stack watches files and networks — not a
-          kernel-level view of every AI touchpoint, and nothing that remembers or learns from what it sees.</p>
+          faster than security can review them. Existing controls see isolated fragments. They do not
+          connect the human, process, agent, prompt, policy decision and evidence into one governed event.</p>
       </div>
       <div class="cards-3">
         <article class="card reveal" style="--i:0">
@@ -308,142 +308,143 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="eyebrow"><span class="sec-no">02</span> The platform</div>
-        <h2>A kernel-level sensor. A console in command.</h2>
-        <p class="sec-sub">Two executables. The agent enforces locally — down to the Windows Filtering
-          Platform — and keeps protecting even when disconnected. The console gives operators
-          fleet-wide discovery, identity, risk, compliance, the Hive Mind and the Swarm — isolated
-          per tenant for MSSPs and global enterprises alike.</p>
+        <h2>A control loop for every AI interaction.</h2>
+        <p class="sec-sub">Statefold connects endpoint context, local policy and a tenant-scoped fleet
+          control plane. It discovers broadly, enforces where a supported control point is present,
+          and labels observational coverage honestly — so a dashboard never pretends a signal was a block.</p>
       </div>
 
       <div class="arch reveal">
         <div class="arch-node agent">
           <span class="tag">StatefoldAgent.exe</span>
-          <h4>Endpoint sensor</h4>
-          <p>Observes every AI surface — proxy, browser, IDE, MCP, Bedrock, clipboard, DNS — and enforces <em>at the kernel, before data leaves the endpoint</em>.</p>
+          <h4>Endpoint control</h4>
+          <p>Inventories AI activity, resolves local identity and applies policy on supported managed surfaces before egress. Cached policy remains available when the fleet plane is unreachable.</p>
         </div>
         <div class="arch-link"><span></span><span></span><span></span><i class="flow-dot" aria-hidden="true"></i></div>
         <div class="arch-node console">
           <span class="tag">StatefoldConsole.exe</span>
-          <h4>Management console</h4>
-          <p>Fleet telemetry, identity, risk and compliance reporting, the Hive Mind and the Swarm — one API, an embedded store, multi-tenant by design.</p>
+          <h4>Fleet control plane</h4>
+          <p>Tenant-scoped inventory, identity, policy, evidence, risk and model governance — with the Hive Mind as a grounded interface over enterprise-owned facts.</p>
         </div>
       </div>
 
-      <div class="kernel-lab reveal" data-tilt-root>
-        <div class="kernel-lab-copy">
-          <span class="lab-index">LIVE ARCHITECTURE / 01</span>
-          <h3>The decision happens before the network gets a vote.</h3>
-          <p>Move through the stack. Each layer exposes more context; only the kernel boundary can enforce across every application without trusting the application itself.</p>
-          <div class="lab-legend">
-            <span><i></i> observed</span><span><i></i> attributed</span><span class="hot"><i></i> enforced</span>
-          </div>
+      <div class="control-fabric reveal">
+        <div class="control-fabric-copy">
+          <span class="lab-index">THE GOVERNANCE LOOP / 01</span>
+          <h3>From signal to decision to proof.</h3>
+          <p>Every governed interaction moves through the same five moments. The result is not just a verdict; it is an attributable, reviewable enterprise fact.</p>
         </div>
-        <div class="kernel-stack" aria-hidden="true">
-          <div class="ks-layer ks-app" style="--z:3"><b>APPLICATION</b><span>Browser / IDE / MCP / SDK</span></div>
-          <div class="ks-layer ks-agent" style="--z:2"><b>STATEFOLD AGENT</b><span>Identity / DLP / policy</span></div>
-          <div class="ks-layer ks-kernel" style="--z:1"><b>WINDOWS KERNEL</b><span>WFP / before-send enforcement</span></div>
-          <div class="ks-layer ks-wire" style="--z:0"><b>NETWORK</b><span>Nothing sensitive crosses</span></div>
-          <div class="ks-signal"><span></span></div>
+        <div class="control-spine" aria-label="Statefold governance loop">
+          <article><span>01</span><b>Observe</b><p>Prompt, process, model, tool and destination.</p></article>
+          <article><span>02</span><b>Resolve</b><p>Human, workload, endpoint, agent and privilege.</p></article>
+          <article><span>03</span><b>Decide</b><p>One local policy and classification decision.</p></article>
+          <article><span>04</span><b>Act</b><p>Allow, alert, redact or block at a supported control point.</p></article>
+          <article><span>05</span><b>Prove</b><p>Write the outcome and evidence to tenant-owned memory.</p></article>
+        </div>
+        <div class="coverage-contract">
+          <div><span class="coverage-state enforced">Enforced</span><p>A managed control point applied and acknowledged the action.</p></div>
+          <div><span class="coverage-state observed">Observed</span><p>Statefold saw the activity, but does not claim it altered the request.</p></div>
+          <div><span class="coverage-state opaque">Opaque</span><p>Unsupported or certificate-pinned traffic remains explicitly unverified.</p></div>
         </div>
       </div>
 
       <div class="cap-groups">
         <div class="cap-group">
-          <div class="cap-group-head"><h3>Discover &amp; enforce</h3><span class="rule"></span><span class="count">03 →</span></div>
+          <div class="cap-group-head"><h3>Know the estate</h3><span class="rule"></span><span class="count">03 →</span></div>
           <div class="cap-grid">
             <article class="cap reveal" style="--i:0">
               <div class="cap-ic">⌖</div>
-              <h4>Discovery</h4>
-              <p>Every device, identity and AI touchpoint — agents, models, APIs and MCP servers — drillable to one endpoint.</p>
+              <h4>Prompt Inventory</h4>
+              <p>A drill-down record of observed prompts, models, surfaces, users and endpoints — with the evidence state visible, not implied.</p>
             </article>
             <article class="cap reveal" style="--i:1">
               <div class="cap-ic">▣</div>
-              <h4>Detections &amp; DLP</h4>
-              <p>Inline checks on prompts and responses across every surface — allow, alert, redact, block — <em>before</em> data ever leaves the endpoint.</p>
+              <h4>Agent &amp; MCP Discovery</h4>
+              <p>Inventory agentic runtimes, tools, MCP connections and requested privileges; map each observation back to its device and identity.</p>
             </article>
             <article class="cap reveal" style="--i:2">
-              <div class="cap-ic tag-ic" style="background:var(--ink);color:var(--bg)">WFP</div>
-              <h4>Kernel Enforcement</h4>
-              <p>Policy enforced at the Windows Filtering Platform — the kernel network layer no proxy bypass or browser extension can route around.</p>
+              <div class="cap-ic tag-ic" style="background:var(--ink);color:var(--bg)">HASH</div>
+              <h4>Software Provenance</h4>
+              <p>Fingerprint AI binaries, inspect signer lineage and track where each executable ran — without confusing presence with trust.</p>
             </article>
           </div>
         </div>
 
         <div class="cap-group">
-          <div class="cap-group-head"><h3>Govern identity &amp; access</h3><span class="rule"></span><span class="count">03 →</span></div>
+          <div class="cap-group-head"><h3>Act at the control point</h3><span class="rule"></span><span class="count">03 →</span></div>
           <div class="cap-grid">
             <article class="cap reveal" style="--i:0">
               <div class="cap-ic">⛉</div>
-              <h4>AI Agent Governance</h4>
-              <p>No agent runs until approved. The <strong>agent</strong> and its <strong>privilege</strong> are two separate decisions, each on a 72-hour grant that auto-expires.</p>
+              <h4>Prompt Security</h4>
+              <p>Apply one policy vocabulary to supported prompt paths: allow, alert, redact or block, with a receipt that records what actually happened.</p>
             </article>
             <article class="cap reveal" style="--i:1">
-              <div class="cap-ic tag-ic" style="background:var(--tint);color:var(--brand-2)">CRYPTO</div>
-              <h4>Identity Registry</h4>
-              <p>A cryptographically-verified registry of every agent identity and the device it runs on — a credential can't be replayed from somewhere it doesn't belong.</p>
+              <div class="cap-ic tag-ic" style="background:var(--tint);color:var(--brand-2)">API</div>
+              <h4>AI Gateway</h4>
+              <p>A provider-neutral path for server-side AI traffic, with centralized policy, routing, usage evidence and model governance.</p>
             </article>
             <article class="cap reveal" style="--i:2">
               <div class="cap-ic">◎</div>
-              <h4>Attack Path Analysis</h4>
-              <p>Graph-based reachability across the fleet: which exfil-capable, vulnerable agents sit on a path to a crown-jewel device — recomputed fresh, never stale.</p>
+              <h4>Agent Kill-Switch</h4>
+              <p>Approve the agent and the privilege separately. Explicit block and unblock actions are recorded as governed changes, not decorative buttons.</p>
             </article>
           </div>
         </div>
 
         <div class="cap-group">
-          <div class="cap-group-head"><h3>Find &amp; fix exposure</h3><span class="rule"></span><span class="count">03 →</span></div>
+          <div class="cap-group-head"><h3>Connect identity and exposure</h3><span class="rule"></span><span class="count">03 →</span></div>
           <div class="cap-grid">
             <article class="cap reveal" style="--i:0">
               <div class="cap-ic">▲</div>
-              <h4>Vulnerability Management</h4>
-              <p>Every CVE the fleet carries, per endpoint and per agent, tracked to resolution.</p>
+              <h4>Identity Registry</h4>
+              <p>Bind people, endpoints, processes, agents and requested privileges so operators can see who or what acted — and under whose authority.</p>
             </article>
             <article class="cap reveal" style="--i:1">
               <div class="cap-ic">⛑</div>
-              <h4>Virtual Patching</h4>
-              <p>Mitigate a live vulnerability before a real patch ships — scoped safely to the exact process, never a blunt kill-by-name.</p>
+              <h4>DSPM &amp; Attack Graph</h4>
+              <p>Connect sensitive data, AI-capable processes, identities and reachable assets into an explorable graph of consequential paths.</p>
             </article>
             <article class="cap reveal" style="--i:2">
               <div class="cap-ic">⚙</div>
-              <h4>Secure Configuration</h4>
-              <p>Audit endpoint configuration against a secure baseline, at fleet scale, from a CSV your team already maintains.</p>
+              <h4>Exposure Operations</h4>
+              <p>Bring vulnerability, configuration and compensating-control evidence into the same endpoint and agent context.</p>
             </article>
           </div>
         </div>
 
         <div class="cap-group">
-          <div class="cap-group-head"><h3>Prove &amp; report</h3><span class="rule"></span><span class="count">03 →</span></div>
+          <div class="cap-group-head"><h3>Govern and prove</h3><span class="rule"></span><span class="count">03 →</span></div>
           <div class="cap-grid">
             <article class="cap reveal" style="--i:0">
               <div class="cap-ic tag-ic" style="background:var(--ink);color:var(--bg)">CHAIN</div>
-              <h4>Compliance Ledger</h4>
-              <p>A tamper-evident audit chain of every governance decision — built to survive an auditor's question, not just a dashboard glance.</p>
+              <h4>Decision Evidence</h4>
+              <p>A tamper-evident trail of governance outcomes, policy versions and acknowledgements — built for review, not dashboard theatre.</p>
             </article>
             <article class="cap reveal" style="--i:1">
               <div class="cap-ic tag-ic" style="background:var(--tint);color:var(--brand-2)">RBI</div>
-              <h4>MRM Report</h4>
-              <p>Security-controls reporting mapped to RBI's model risk management framework — board-ready, for regulated enterprises.</p>
+              <h4>MRM &amp; Model Review</h4>
+              <p>A dedicated model-risk workspace with inventory, independent review, control evidence and executive reporting.</p>
             </article>
             <article class="cap reveal" style="--i:2">
               <div class="cap-ic">☰</div>
-              <h4>Model Review Center</h4>
-              <p>A registry and review workflow for every AI model in use — validator independence enforced, not just requested.</p>
+              <h4>Coverage &amp; Efficacy</h4>
+              <p>Separate configured, observed and enforced coverage; validate behavior continuously so gaps cannot masquerade as protection.</p>
             </article>
           </div>
         </div>
 
         <div class="cap-group">
-          <div class="cap-group-head"><h3>Ship &amp; verify</h3><span class="rule"></span><span class="count">02 →</span></div>
+          <div class="cap-group-head"><h3>Own the intelligence</h3><span class="rule"></span><span class="count">02 →</span></div>
           <div class="cap-grid">
             <article class="cap reveal" style="--i:0">
               <div class="cap-ic">⌥</div>
-              <h4>Code / Shift-Left</h4>
-              <p>Scan AI-generated code before it merges — secret leaks, red-team eval suites, OWASP-mapped findings.</p>
+              <h4>Hive Mind</h4>
+              <p>Ask the governed estate in plain language and receive a grounded answer with source evidence — or an explicit evidence gap.</p>
             </article>
             <article class="cap reveal" style="--i:1">
               <div class="cap-ic">▤</div>
-              <h4>Coverage &amp; Validation</h4>
-              <p>See exactly what's protected where, per surface and group — and prove it holds with a built-in red-team catalog.</p>
+              <h4>Swarm Intelligence</h4>
+              <p>Build tenant-specific intelligence from enterprise-owned signal while keeping external models out of the policy decision path.</p>
             </article>
           </div>
         </div>
@@ -456,21 +457,19 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="eyebrow"><span class="sec-no">03</span> Swarm Intelligence</div>
-        <h2>An AI that learns <span class="u">your</span> enterprise — and belongs to you.</h2>
-        <p class="sec-sub">The giants rent you someone else's model and meter your prompts through it.
-          Statefold gives you your own: the <strong>Hive Mind</strong>, a small language model exclusive
-          to your tenant. <strong>Swarm Intelligence is how it learns</strong> — continuously, from how
-          your people actually use AI, entirely inside your perimeter. It flags what's genuinely novel
-          by the actual wording, not just a rare graph relationship. No external LLM, ever — and your
-          data never trains anyone else's model.</p>
+        <h2>Private intelligence, shaped by <span class="u">your</span> enterprise.</h2>
+        <p class="sec-sub">The <strong>Hive Mind</strong> is the evidence-aware interface to your governed
+          estate. <strong>Swarm Intelligence</strong> organizes tenant-owned signal into patterns, novelty
+          and operational context without placing an external LLM in the policy decision path. Enterprise
+          evidence stays under enterprise control.</p>
       </div>
 
       <div class="swarm-grid reveal">
         <div class="swarm-pillars">
-          <div class="sp"><div class="sp-ic">◈</div><h3>Yours, outright</h3><p>The model — and its weights — belong to your tenant. Not a seat on someone else's platform.</p></div>
-          <div class="sp"><div class="sp-ic">⊘</div><h3>Private by construction</h3><p>It learns inside your perimeter, from your signal alone. Nothing is shipped out to be modelled.</p></div>
-          <div class="sp"><div class="sp-ic">↗</div><h3>Always sharpening</h3><p>Every release passes a golden-suite efficacy gate — it only ships if it holds or improves.</p></div>
-          <div class="sp"><div class="sp-ic">⚑</div><h3>Sees the unusual</h3><p>Semantic novelty detection flags AI activity that reads unlike anything your fleet has produced before — the moment it appears.</p></div>
+          <div class="sp"><div class="sp-ic">◈</div><h3>Tenant-owned context</h3><p>Knowledge, policy evidence and operating context remain scoped to the enterprise that produced them.</p></div>
+          <div class="sp"><div class="sp-ic">⊘</div><h3>Private by construction</h3><p>External models are not required to classify a request or reach a policy decision.</p></div>
+          <div class="sp"><div class="sp-ic">↗</div><h3>Evidence before eloquence</h3><p>Answers expose their source and confidence. Missing evidence remains a visible gap, never a polished guess.</p></div>
+          <div class="sp"><div class="sp-ic">⚑</div><h3>Sees the unusual</h3><p>Novel activity can be surfaced in the context of the identities, software and systems around it.</p></div>
         </div>
 
         <aside class="swarm-aside">
@@ -487,9 +486,9 @@
   <g class="w lo uf d-ll" style="--uf:24deg"><g class="w lo fl-ll"><path class="p" d="M60 49 L17 67 L47 58 Z"></path><path class="p" d="M60 49 L26 60"></path></g></g>
   <g class="w lo uf d-lr" style="--uf:-24deg"><g class="w lo fl-lr"><path class="p" d="M60 49 L103 67 L73 58 Z"></path><path class="p" d="M60 49 L94 60"></path></g></g>
 </g></svg>
-          <div class="aside-tag">The Hive Mind · your model · your tenant only</div>
-          <p class="aside-line">A model that knows <em>your</em> environment — because it grew up in it.</p>
-          <div class="aside-lock"><span class="lk">⌁</span> The mechanism stays in the box. The advantage shows up in your console.</div>
+          <div class="aside-tag">The Hive Mind · your evidence · your tenant</div>
+          <p class="aside-line">Intelligence that knows <em>your</em> environment — because every answer begins with its facts.</p>
+          <div class="aside-lock"><span class="lk">⌁</span> Private context in. Verifiable operating intelligence out.</div>
         </aside>
       </div>
     </div>
@@ -501,11 +500,10 @@
       <div class="hive-copy reveal">
         <div class="eyebrow"><span class="sec-no">04</span> The Hive Mind</div>
         <h2>An enterprise memory that <span class="u">never fakes an answer</span>.</h2>
-        <p class="sec-sub">Every prompt and question. Every answer, code generation and MCP query. Every
-          vulnerability, virtual patch and model review. It builds a real knowledge substrate —
-          redacted before it's ever stored — and answers in plain language: a verified fact when one
-          exists, a hybrid semantic search across the corpus when it doesn't, or an honest
-          "I don't have enough evidence" rather than a guess.</p>
+        <p class="sec-sub">Observed prompts, answers, code generation, MCP activity, vulnerabilities,
+          controls and model reviews form a governed knowledge substrate. The Hive Mind answers in
+          plain language with source evidence when it exists, and says "I don't have enough evidence"
+          when it does not.</p>
         <ul class="ticks">
           <li><b>Verified queries first</b> — a provably-correct answer, or none at all</li>
           <li>Every citation resolves to its real source row — <b>click to prove it</b></li>
@@ -537,7 +535,7 @@
             Ask the Hive Mind
           </div>
           <div class="demo-log" id="demoLog">
-            <div class="bub hive">I am the Hive Mind — your enterprise's own model. Every answer below is planned, verified, and calibrated before it's shown. Ask me about usage, billing, licenses, vulnerabilities, exfil-capable agents, prompts, code, MCP, alerts — or who runs what.</div>
+            <div class="bub hive">I am the Hive Mind — the evidence-aware interface to your AI estate. Ask me about usage, billing, licenses, vulnerabilities, agents, prompts, code, MCP, alerts — or who runs what. I will answer from evidence or show the gap.</div>
           </div>
           <div class="demo-suggest" id="demoSuggest">
             <button>Which identities run an exfil-capable agent?</button>
@@ -560,9 +558,9 @@
   <section class="manifesto">
     <div class="wrap reveal">
       <p class="manifesto-line">
-        AI is reached from <em>every</em> surface on a machine. The network sees a slice. The browser
-        sees a tab. <span class="grad">The endpoint — down to the kernel — sees all of it</span> — and
-        can act before data ever leaves. That's the only place AI security can truly live.
+        AI is reached through <em>many</em> surfaces. The network sees a destination. The browser sees
+        a tab. The endpoint sees a process and identity. <span class="grad">Statefold connects those
+        fragments into one governed event</span> — and records whether it observed, changed or stopped it.
       </p>
       <div class="manifesto-by">— the Statefold thesis · <span class="mono">Secure your AI stack</span></div>
     </div>
@@ -577,10 +575,10 @@
       </div>
       <div class="trust-grid">
         <div class="t-item reveal" style="--i:0"><h3>No LLM dependency</h3><p>Detection, policy and governance are decided <em>on-box</em> — never an external model in the trust path. The Hive Mind you grow stays private to your tenant.</p></div>
-        <div class="t-item reveal" style="--i:1"><h3>Enforced before-send</h3><p>The endpoint redacts and blocks <em>before data leaves</em> — at a point no network gateway or browser plugin can reach.</p></div>
-        <div class="t-item reveal" style="--i:2"><h3>Kernel-level, not app-level</h3><p>Network policy enforces at the Windows Filtering Platform — a layer no proxy bypass or browser extension can route around.</p></div>
-        <div class="t-item reveal" style="--i:3"><h3>Offline-safe</h3><p>Fleet sync is additive. Disconnect the endpoint and protection continues — never a dependency for safety.</p></div>
-        <div class="t-item reveal" style="--i:4"><h3>Agent &amp; privilege kill</h3><p>An agent runs only if it <em>and</em> the privilege it seeks are both approved. Otherwise it's halted and killed.</p></div>
+        <div class="t-item reveal" style="--i:1"><h3>Before-send controls</h3><p>Supported managed surfaces can redact or block before the request is released, with an acknowledgement that proves the action.</p></div>
+        <div class="t-item reveal" style="--i:2"><h3>Evidence-backed coverage</h3><p>Configured, observed and enforced are different states. Statefold reports them separately and leaves opaque traffic unverified.</p></div>
+        <div class="t-item reveal" style="--i:3"><h3>Offline policy</h3><p>Cached local policy continues when the fleet plane is temporarily unreachable; synchronization restores central visibility.</p></div>
+        <div class="t-item reveal" style="--i:4"><h3>Agent &amp; privilege governance</h3><p>The agent identity and the privilege it requests are separate approval decisions, each with an explicit lifecycle.</p></div>
         <div class="t-item reveal" style="--i:5"><h3>Multi-tenant isolation</h3><p>One console, many isolated client enterprises — separate fleets, policy, ledger and Hive Mind. Built for MSSPs and global org boundaries.</p></div>
       </div>
     </div>
@@ -595,8 +593,8 @@
       </div>
       <ol class="steps">
         <li class="reveal" style="--i:0"><span class="num">01</span><h3>Enroll</h3><p>Drop the light agent on endpoints; it self-registers to the console with a scoped, tenant-bound token.</p></li>
-        <li class="reveal" style="--i:1"><span class="num">02</span><h3>Observe</h3><p>Every AI surface is discovered and classified, attributed to a user, endpoint and privilege.</p></li>
-        <li class="reveal" style="--i:2"><span class="num">03</span><h3>Govern</h3><p>Approve agents and privileges separately; policy enforces at the kernel, before send.</p></li>
+        <li class="reveal" style="--i:1"><span class="num">02</span><h3>Inventory</h3><p>Discover supported AI surfaces and attach each observation to the endpoint, process and available identity.</p></li>
+        <li class="reveal" style="--i:2"><span class="num">03</span><h3>Govern</h3><p>Apply one policy model locally and through the gateway; preserve the exact evidence state of each outcome.</p></li>
         <li class="reveal" style="--i:3"><span class="num">04</span><h3>Ask</h3><p>The Hive Mind remembers it all. Ask in plain language; get a verified answer or an honest "I don't know."</p></li>
         <li class="reveal" style="--i:4"><span class="num">05</span><h3>Teach</h3><p>The Swarm teaches your Hive Mind continuously as the fleet works — exclusive to your tenant, gated on every release.</p></li>
       </ol>
@@ -615,9 +613,9 @@
         <article class="persona reveal" style="--i:0">
           <div class="p-role">Security &amp; SOC leadership</div>
           <h3>See it, block it, before-send.</h3>
-          <p>Every AI touchpoint across the fleet, the moment it happens — enforced at the kernel, not after the fact.</p>
+          <p>Investigate AI activity across the fleet, distinguish observation from enforcement, and act through a governed control point.</p>
           <ul class="persona-uses">
-            <li>Kernel Enforcement</li>
+            <li>Prompt Security &amp; AI Gateway</li>
             <li>Vulnerability Management &amp; Virtual Patching</li>
             <li>Attack Path Analysis</li>
           </ul>
@@ -652,8 +650,8 @@
     <div class="wrap cta-inner reveal">
       <div class="eyebrow on-dark">Secure your AI stack</div>
       <h2>Bring your AI under control.</h2>
-      <p>See Statefold discover, enforce at the kernel, govern identity and risk, prove compliance,
-        and <em>learn</em> — across your fleet, before it ships.</p>
+      <p>See Statefold inventory the AI estate, enforce policy at supported control points,
+        govern identity and risk, and turn every outcome into <em>verifiable memory</em>.</p>
       <div class="cta-actions">
         <a class="btn btn-primary btn-lg" href="mailto:hello@statefoldai.com">Request a walkthrough <span class="arr">→</span></a>
       </div>
@@ -681,13 +679,13 @@
 </g></svg>
           <svg class="brand-word" aria-hidden="true"><use href="#sf-word"></use></svg>
         </span>
-        <p>Total AI Governance — discover, enforce at the kernel, govern identity and risk, and prove
-          compliance across every AI on every endpoint. Then grow the Hive Mind over it: your own
-          model, taught by its Swarm.</p>
+        <p>Total AI Governance — inventory the estate, govern identity and risk, enforce at supported
+          control points, and retain evidence across endpoint and gateway. Then ask the Hive Mind:
+          grounded in enterprise-owned facts, or explicit about what is unknown.</p>
       </div>
       <div class="foot-cols">
         <div><h5>Platform</h5><a href="#platform">Overview</a><a href="#swarm">Swarm Intelligence</a><a href="#hive">Hive Mind</a><a href="#trust">Architecture</a></div>
-        <div><h5>Capabilities</h5><a href="#platform">Kernel Enforcement</a><a href="#platform">Compliance Ledger</a><a href="#platform">MRM Report</a><a href="#platform">Model Review Center</a></div>
+        <div><h5>Capabilities</h5><a href="#platform">Prompt Security</a><a href="#platform">Agent &amp; MCP Discovery</a><a href="#platform">DSPM Graph</a><a href="#platform">Model Risk</a></div>
         <div><h5>Company</h5><a href="mailto:hello@statefoldai.com">hello@statefoldai.com</a></div>
       </div>
     </div>
