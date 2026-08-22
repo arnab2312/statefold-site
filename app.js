@@ -32,6 +32,7 @@
     var st = window.pageYOffset || document.documentElement.scrollTop;
     var h = document.documentElement.scrollHeight - window.innerHeight;
     if (bar) bar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+    document.documentElement.style.setProperty('--page-progress', h > 0 ? (st / h).toFixed(4) : '0');
     if (nav) nav.classList.toggle('scrolled', st > 8);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -380,6 +381,7 @@
         if (entry.isIntersecting) {
           chapterLinks.forEach(function (link) { link.classList.remove('active'); });
           if (chapterMap[entry.target.id]) chapterMap[entry.target.id].classList.add('active');
+          document.body.setAttribute('data-scene', entry.target.id);
         }
       });
     }, { rootMargin: '-36% 0px -58% 0px', threshold: 0 });
@@ -389,14 +391,41 @@
     });
   }
 
+  /* The architecture reads like a score: one passage becomes current. */
+  var systemFlow = document.querySelector('.system-flow');
+  var flowStages = Array.prototype.slice.call(document.querySelectorAll('.flow-stage'));
+  if (systemFlow && flowStages.length && 'IntersectionObserver' in window) {
+    var visibleFlowStages = [];
+    var flowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var existing = visibleFlowStages.indexOf(entry.target);
+        if (entry.isIntersecting && existing < 0) visibleFlowStages.push(entry.target);
+        if (!entry.isIntersecting && existing >= 0) visibleFlowStages.splice(existing, 1);
+      });
+      if (!visibleFlowStages.length) return;
+      var trigger = window.innerHeight * .38;
+      var activeStage = visibleFlowStages.slice().sort(function (a, b) {
+        return Math.abs(a.getBoundingClientRect().top - trigger) - Math.abs(b.getBoundingClientRect().top - trigger);
+      })[0];
+      var stageIndex = flowStages.indexOf(activeStage);
+      flowStages.forEach(function (stage) { stage.classList.remove('is-active'); });
+      activeStage.classList.add('is-active');
+      systemFlow.style.setProperty('--flow-progress', ((stageIndex / Math.max(1, flowStages.length - 1)) * 100).toFixed(1) + '%');
+    }, { rootMargin:'-30% 0px -48% 0px',threshold:0 });
+    flowStages.forEach(function (stage) { flowObserver.observe(stage); });
+    flowStages[0].classList.add('is-active');
+    systemFlow.style.setProperty('--flow-progress', '0%');
+  }
+
   /* ============================================================
-     SPATIAL FIELD — dependency-free projected 3D scene.
-     One canvas, adaptive density, offscreen pause, and no animation
-     in reduced-motion mode. HTML remains the source of truth.
+     THE STATEFOLD — an authored, projected governance surface.
+     A single sheet changes state as signals become context,
+     decisions, actions, proof and intelligence. The visual is the
+     product architecture, not a cloud of decorative particles.
      ============================================================ */
   var fieldCanvas = document.getElementById('statefoldField');
   var spatialStage = document.querySelector('[data-spatial]');
-  if (fieldCanvas && spatialStage && !reduce) {
+  if (fieldCanvas && spatialStage) {
     var fctx = fieldCanvas.getContext('2d', { alpha: true });
     var fieldAccent = getComputedStyle(document.documentElement).getPropertyValue('--brand-rgb').trim() || '180,241,60';
     var fieldVisible = true;
@@ -406,30 +435,12 @@
     var fieldSize = { w: 0, h: 0, dpr: 1 };
     var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
       (navigator.connection && navigator.connection.saveData);
-    var fieldCount = lowPower ? 92 : (window.innerWidth < 700 ? 120 : 190);
-    var fieldNodes = [];
-    var fieldSignals = [];
-
-    function seeded(i, salt) {
-      var x = Math.sin(i * 9283.17 + salt * 77.13) * 43758.5453;
-      return x - Math.floor(x);
-    }
-    for (var fi = 0; fi < fieldCount; fi++) {
-      var theta = seeded(fi, 1) * Math.PI * 2;
-      var phi = Math.acos(2 * seeded(fi, 2) - 1);
-      var radius = 118 + seeded(fi, 3) * 235;
-      fieldNodes.push({
-        x: Math.sin(phi) * Math.cos(theta) * radius,
-        y: Math.cos(phi) * radius * .72,
-        z: Math.sin(phi) * Math.sin(theta) * radius,
-        size: .55 + seeded(fi, 4) * 1.9,
-        hot: seeded(fi, 5) > .91,
-        phase: seeded(fi, 6) * Math.PI * 2
-      });
-    }
-    for (var fs = 0; fs < 7; fs++) {
-      fieldSignals.push({ offset: fs / 7, lane: (fs % 3) - 1 });
-    }
+    var foldColumns = lowPower ? 26 : 42;
+    var foldRows = lowPower ? 7 : 11;
+    var foldStops = [
+      { y:-72,z:155 }, { y:74,z:34 }, { y:-42,z:-98 }, { y:34,z:82 },
+      { y:-88,z:-36 }, { y:52,z:128 }, { y:-18,z:4 }
+    ];
 
     function resizeField() {
       var r = spatialStage.getBoundingClientRect();
@@ -443,21 +454,23 @@
       fieldCanvas.style.height = fieldSize.h + 'px';
       fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       fieldCanvas.classList.add('ready');
+      if (reduce) renderField(performance.now());
     }
 
-    function rotatePoint(p, ry, rx) {
+    function rotatePoint(p, ry, rx, rz) {
       var cy = Math.cos(ry), sy = Math.sin(ry);
       var cx = Math.cos(rx), sx = Math.sin(rx);
       var x = p.x * cy - p.z * sy;
       var z = p.x * sy + p.z * cy;
       var y = p.y * cx - z * sx;
       z = p.y * sx + z * cx;
-      return { x: x, y: y, z: z };
+      var cz = Math.cos(rz || 0), sz = Math.sin(rz || 0);
+      return { x: x * cz - y * sz, y: x * sz + y * cz, z: z };
     }
     function projectPoint(p) {
-      var camera = 720;
+      var camera = 960;
       var scale = camera / (camera + p.z);
-      return { x: fieldSize.w * .51 + p.x * scale, y: fieldSize.h * .47 + p.y * scale, z: p.z, s: scale };
+      return { x: fieldSize.w * .5 + p.x * scale, y: fieldSize.h * .49 + p.y * scale, z: p.z, s: scale };
     }
     function line(a, b, alpha, width, color) {
       fctx.beginPath();
@@ -467,36 +480,27 @@
       fctx.strokeStyle = color || ('rgba(255,255,255,' + alpha + ')');
       fctx.stroke();
     }
-    function drawRing(radius, tilt, rot, alpha) {
-      var previous = null;
-      for (var i = 0; i <= 84; i++) {
-        var a = (i / 84) * Math.PI * 2;
-        var raw = { x: Math.cos(a) * radius, y: Math.sin(a) * radius * tilt, z: Math.sin(a) * radius };
-        var point = projectPoint(rotatePoint(raw, rot, .18));
-        if (previous) line(previous, point, alpha, .7);
-        previous = point;
-      }
+    function foldPoint(u, v, time, progress) {
+      var safeU = Number.isFinite(u) ? Math.min(1, Math.max(0, u)) : 0;
+      var scaled = safeU * (foldStops.length - 1);
+      var index = Math.max(0, Math.min(foldStops.length - 2, Math.floor(scaled)));
+      var local = scaled - index;
+      var a = foldStops[index] || foldStops[0], b = foldStops[index + 1] || a;
+      var pulse = Math.sin(time * .00028 + safeU * 7.4) * (3 + progress * 3);
+      var width = 172 - Math.abs(safeU - .5) * 28;
+      return {
+        x:(safeU - .5) * 780,
+        y:a.y + (b.y - a.y) * local + v * width + pulse,
+        z:a.z + (b.z - a.z) * local + Math.sin(v * Math.PI) * 26 + progress * Math.sin(safeU * Math.PI * 6) * 12
+      };
     }
-    function drawPlane(time, ry, rx) {
-      var extent = 380;
-      for (var gx = -extent; gx <= extent; gx += 54) {
-        var lastX = null;
-        for (var gz = -extent; gz <= extent; gz += 28) {
-          var wave = Math.sin(gz * .018 + time * .0007) * 13 + Math.cos(gx * .02 - time * .0004) * 8;
-          var gp = projectPoint(rotatePoint({ x: gx, y: 155 + wave, z: gz }, ry, rx + .55));
-          if (lastX) line(lastX, gp, .035, .55);
-          lastX = gp;
-        }
-      }
-      for (var gz2 = -extent; gz2 <= extent; gz2 += 54) {
-        var lastZ = null;
-        for (var gx2 = -extent; gx2 <= extent; gx2 += 28) {
-          var wave2 = Math.sin(gz2 * .018 + time * .0007) * 13 + Math.cos(gx2 * .02 - time * .0004) * 8;
-          var gp2 = projectPoint(rotatePoint({ x: gx2, y: 155 + wave2, z: gz2 }, ry, rx + .55));
-          if (lastZ) line(lastZ, gp2, .025, .55);
-          lastZ = gp2;
-        }
-      }
+    function polygon(points, fill, stroke) {
+      fctx.beginPath();
+      fctx.moveTo(points[0].x, points[0].y);
+      for (var i = 1; i < points.length; i++) fctx.lineTo(points[i].x, points[i].y);
+      fctx.closePath();
+      fctx.fillStyle = fill; fctx.fill();
+      if (stroke) { fctx.strokeStyle = stroke; fctx.lineWidth = .65; fctx.stroke(); }
     }
 
     function renderField(now) {
@@ -504,77 +508,72 @@
       fctx.clearRect(0, 0, fieldSize.w, fieldSize.h);
       fieldMouse.x += (fieldMouse.tx - fieldMouse.x) * .045;
       fieldMouse.y += (fieldMouse.ty - fieldMouse.y) * .045;
-      var elapsed = now - fieldStart;
-      var pageProgress = Math.min(1, Math.max(0, (window.pageYOffset - spatialStage.offsetTop + window.innerHeight) / (window.innerHeight * 1.7)));
-      var ry = elapsed * .000075 + fieldMouse.x * .24 + pageProgress * .22;
-      var rx = -.08 + fieldMouse.y * .14;
-
-      drawPlane(elapsed, ry * .22, rx);
-      drawRing(156, .2, ry, .12);
-      drawRing(252, .36, -ry * .62, .065);
-      drawRing(338, .12, ry * .28, .035);
-
-      var projected = [];
-      for (var n = 0; n < fieldNodes.length; n++) {
-        var node = fieldNodes[n];
-        var breathe = 1 + Math.sin(elapsed * .0007 + node.phase) * .025;
-        var rp = rotatePoint({ x: node.x * breathe, y: node.y * breathe, z: node.z * breathe }, ry, rx);
-        projected.push({ p: projectPoint(rp), node: node });
-      }
-      projected.sort(function (a, b) { return b.p.z - a.p.z; });
-
-      for (var c = 0; c < projected.length; c++) {
-        var current = projected[c];
-        var next = projected[(c + 11) % projected.length];
-        var dx = current.p.x - next.p.x, dy = current.p.y - next.p.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 105) line(current.p, next.p, Math.max(.018, (1 - dist / 105) * .085), .55);
-      }
-      for (var d = 0; d < projected.length; d++) {
-        var item = projected[d], pt = item.p, depth = Math.max(.16, 1 - (pt.z + 350) / 850);
-        var pulse = item.node.hot ? .65 + Math.sin(elapsed * .003 + item.node.phase) * .3 : .28;
-        fctx.beginPath();
-        fctx.arc(pt.x, pt.y, Math.max(.45, item.node.size * pt.s), 0, Math.PI * 2);
-        fctx.fillStyle = item.node.hot ? 'rgba(' + fieldAccent + ',' + pulse + ')' : 'rgba(255,255,255,' + (depth * .58) + ')';
-        fctx.fill();
-        if (item.node.hot) {
-          fctx.beginPath(); fctx.arc(pt.x, pt.y, 7 + pulse * 5, 0, Math.PI * 2);
-          fctx.strokeStyle = 'rgba(' + fieldAccent + ',' + (pulse * .18) + ')'; fctx.stroke();
+      var elapsed = reduce ? 0 : now - fieldStart;
+      var stageRect = spatialStage.getBoundingClientRect();
+      var stageTop = window.pageYOffset + stageRect.top;
+      var pageProgress = Math.min(1, Math.max(0,
+        (window.pageYOffset + window.innerHeight - stageTop) /
+        (Math.max(1, spatialStage.offsetHeight) + window.innerHeight)
+      ));
+      var ry = -.2 + fieldMouse.x * .14 + pageProgress * .08;
+      var rx = .77 + fieldMouse.y * .08;
+      var rz = -.12 + Math.sin(elapsed * .00008) * .018;
+      var cells = [];
+      for (var col = 0; col < foldColumns; col++) {
+        for (var row = 0; row < foldRows; row++) {
+          var u0 = col / foldColumns, u1 = (col + 1) / foldColumns;
+          var v0 = row / foldRows * 2 - 1, v1 = (row + 1) / foldRows * 2 - 1;
+          var raw = [foldPoint(u0,v0,elapsed,pageProgress),foldPoint(u1,v0,elapsed,pageProgress),foldPoint(u1,v1,elapsed,pageProgress),foldPoint(u0,v1,elapsed,pageProgress)];
+          var rotated = raw.map(function (p) { return rotatePoint(p,ry,rx,rz); });
+          var avgZ = (rotated[0].z + rotated[1].z + rotated[2].z + rotated[3].z) / 4;
+          cells.push({ z:avgZ, points:rotated.map(projectPoint), col:col, row:row });
         }
       }
-
-      var core = { x: fieldSize.w * .51, y: fieldSize.h * .47 };
-      for (var s = 0; s < fieldSignals.length; s++) {
-        var sig = fieldSignals[s];
-        var travel = (elapsed * .00016 + sig.offset) % 1;
-        var startX = sig.lane < 0 ? -40 : (sig.lane > 0 ? fieldSize.w + 40 : fieldSize.w * .5);
-        var startY = sig.lane === 0 ? -30 : fieldSize.h * (.19 + (s % 4) * .18);
-        var bend = Math.sin(travel * Math.PI) * (sig.lane * 70);
-        var sx = startX + (core.x - startX) * travel + bend;
-        var sy = startY + (core.y - startY) * travel;
-        fctx.beginPath(); fctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
-        fctx.fillStyle = travel > .78 ? 'rgba(' + fieldAccent + ',.95)' : 'rgba(255,255,255,.72)'; fctx.fill();
-        line({x:sx,y:sy},{x:sx-(core.x-startX)*.035,y:sy-(core.y-startY)*.035},.24,1,travel > .78 ? 'rgba(' + fieldAccent + ',.36)' : 'rgba(255,255,255,.16)');
+      cells.sort(function (a,b) { return b.z - a.z; });
+      for (var c = 0; c < cells.length; c++) {
+        var cell = cells[c];
+        var light = Math.max(0,Math.min(1,(cell.z + 220) / 500));
+        var ridge = cell.col % Math.max(1,Math.floor(foldColumns / 6)) === 0;
+        var alpha = .028 + light * .12 + (ridge ? .035 : 0);
+        polygon(cell.points,'rgba(255,255,255,' + alpha + ')','rgba(255,255,255,' + (.025 + light * .055) + ')');
       }
-      fieldFrame = requestAnimationFrame(renderField);
+
+      /* The chartreuse seam is the unbroken decision history. */
+      var previous = null;
+      for (var seam = 0; seam <= 120; seam++) {
+        var su = seam / 120;
+        var sp = projectPoint(rotatePoint(foldPoint(su,0,elapsed,pageProgress),ry,rx,rz));
+        if (previous) line(previous,sp,.9,1.45,'rgba(' + fieldAccent + ',.76)');
+        previous = sp;
+      }
+      for (var signal = 0; signal < 8; signal++) {
+        var travel = (elapsed * .000075 + signal / 8) % 1;
+        var lane = ((signal % 3) - 1) * .36;
+        var signalPoint = projectPoint(rotatePoint(foldPoint(travel,lane,elapsed,pageProgress),ry,rx,rz));
+        fctx.beginPath();fctx.arc(signalPoint.x,signalPoint.y,2.1 + signalPoint.s,0,Math.PI * 2);
+        fctx.fillStyle = 'rgba(' + fieldAccent + ',' + (.55 + signalPoint.s * .22) + ')';fctx.fill();
+      }
+      fieldFrame = reduce ? 0 : requestAnimationFrame(renderField);
     }
 
-    spatialStage.addEventListener('pointermove', function (e) {
-      var r = spatialStage.getBoundingClientRect();
-      fieldMouse.tx = ((e.clientX - r.left) / r.width - .5) * 2;
-      fieldMouse.ty = ((e.clientY - r.top) / r.height - .5) * 2;
-    }, { passive: true });
-    spatialStage.addEventListener('pointerleave', function () { fieldMouse.tx = 0; fieldMouse.ty = 0; });
+    if (!reduce) {
+      spatialStage.addEventListener('pointermove', function (e) {
+        var r = spatialStage.getBoundingClientRect();
+        fieldMouse.tx = ((e.clientX - r.left) / r.width - .5) * 2;
+        fieldMouse.ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      }, { passive: true });
+      spatialStage.addEventListener('pointerleave', function () { fieldMouse.tx = 0; fieldMouse.ty = 0; });
+    }
     if ('ResizeObserver' in window) new ResizeObserver(resizeField).observe(spatialStage);
     else window.addEventListener('resize', resizeField, { passive: true });
-    if ('IntersectionObserver' in window) {
+    if (!reduce && 'IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         fieldVisible = entries[0].isIntersecting;
         if (fieldVisible && !fieldFrame) fieldFrame = requestAnimationFrame(renderField);
       }, { rootMargin: '180px 0px' }).observe(spatialStage);
     }
     resizeField();
-    fieldFrame = requestAnimationFrame(renderField);
+    if (!reduce) fieldFrame = requestAnimationFrame(renderField);
   }
 
   /* Static editorial surfaces replace repeated template-like card tilts. */

@@ -78,9 +78,10 @@ Create an award-calibre, ultra-modern site that establishes the real Statefold p
 
 ## Modernization direction
 
-- Use one physically inspired, face-on WebGL accretion vortex plus lightweight CSS/SVG depth elsewhere.
+- Use one authored visual grammar: **the fold**. A continuous surface carries a signal through context, decision, action, efficacy and intelligence; the chartreuse seam is its unbroken decision history.
+- Keep the physically inspired hero vortex, but use the fold as the explanatory system below it. Motion must reveal lineage, state or proof rather than decorate a section.
 - Introduce scroll-directed spatial chapters rather than continuous parallax.
-- Use gravitational mass, lensing, and the real dragon geometry as the signature visual language.
+- Use gravitational mass, the real dragon geometry and the fold as a coherent signature language.
 - Keep HTML content authoritative and usable before 3D loads.
 - Keep the persistent project brief compact and stable; update it only when a durable decision changes.
 
@@ -123,4 +124,8 @@ Website language must feel written by a clear, experienced human. Prefer short s
 
 The public story must make both halves of Statefold explicit. “Security for AI” protects prompts, models, agents, tools, identities and data. “AI for Security” uses AI activity as additional context for exposure and attack-path analysis. The evidence graph joins them by showing when a software flaw, powerful identity, sensitive data and AI agent create one reachable path. This connection is a core product distinction, not a secondary capability card.
 
-The strongest spatial work must remain part of the live site. The current below-fold centrepiece is a projected 3D Statefold evidence graph between Security for AI and AI for Security, followed by a concrete vulnerability-to-identity-to-agent-to-data-to-destination attack path. It must stay product-led, responsive, offscreen-paused and accessible through equivalent HTML; it is not decorative filler.
+The strongest spatial work must remain part of the live site. The current below-fold centrepiece is one projected, tessellated fold read simultaneously by governance, security, data/privacy, engineering, risk/compliance and finance/procurement. It is followed by a flat shared-event ledger that traces identity → agent/tool → sensitive data → policy decision → action → verified outcome. Together they demonstrate Security for AI and AI for Security through the same evidence, rather than asserting the relationship in prose. The scene must stay product-led, responsive, offscreen-paused and accessible through equivalent HTML; it is not decorative filler.
+
+The public architecture is one accountable loop: **signal → context → decision → action → efficacy → intelligence**. Efficacy is a first-class gate with intended, configured, deployed, exercised, effective and proven states. Do not collapse those stages into a generic feature grid.
+
+Editorial composition is now preferred over repeated glass cards: large quiet fields, asymmetric annotation, hairline evidence ledgers and deliberate scale changes. Avoid generic orbit diagrams, particle clouds and interchangeable SaaS dashboards. One memorable object should carry each chapter's meaning.
