@@ -1,6 +1,6 @@
 # Statefold marketing site — `www.statefoldai.com`
 
-A dependency-free static site (HTML + CSS + vanilla JS) with a physically inspired WebGL2 event horizon, monumental SVG brand system, adaptive render quality, and reduced-motion fallbacks.
+A dependency-free static site (HTML + CSS + vanilla JS) with a physically inspired WebGL2 event horizon, a projected 3D evidence graph, a monumental SVG brand system, adaptive render quality, and reduced-motion fallbacks. The main product story connects **Security for AI** with **AI for Security** through Statefold's identity, exposure, data and attack-path evidence.
 
 ```
 ./

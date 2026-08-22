@@ -4,20 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Statefold — Total AI Governance</title>
-  <meta name="description" content="Statefold shows you which AI tools and agents are in use, lets you set and enforce rules, and keeps a clear record of every action." />
+  <meta name="description" content="Statefold protects the AI your teams use and turns AI activity into security context — connecting prompts, agents, identity, software, sensitive data and attack paths." />
   <meta name="theme-color" content="#F5F4EE" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Statefold — Total AI Governance" />
-  <meta property="og:description" content="See which AI tools and agents are in use, set and enforce rules, and keep a clear record of every action." />
+  <meta property="og:description" content="Protect the AI your teams use. Use AI activity to reveal broader security risk. See the tools, agents, identities, data and attack paths in one connected picture." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.statefoldai.com" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter+Tight:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260822b" />
+  <link rel="stylesheet" href="styles.css?v=20260822d" />
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -126,8 +126,8 @@
         <svg class="brand-word" aria-hidden="true"><use href="#sf-word"></use></svg>
       </a>
       <nav class="nav-links" aria-label="Primary">
+        <a href="#duality">Why Statefold</a>
         <a href="#platform">Platform</a>
-        <a href="#swarm">Swarm</a>
         <a href="#hive">Hive Mind</a>
         <a href="#trust">Architecture</a>
         <a href="#teams">Teams</a>
@@ -140,8 +140,8 @@
       </button>
     </div>
     <div class="nav-mobile" id="navMobile">
+      <a href="#duality">Why Statefold</a>
       <a href="#platform">Platform</a>
-      <a href="#swarm">Swarm Intelligence</a>
       <a href="#hive">Hive Mind</a>
       <a href="#trust">Architecture</a>
       <a href="#teams">Teams</a>
@@ -151,11 +151,12 @@
   <nav class="chapter-rail" aria-label="Page chapters">
     <span class="rail-line"></span>
     <a href="#problem" data-chapter="problem"><i></i><span>01 / GAP</span></a>
-    <a href="#platform" data-chapter="platform"><i></i><span>02 / PLATFORM</span></a>
-    <a href="#swarm" data-chapter="swarm"><i></i><span>03 / SWARM</span></a>
-    <a href="#hive" data-chapter="hive"><i></i><span>04 / HIVE</span></a>
-    <a href="#trust" data-chapter="trust"><i></i><span>05 / TRUST</span></a>
-    <a href="#teams" data-chapter="teams"><i></i><span>07 / TEAMS</span></a>
+    <a href="#duality" data-chapter="duality"><i></i><span>02 / TWO SIDES</span></a>
+    <a href="#platform" data-chapter="platform"><i></i><span>03 / PLATFORM</span></a>
+    <a href="#swarm" data-chapter="swarm"><i></i><span>04 / SWARM</span></a>
+    <a href="#hive" data-chapter="hive"><i></i><span>05 / HIVE</span></a>
+    <a href="#trust" data-chapter="trust"><i></i><span>06 / TRUST</span></a>
+    <a href="#teams" data-chapter="teams"><i></i><span>08 / TEAMS</span></a>
   </nav>
 
   <!-- ===================== HERO ===================== -->
@@ -176,14 +177,14 @@
       <div class="hero-v3-copy">
         <div class="hero-v3-eyebrow"><span></span>Total AI Governance</div>
         <h1><span>Total</span><span class="hero-intelligence">intelligence.</span><em>Under control.</em></h1>
-        <p>One place to see which AI tools and agents are in use, set rules for them, stop risky data from leaving, and keep a clear record of what happened.</p>
+        <p>One place to protect the AI your teams use — and use AI activity to reveal broader security risk. See the tools and agents, set rules, stop risky data and keep a clear record.</p>
         <div class="hero-v3-actions">
           <a class="btn btn-primary btn-lg" href="#platform">Enter the platform <span class="arr">→</span></a>
           <a class="text-link" href="mailto:hello@statefoldai.com">Request a private walkthrough <span>↗</span></a>
         </div>
         <div class="hero-v3-proof">
-          <span><b>01</b> Stops risky sends</span>
-          <span><b>02</b> Private by design</span>
+          <span><b>01</b> Protects AI use</span>
+          <span><b>02</b> Reveals attack paths</span>
           <span><b>03</b> Records the proof</span>
         </div>
       </div>
@@ -214,7 +215,7 @@
         </ul>
       </div>
 
-      <div class="hero-visual hero-spatial reveal" data-spatial aria-hidden="true">
+      <div class="hero-visual hero-spatial reveal" aria-hidden="true">
         <canvas class="field-canvas" id="statefoldFieldLegacy"></canvas>
         <div class="field-vignette"></div>
         <div class="field-orbit orbit-a"></div>
@@ -301,11 +302,76 @@
     </div>
   </section>
 
+  <!-- ===================== SECURITY FOR AI / AI FOR SECURITY ===================== -->
+  <section class="section duality" id="duality">
+    <div class="wrap">
+      <div class="duality-head reveal">
+        <div class="eyebrow"><span class="sec-no">02</span> Two sides of the same problem</div>
+        <h2>Security for AI.<br><span>AI for Security.</span></h2>
+        <p>Statefold protects the way AI is used. It also turns AI activity into useful security context — so teams can see when software flaws, powerful access, sensitive data and autonomous agents combine into a real path of attack.</p>
+      </div>
+
+      <div class="duality-stage reveal" data-spatial>
+        <canvas class="field-canvas" id="statefoldField" aria-hidden="true"></canvas>
+        <div class="duality-grid" aria-hidden="true"></div>
+        <div class="duality-ring ring-one" aria-hidden="true"></div>
+        <div class="duality-ring ring-two" aria-hidden="true"></div>
+
+        <article class="duality-pole pole-protect">
+          <span class="pole-index">01 / SECURITY FOR AI</span>
+          <h3>Protect the AI your teams use.</h3>
+          <ul>
+            <li>Find prompts, models, agents and MCP connections</li>
+            <li>Redact or block risky sends on supported traffic</li>
+            <li>Approve agents, access and model use separately</li>
+          </ul>
+        </article>
+
+        <div class="duality-core" aria-label="Statefold evidence graph">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#sf-mark"></use></svg>
+          <span>STATEFOLD</span>
+          <strong>Evidence graph</strong>
+          <small>AI activity · identity · software · data · action</small>
+        </div>
+
+        <article class="duality-pole pole-secure">
+          <span class="pole-index">02 / AI FOR SECURITY</span>
+          <h3>Use AI activity to find security risk.</h3>
+          <ul>
+            <li>Connect software flaws to the AI running nearby</li>
+            <li>Show which identities can reach sensitive data</li>
+            <li>Prioritise attack paths that can reach something important</li>
+          </ul>
+        </article>
+
+        <div class="attack-path" aria-label="Example Statefold attack path">
+          <span class="path-label">ONE CONNECTED ATTACK PATH</span>
+          <div class="path-track">
+            <div><i>01</i><b>Unpatched app</b><small>Known flaw</small></div>
+            <em></em>
+            <div><i>02</i><b>Powerful identity</b><small>Broad access</small></div>
+            <em></em>
+            <div><i>03</i><b>AI agent</b><small>Can use tools</small></div>
+            <em></em>
+            <div><i>04</i><b>Sensitive data</b><small>Reachable</small></div>
+            <em></em>
+            <div class="path-end"><i>05</i><b>External model</b><small>Data can leave</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="duality-thesis reveal">
+        <span>WHY THIS MATTERS</span>
+        <p>A vulnerability score alone cannot tell you this story. Statefold shows whether the vulnerable device is also running an AI agent, what that agent can access, which data sits in reach and where the route leads. That is where protecting AI becomes better security for the whole organisation.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== PLATFORM ===================== -->
   <section class="section alt" id="platform">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow"><span class="sec-no">02</span> The platform</div>
+        <div class="eyebrow"><span class="sec-no">03</span> The platform</div>
         <h2>See it. Decide. Act. Prove it.</h2>
         <p class="sec-sub">Statefold links the endpoint with one central console. It finds AI use across
           supported apps and traffic paths, applies rules where a control is installed, and clearly says whether an
@@ -400,12 +466,12 @@
             <article class="cap reveal" style="--i:1">
               <div class="cap-ic">⛑</div>
               <h4>DSPM &amp; Attack Graph</h4>
-              <p>Show how sensitive data, AI processes, identities and important systems connect — and where the risky paths are.</p>
+              <p>Trace a route from a software flaw through identity, agent access and sensitive data to an outside destination.</p>
             </article>
             <article class="cap reveal" style="--i:2">
               <div class="cap-ic">⚙</div>
               <h4>Exposure Operations</h4>
-              <p>See software flaws, unsafe settings and temporary protections in the same device and agent view.</p>
+              <p>Prioritise flaws by what they can reach and how AI is involved — not by severity alone.</p>
             </article>
           </div>
         </div>
@@ -454,7 +520,7 @@
   <section class="section swarm" id="swarm">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow"><span class="sec-no">03</span> Swarm Intelligence</div>
+        <div class="eyebrow"><span class="sec-no">04</span> Swarm Intelligence</div>
         <h2>Intelligence built from <span class="u">your</span> own evidence.</h2>
         <p class="sec-sub">The <strong>Hive Mind</strong> lets you ask questions about what Statefold has
           seen and recorded. <strong>Swarm Intelligence</strong> looks for useful patterns and unusual
@@ -495,7 +561,7 @@
   <section class="section hive" id="hive">
     <div class="wrap hive-grid">
       <div class="hive-copy reveal">
-        <div class="eyebrow"><span class="sec-no">04</span> The Hive Mind</div>
+        <div class="eyebrow"><span class="sec-no">05</span> The Hive Mind</div>
         <h2>Ask a question. Get evidence, <span class="u">not a guess</span>.</h2>
         <p class="sec-sub">Observed prompts, answers, code generation, MCP activity, vulnerabilities,
           controls and model reviews create a useful record of the AI environment. The Hive Mind answers
@@ -566,7 +632,7 @@
   <section class="section alt" id="trust">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow"><span class="sec-no">05</span> Built to be trusted</div>
+        <div class="eyebrow"><span class="sec-no">06</span> Built to be trusted</div>
         <h2>Powerful by design. Quiet by default.</h2>
       </div>
       <div class="trust-grid">
@@ -584,7 +650,7 @@
   <section class="section" id="how">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="eyebrow"><span class="sec-no">06</span> How it works</div>
+        <div class="eyebrow"><span class="sec-no">07</span> How it works</div>
         <h2>Five moves to AI under control.</h2>
       </div>
       <ol class="steps">
@@ -601,15 +667,15 @@
   <section class="section alt" id="teams">
     <div class="wrap">
       <div class="sec-head center reveal">
-        <div class="eyebrow"><span class="sec-no">07</span> Built for practitioners</div>
+        <div class="eyebrow"><span class="sec-no">08</span> Built for practitioners</div>
         <h2>Built for the teams doing the work.</h2>
         <p class="sec-sub">One console. Three different jobs.</p>
       </div>
       <div class="persona-grid">
         <article class="persona reveal" style="--i:0">
           <div class="p-role">Security &amp; SOC leadership</div>
-          <h3>Find the risk and act.</h3>
-          <p>Investigate AI activity across devices, see whether a rule was applied or the activity was only observed, and act from one place.</p>
+          <h3>See when AI changes the attack path.</h3>
+          <p>Investigate AI activity across devices, connect it to identity, software and sensitive data, and act from one place.</p>
           <ul class="persona-uses">
             <li>Prompt Security &amp; AI Gateway</li>
             <li>Vulnerability Management &amp; Virtual Patching</li>
@@ -644,10 +710,10 @@
   <section class="cta" id="demo">
     <div class="cta-mesh" aria-hidden="true"></div>
     <div class="wrap cta-inner reveal">
-      <div class="eyebrow on-dark">Secure your AI stack</div>
-      <h2>Bring your AI under control.</h2>
-      <p>See Statefold find AI use, apply rules where supported, connect identity and risk,
-        and keep a clear record of <em>what really happened</em>.</p>
+      <div class="eyebrow on-dark">Security for AI · AI for Security</div>
+      <h2>Protect AI. Strengthen security.</h2>
+      <p>See Statefold protect the AI your teams use, connect that activity to identity, software and sensitive data,
+        and show the attack paths that <em>actually matter</em>.</p>
       <div class="cta-actions">
         <a class="btn btn-primary btn-lg" href="mailto:hello@statefoldai.com">Request a walkthrough <span class="arr">→</span></a>
       </div>
@@ -675,13 +741,12 @@
 </g></svg>
           <svg class="brand-word" aria-hidden="true"><use href="#sf-word"></use></svg>
         </span>
-        <p>Total AI Governance — see which AI tools and agents are in use, control supported activity,
-          connect it to identity and risk, and keep the evidence. Ask the Hive Mind for a sourced answer
-          or a clear statement that the facts are not there.</p>
+        <p>Total AI Governance brings Security for AI and AI for Security together. Protect prompts, agents,
+          models and data — then use AI activity to reveal identity, exposure and attack paths that separate tools miss.</p>
       </div>
       <div class="foot-cols">
-        <div><h5>Platform</h5><a href="#platform">Overview</a><a href="#swarm">Swarm Intelligence</a><a href="#hive">Hive Mind</a><a href="#trust">Architecture</a></div>
-        <div><h5>Capabilities</h5><a href="#platform">Prompt Security</a><a href="#platform">Agent &amp; MCP Discovery</a><a href="#platform">DSPM Graph</a><a href="#platform">Model Risk</a></div>
+        <div><h5>Platform</h5><a href="#duality">Why Statefold</a><a href="#platform">Overview</a><a href="#swarm">Swarm Intelligence</a><a href="#hive">Hive Mind</a></div>
+        <div><h5>Capabilities</h5><a href="#platform">Prompt Security</a><a href="#platform">Agent &amp; MCP Discovery</a><a href="#duality">Attack Path Analysis</a><a href="#platform">Model Risk</a></div>
         <div><h5>Company</h5><a href="mailto:hello@statefoldai.com">hello@statefoldai.com</a></div>
       </div>
     </div>
@@ -693,6 +758,6 @@
 
   <script src="orbit.js?v=20260809ca"></script>
   <script src="void.js?v=20260809ca"></script>
-  <script src="app.js?v=20260809ca"></script>
+  <script src="app.js?v=20260822d"></script>
 </body>
 </html>

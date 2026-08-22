@@ -398,6 +398,7 @@
   var spatialStage = document.querySelector('[data-spatial]');
   if (fieldCanvas && spatialStage && !reduce) {
     var fctx = fieldCanvas.getContext('2d', { alpha: true });
+    var fieldAccent = getComputedStyle(document.documentElement).getPropertyValue('--brand-rgb').trim() || '180,241,60';
     var fieldVisible = true;
     var fieldFrame = 0;
     var fieldStart = performance.now();
@@ -534,11 +535,11 @@
         var pulse = item.node.hot ? .65 + Math.sin(elapsed * .003 + item.node.phase) * .3 : .28;
         fctx.beginPath();
         fctx.arc(pt.x, pt.y, Math.max(.45, item.node.size * pt.s), 0, Math.PI * 2);
-        fctx.fillStyle = item.node.hot ? 'rgba(255,92,26,' + pulse + ')' : 'rgba(255,255,255,' + (depth * .58) + ')';
+        fctx.fillStyle = item.node.hot ? 'rgba(' + fieldAccent + ',' + pulse + ')' : 'rgba(255,255,255,' + (depth * .58) + ')';
         fctx.fill();
         if (item.node.hot) {
           fctx.beginPath(); fctx.arc(pt.x, pt.y, 7 + pulse * 5, 0, Math.PI * 2);
-          fctx.strokeStyle = 'rgba(255,92,26,' + (pulse * .18) + ')'; fctx.stroke();
+          fctx.strokeStyle = 'rgba(' + fieldAccent + ',' + (pulse * .18) + ')'; fctx.stroke();
         }
       }
 
@@ -552,8 +553,8 @@
         var sx = startX + (core.x - startX) * travel + bend;
         var sy = startY + (core.y - startY) * travel;
         fctx.beginPath(); fctx.arc(sx, sy, 1.8, 0, Math.PI * 2);
-        fctx.fillStyle = travel > .78 ? 'rgba(255,92,26,.95)' : 'rgba(255,255,255,.72)'; fctx.fill();
-        line({x:sx,y:sy},{x:sx-(core.x-startX)*.035,y:sy-(core.y-startY)*.035},.24,1,travel > .78 ? 'rgba(255,92,26,.36)' : 'rgba(255,255,255,.16)');
+        fctx.fillStyle = travel > .78 ? 'rgba(' + fieldAccent + ',.95)' : 'rgba(255,255,255,.72)'; fctx.fill();
+        line({x:sx,y:sy},{x:sx-(core.x-startX)*.035,y:sy-(core.y-startY)*.035},.24,1,travel > .78 ? 'rgba(' + fieldAccent + ',.36)' : 'rgba(255,255,255,.16)');
       }
       fieldFrame = requestAnimationFrame(renderField);
     }
