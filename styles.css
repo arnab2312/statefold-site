@@ -2277,9 +2277,9 @@ body[data-scene="swarm"] .site-atmosphere::after { opacity:.2;transform:translat
   transform:translateX(-50%);
 }
 .duality-core svg { display:none; }
-.duality-core span { color:var(--brand);font:600 8px/1 var(--mono);letter-spacing:.18em; }
+.duality-core span { color:var(--brand);font:600 9px/1 var(--mono);letter-spacing:.17em; }
 .duality-core strong { max-width:15ch;margin:16px auto 17px;color:#fff;font-size:clamp(28px,3.2vw,48px);font-weight:500;line-height:.94;letter-spacing:-.052em; }
-.duality-core small { color:rgba(255,255,255,.36);font:500 8px/1.5 var(--mono);letter-spacing:.1em; }
+.duality-core small { color:rgba(255,255,255,.54);font:500 9px/1.5 var(--mono);letter-spacing:.09em; }
 .perspective-orbit { position:absolute;z-index:7;inset:0;pointer-events:none; }
 .perspective-orbit::before,.perspective-orbit::after { display:none; }
 .perspective {
@@ -2307,9 +2307,9 @@ body[data-scene="swarm"] .site-atmosphere::after { opacity:.2;transform:translat
 .perspective:nth-child(odd)::after { left:100%; }
 .perspective:nth-child(even)::after { right:100%;transform:scaleX(-1); }
 .perspective:hover { border-color:var(--brand); }
-.perspective i { display:inline-block;margin:0 12px 12px 0;color:var(--brand);font:500 8px/1 var(--mono);font-style:normal;letter-spacing:.16em; }
-.perspective b { display:inline-block;margin:0 0 12px;color:#fff;font-size:17px;font-weight:500;line-height:1.1;letter-spacing:-.025em; }
-.perspective small { display:block;max-width:25ch;color:rgba(255,255,255,.48);font-size:11px;line-height:1.55; }
+.perspective i { display:inline-block;margin:0 12px 12px 0;color:var(--brand);font:500 9px/1 var(--mono);font-style:normal;letter-spacing:.15em; }
+.perspective b { display:inline-block;margin:0 0 12px;color:#fff;font-size:18px;font-weight:500;line-height:1.1;letter-spacing:-.025em; }
+.perspective small { display:block;max-width:25ch;color:rgba(255,255,255,.62);font-size:12px;line-height:1.55; }
 .perspective:nth-child(even) { text-align:right; }
 .perspective:nth-child(even) small { margin-left:auto; }
 .p-governance { left:0;top:24%; }
@@ -2327,8 +2327,8 @@ body[data-scene="swarm"] .site-atmosphere::after { opacity:.2;transform:translat
   gap:14px;
   align-items:center;
   color:rgba(255,255,255,.42);
-  font:500 8px/1 var(--mono);
-  letter-spacing:.1em;
+  font:500 9px/1 var(--mono);
+  letter-spacing:.09em;
   text-transform:uppercase;
 }
 .fold-legend i { height:1px;background:rgba(255,255,255,.16); }
