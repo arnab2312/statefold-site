@@ -15,10 +15,8 @@
   var navEl = document.querySelector('[data-nav]');
   if (brSection && navEl && 'IntersectionObserver' in window) {
     var brNavIO = new IntersectionObserver(function (entries) {
-      var hidden = entries[0].isIntersecting;
-      navEl.classList.toggle('nav-hidden', hidden);
-      navEl.setAttribute('aria-hidden', String(hidden));
-      navEl.inert = hidden;
+      navEl.classList.toggle('nav-hidden', entries[0].isIntersecting);
+      document.body.classList.toggle('in-overture', entries[0].isIntersecting);
     }, { threshold: 0.15 });
     brNavIO.observe(brSection);
   }
@@ -34,6 +32,7 @@
     var st = window.pageYOffset || document.documentElement.scrollTop;
     var h = document.documentElement.scrollHeight - window.innerHeight;
     if (bar) bar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+    document.documentElement.style.setProperty('--page-progress', h > 0 ? (st / h).toFixed(4) : '0');
     if (nav) nav.classList.toggle('scrolled', st > 8);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -43,26 +42,16 @@
   var burger = document.getElementById('burger');
   var navMobile = document.getElementById('navMobile');
   if (burger && navMobile) {
-    function closeMobileNav() {
-      navMobile.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-    }
     burger.addEventListener('click', function () {
       var open = navMobile.classList.toggle('open');
       burger.setAttribute('aria-expanded', String(open));
     });
-    navMobile.addEventListener('click', function (event) {
-      if (event.target.closest && event.target.closest('a')) closeMobileNav();
+    navMobile.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        navMobile.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
     });
-    window.addEventListener('hashchange', closeMobileNav);
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && navMobile.classList.contains('open')) {
-        closeMobileNav();
-        burger.focus();
-      }
-    });
-    var desktopNavQuery = window.matchMedia('(min-width: 981px)');
-    if (desktopNavQuery.addEventListener) desktopNavQuery.addEventListener('change', closeMobileNav);
   }
 
   /* ---- scroll reveal ---- */
@@ -112,7 +101,7 @@
   }
 
   /* ---- active nav link by section in view ---- */
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
   var byHash = {};
   navLinks.forEach(function (a) { byHash[a.getAttribute('href')] = a; });
   var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
@@ -153,7 +142,7 @@
     exfil: {
       leg: 'verified',
       head: '<b>2 identities</b> run an exfil-capable agent with a vuln on the same device — verified query, not a guess.',
-      rows: ['A. Rao · India workforce SSO · IN-MUM-118 · CVE-2025-31337 (critical)', 'ENG\\j.park · WS-ENG-204 · CVE-2025-40410 (high)']
+      rows: ['FIN\\a.rao · WS-FIN-118 · CVE-2025-31337 (critical)', 'ENG\\j.park · WS-ENG-204 · CVE-2025-40410 (high)']
     },
     cost: {
       leg: 'graph',
@@ -178,12 +167,12 @@
     alert: {
       leg: 'graph',
       head: 'Recent alerts — the latest security responses across the fleet.',
-      rows: ['IN-MUM-118 · BLOCK · secret → Bedrock', 'WS-ENG-204 · REDACT · PII in prompt', 'WS-OPS-009 · ALERT · MCP exfil attempt']
+      rows: ['WS-FIN-118 · BLOCK · secret → Bedrock', 'WS-ENG-204 · REDACT · PII in prompt', 'WS-OPS-009 · ALERT · MCP exfil attempt']
     },
     prompt: {
       leg: 'graph',
       head: '<b>234 prompts &amp; questions</b> captured — most recent shown.',
-      rows: ['ENG\\j.park → Cursor · "refactor the auth guard…"', 'A. Rao · India workforce SSO → ChatGPT · "summarize Q3 variance…"', 'OPS\\m.diaz → Claude · "write a PowerShell cleanup…"']
+      rows: ['ENG\\j.park → Cursor · "refactor the auth guard…"', 'FIN\\a.rao → ChatGPT · "summarize Q3 variance…"', 'OPS\\m.diaz → Claude · "write a PowerShell cleanup…"']
     },
     code: {
       leg: 'graph',
@@ -198,7 +187,7 @@
     snapshot: {
       leg: 'graph',
       head: '<b>23 snapshots</b> retained for forensic review.',
-      rows: ['WS-ENG-221 · screen-share capture', 'IN-MUM-118 · clipboard event', 'WS-OPS-009 · paste to web AI']
+      rows: ['WS-ENG-221 · screen-share capture', 'WS-FIN-118 · clipboard event', 'WS-OPS-009 · paste to web AI']
     },
     governance: {
       leg: 'graph',
@@ -291,7 +280,7 @@
      ENDPOINT FEED WIDGET — live detection ticker in hero
      ============================================================ */
   var hfRows = document.getElementById('hfRows');
-  if (hfRows) {
+  if (hfRows && !reduce) {
     var FEED = [
       { v:'BLOCK',  bg:'rgba(255,255,255,.16)', fg:'#ffffff', type:'Aadhaar number',  surface:'ChatGPT'   },
       { v:'REDACT', bg:'rgba(242,242,242,.12)', fg:'#f2f2f2', type:'Credit card',     surface:'Cursor IDE' },
@@ -321,12 +310,10 @@
     }
 
     renderFeed();
-    if (!reduce) {
-      setInterval(function () {
-        feedHead = (feedHead + 1) % FEED.length;
-        renderFeed();
-      }, 2200);
-    }
+    setInterval(function () {
+      feedHead = (feedHead + 1) % FEED.length;
+      renderFeed();
+    }, 2200);
   }
 
   /* ============================================================
@@ -337,7 +324,8 @@
      at all — nothing below runs for them.
      ============================================================ */
   var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (finePointer && !reduce) {
+  /* Native pointer only: the cinematic system does not chase the cursor. */
+  if (false && finePointer && !reduce) {
     document.documentElement.classList.add('has-custom-cursor');
 
     var dot = document.querySelector('.cursor-dot');
@@ -361,7 +349,7 @@
     }
     window.addEventListener('mousemove', moveCursor, { passive: true });
 
-    var hoverables = 'a, button, .card, .cap, .category-card, .loop-step, .product-window, .persona, .steps li, .sp, .t-item, .demo-suggest button, input';
+    var hoverables = 'a, button, .card, .cap, .persona, .steps li, .sp, .t-item, .demo-suggest button, input';
     document.addEventListener('mouseover', function (e) {
       if (e.target.closest && e.target.closest(hoverables)) document.documentElement.classList.add('cursor-hover');
     });
@@ -381,5 +369,228 @@
         heroEl.style.setProperty('--my', my + '%');
       }, { passive: true });
     }
+  }
+
+  /* chapter rail — quiet until a section becomes the current scene */
+  var chapterLinks = Array.prototype.slice.call(document.querySelectorAll('[data-chapter]'));
+  if (chapterLinks.length && 'IntersectionObserver' in window) {
+    var chapterMap = {};
+    chapterLinks.forEach(function (link) { chapterMap[link.getAttribute('data-chapter')] = link; });
+    var chapterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          chapterLinks.forEach(function (link) { link.classList.remove('active'); });
+          if (chapterMap[entry.target.id]) chapterMap[entry.target.id].classList.add('active');
+          document.body.setAttribute('data-scene', entry.target.id);
+        }
+      });
+    }, { rootMargin: '-36% 0px -58% 0px', threshold: 0 });
+    chapterLinks.forEach(function (link) {
+      var section = document.getElementById(link.getAttribute('data-chapter'));
+      if (section) chapterObserver.observe(section);
+    });
+  }
+
+  /* The architecture reads like a score: one passage becomes current. */
+  var systemFlow = document.querySelector('.system-flow');
+  var flowStages = Array.prototype.slice.call(document.querySelectorAll('.flow-stage'));
+  if (systemFlow && flowStages.length && 'IntersectionObserver' in window) {
+    var visibleFlowStages = [];
+    var flowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var existing = visibleFlowStages.indexOf(entry.target);
+        if (entry.isIntersecting && existing < 0) visibleFlowStages.push(entry.target);
+        if (!entry.isIntersecting && existing >= 0) visibleFlowStages.splice(existing, 1);
+      });
+      if (!visibleFlowStages.length) return;
+      var trigger = window.innerHeight * .38;
+      var activeStage = visibleFlowStages.slice().sort(function (a, b) {
+        return Math.abs(a.getBoundingClientRect().top - trigger) - Math.abs(b.getBoundingClientRect().top - trigger);
+      })[0];
+      var stageIndex = flowStages.indexOf(activeStage);
+      flowStages.forEach(function (stage) { stage.classList.remove('is-active'); });
+      activeStage.classList.add('is-active');
+      systemFlow.style.setProperty('--flow-progress', ((stageIndex / Math.max(1, flowStages.length - 1)) * 100).toFixed(1) + '%');
+    }, { rootMargin:'-30% 0px -48% 0px',threshold:0 });
+    flowStages.forEach(function (stage) { flowObserver.observe(stage); });
+    flowStages[0].classList.add('is-active');
+    systemFlow.style.setProperty('--flow-progress', '0%');
+  }
+
+  /* ============================================================
+     THE STATEFOLD — an authored, projected governance surface.
+     A single sheet changes state as signals become context,
+     decisions, actions, proof and intelligence. The visual is the
+     product architecture, not a cloud of decorative particles.
+     ============================================================ */
+  var fieldCanvas = document.getElementById('statefoldField');
+  var spatialStage = document.querySelector('[data-spatial]');
+  if (fieldCanvas && spatialStage) {
+    var fctx = fieldCanvas.getContext('2d', { alpha: true });
+    var fieldAccent = getComputedStyle(document.documentElement).getPropertyValue('--brand-rgb').trim() || '180,241,60';
+    var fieldVisible = true;
+    var fieldFrame = 0;
+    var fieldStart = performance.now();
+    var fieldMouse = { x: 0, y: 0, tx: 0, ty: 0 };
+    var fieldSize = { w: 0, h: 0, dpr: 1 };
+    var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (navigator.connection && navigator.connection.saveData);
+    var foldColumns = lowPower ? 26 : 42;
+    var foldRows = lowPower ? 7 : 11;
+    var foldStops = [
+      { y:-72,z:155 }, { y:74,z:34 }, { y:-42,z:-98 }, { y:34,z:82 },
+      { y:-88,z:-36 }, { y:52,z:128 }, { y:-18,z:4 }
+    ];
+
+    function resizeField() {
+      var r = spatialStage.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, lowPower ? 1.25 : 1.75);
+      fieldSize.w = Math.max(1, r.width);
+      fieldSize.h = Math.max(1, r.height);
+      fieldSize.dpr = dpr;
+      fieldCanvas.width = Math.round(fieldSize.w * dpr);
+      fieldCanvas.height = Math.round(fieldSize.h * dpr);
+      fieldCanvas.style.width = fieldSize.w + 'px';
+      fieldCanvas.style.height = fieldSize.h + 'px';
+      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fieldCanvas.classList.add('ready');
+      if (reduce) renderField(performance.now());
+    }
+
+    function rotatePoint(p, ry, rx, rz) {
+      var cy = Math.cos(ry), sy = Math.sin(ry);
+      var cx = Math.cos(rx), sx = Math.sin(rx);
+      var x = p.x * cy - p.z * sy;
+      var z = p.x * sy + p.z * cy;
+      var y = p.y * cx - z * sx;
+      z = p.y * sx + z * cx;
+      var cz = Math.cos(rz || 0), sz = Math.sin(rz || 0);
+      return { x: x * cz - y * sz, y: x * sz + y * cz, z: z };
+    }
+    function projectPoint(p) {
+      var camera = 960;
+      var scale = camera / (camera + p.z);
+      return { x: fieldSize.w * .5 + p.x * scale, y: fieldSize.h * .49 + p.y * scale, z: p.z, s: scale };
+    }
+    function line(a, b, alpha, width, color) {
+      fctx.beginPath();
+      fctx.moveTo(a.x, a.y);
+      fctx.lineTo(b.x, b.y);
+      fctx.lineWidth = width || 1;
+      fctx.strokeStyle = color || ('rgba(255,255,255,' + alpha + ')');
+      fctx.stroke();
+    }
+    function foldPoint(u, v, time, progress) {
+      var safeU = Number.isFinite(u) ? Math.min(1, Math.max(0, u)) : 0;
+      var scaled = safeU * (foldStops.length - 1);
+      var index = Math.max(0, Math.min(foldStops.length - 2, Math.floor(scaled)));
+      var local = scaled - index;
+      var a = foldStops[index] || foldStops[0], b = foldStops[index + 1] || a;
+      var pulse = Math.sin(time * .00028 + safeU * 7.4) * (3 + progress * 3);
+      var width = 172 - Math.abs(safeU - .5) * 28;
+      return {
+        x:(safeU - .5) * 780,
+        y:a.y + (b.y - a.y) * local + v * width + pulse,
+        z:a.z + (b.z - a.z) * local + Math.sin(v * Math.PI) * 26 + progress * Math.sin(safeU * Math.PI * 6) * 12
+      };
+    }
+    function polygon(points, fill, stroke) {
+      fctx.beginPath();
+      fctx.moveTo(points[0].x, points[0].y);
+      for (var i = 1; i < points.length; i++) fctx.lineTo(points[i].x, points[i].y);
+      fctx.closePath();
+      fctx.fillStyle = fill; fctx.fill();
+      if (stroke) { fctx.strokeStyle = stroke; fctx.lineWidth = .65; fctx.stroke(); }
+    }
+
+    function renderField(now) {
+      if (!fieldVisible) { fieldFrame = 0; return; }
+      fctx.clearRect(0, 0, fieldSize.w, fieldSize.h);
+      fieldMouse.x += (fieldMouse.tx - fieldMouse.x) * .045;
+      fieldMouse.y += (fieldMouse.ty - fieldMouse.y) * .045;
+      var elapsed = reduce ? 0 : now - fieldStart;
+      var stageRect = spatialStage.getBoundingClientRect();
+      var stageTop = window.pageYOffset + stageRect.top;
+      var pageProgress = Math.min(1, Math.max(0,
+        (window.pageYOffset + window.innerHeight - stageTop) /
+        (Math.max(1, spatialStage.offsetHeight) + window.innerHeight)
+      ));
+      var ry = -.2 + fieldMouse.x * .14 + pageProgress * .08;
+      var rx = .77 + fieldMouse.y * .08;
+      var rz = -.12 + Math.sin(elapsed * .00008) * .018;
+      var cells = [];
+      for (var col = 0; col < foldColumns; col++) {
+        for (var row = 0; row < foldRows; row++) {
+          var u0 = col / foldColumns, u1 = (col + 1) / foldColumns;
+          var v0 = row / foldRows * 2 - 1, v1 = (row + 1) / foldRows * 2 - 1;
+          var raw = [foldPoint(u0,v0,elapsed,pageProgress),foldPoint(u1,v0,elapsed,pageProgress),foldPoint(u1,v1,elapsed,pageProgress),foldPoint(u0,v1,elapsed,pageProgress)];
+          var rotated = raw.map(function (p) { return rotatePoint(p,ry,rx,rz); });
+          var avgZ = (rotated[0].z + rotated[1].z + rotated[2].z + rotated[3].z) / 4;
+          cells.push({ z:avgZ, points:rotated.map(projectPoint), col:col, row:row });
+        }
+      }
+      cells.sort(function (a,b) { return b.z - a.z; });
+      for (var c = 0; c < cells.length; c++) {
+        var cell = cells[c];
+        var light = Math.max(0,Math.min(1,(cell.z + 220) / 500));
+        var ridge = cell.col % Math.max(1,Math.floor(foldColumns / 6)) === 0;
+        var alpha = .028 + light * .12 + (ridge ? .035 : 0);
+        polygon(cell.points,'rgba(255,255,255,' + alpha + ')','rgba(255,255,255,' + (.025 + light * .055) + ')');
+      }
+
+      /* The chartreuse seam is the unbroken decision history. */
+      var previous = null;
+      for (var seam = 0; seam <= 120; seam++) {
+        var su = seam / 120;
+        var sp = projectPoint(rotatePoint(foldPoint(su,0,elapsed,pageProgress),ry,rx,rz));
+        if (previous) line(previous,sp,.9,1.45,'rgba(' + fieldAccent + ',.76)');
+        previous = sp;
+      }
+      for (var signal = 0; signal < 8; signal++) {
+        var travel = (elapsed * .000075 + signal / 8) % 1;
+        var lane = ((signal % 3) - 1) * .36;
+        var signalPoint = projectPoint(rotatePoint(foldPoint(travel,lane,elapsed,pageProgress),ry,rx,rz));
+        fctx.beginPath();fctx.arc(signalPoint.x,signalPoint.y,2.1 + signalPoint.s,0,Math.PI * 2);
+        fctx.fillStyle = 'rgba(' + fieldAccent + ',' + (.55 + signalPoint.s * .22) + ')';fctx.fill();
+      }
+      fieldFrame = reduce ? 0 : requestAnimationFrame(renderField);
+    }
+
+    if (!reduce) {
+      spatialStage.addEventListener('pointermove', function (e) {
+        var r = spatialStage.getBoundingClientRect();
+        fieldMouse.tx = ((e.clientX - r.left) / r.width - .5) * 2;
+        fieldMouse.ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      }, { passive: true });
+      spatialStage.addEventListener('pointerleave', function () { fieldMouse.tx = 0; fieldMouse.ty = 0; });
+    }
+    if ('ResizeObserver' in window) new ResizeObserver(resizeField).observe(spatialStage);
+    else window.addEventListener('resize', resizeField, { passive: true });
+    if (!reduce && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        fieldVisible = entries[0].isIntersecting;
+        if (fieldVisible && !fieldFrame) fieldFrame = requestAnimationFrame(renderField);
+      }, { rootMargin: '180px 0px' }).observe(spatialStage);
+    }
+    resizeField();
+    if (!reduce) fieldFrame = requestAnimationFrame(renderField);
+  }
+
+  /* Static editorial surfaces replace repeated template-like card tilts. */
+  if (false && finePointer && !reduce) {
+    var tiltTargets = document.querySelectorAll('.card, .cap, .persona, .sp');
+    tiltTargets.forEach(function (target) {
+      target.addEventListener('pointermove', function (e) {
+        var r = target.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        var ry = (px - .5) * 6;
+        var rx = (.5 - py) * 5;
+        target.style.setProperty('--glow-x', (px * 100) + '%');
+        target.style.setProperty('--glow-y', (py * 100) + '%');
+        target.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
+      }, { passive: true });
+      target.addEventListener('pointerleave', function () { target.style.transform = ''; });
+    });
   }
 })();
