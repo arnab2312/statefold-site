@@ -1,63 +1,19 @@
 # Statefold marketing site — `www.statefoldai.com`
 
-A dependency-free static site (HTML + CSS + vanilla JavaScript). The cinematic landing remains the
-selective, investor-ready entrance. `/total-intelligence/` is the deeper platform narrative: one
-evidence-backed governance system for technology, security, data, risk, compliance, finance and
-leadership. Internal release history and unfinished implementation detail do not belong on the
-public site.
+The complete Total Intelligence experience is served directly at the public root. There is no
+separate landing experience. The former `/total-intelligence/` URL redirects to `/` so existing
+links remain valid.
 
-```
-website/
-├── index.html      # the whole landing page
-├── styles.css      # design system + sections + responsive
-├── app.js          # mobile nav, scroll-reveal, deterministic Hive Mind demo
-├── total-intelligence/
-│   ├── index.html                  # platform narrative and enterprise outcomes
-│   ├── total-intelligence.css      # editorial/fold experience and responsive system
-│   ├── total-intelligence.js       # fold, role lenses and deterministic Hive demo
-│   ├── void.js                     # adaptive, offscreen-paused hero field
-│   └── media/hero-burn-orb.webp    # authored Total Intelligence hero object
-├── og-total-intelligence.png       # site-wide social preview
-├── favicon.svg     # the stateFold "o" mark
-├── CNAME           # www.statefoldai.com (custom domain for GitHub Pages)
-└── .nojekyll       # serve files as-is (no Jekyll processing)
-```
+The site is dependency-free static HTML, CSS and JavaScript hosted by GitHub Pages. Shared visual
+assets and runtime files remain under `total-intelligence/`; `index.html` is the sole public page.
 
-## Preview locally
+## Preview
 
 ```bash
-python -m http.server 4317 --directory website
-# open http://127.0.0.1:4317
+python -m http.server 4317
 ```
 
-## Deploy
+## Publish
 
-The site is fully static — it can be served by any static host. Because the **product
-repo is private**, GitHub Pages from this repo will not publish a *public* site on a free
-plan. Pick one:
-
-### Option A — dedicated public GitHub repo + Pages (recommended, zero-cost)
-1. Create a **public** repo (e.g. `statefold-site`) and push the contents of `website/` to its
-   root (the `CNAME` file already pins the custom domain).
-2. Repo → **Settings → Pages** → Source: `main` / root → Save.
-3. Set the custom domain to `www.statefoldai.com` (auto-filled from `CNAME`); enable
-   **Enforce HTTPS** once the cert provisions.
-
-### Option B — Vercel / Netlify / Cloudflare Pages
-Point the host at this folder; framework preset = **None** (static). Add `www.statefoldai.com`
-as a custom domain in the host's dashboard.
-
-## DNS — required at the `statefoldai.com` registrar (whoever hosts it)
-
-For **GitHub Pages**:
-
-| Type  | Host  | Value                          |
-| ----- | ----- | ------------------------------ |
-| CNAME | `www` | `<your-gh-user>.github.io`     |
-| A     | `@`   | `185.199.108.153`              |
-| A     | `@`   | `185.199.109.153`              |
-| A     | `@`   | `185.199.110.153`              |
-| A     | `@`   | `185.199.111.153`              |
-
-For **Vercel / Netlify / Cloudflare**: use the CNAME/ALIAS target the host gives you
-(e.g. `cname.vercel-dns.com`). Allow up to a few hours for DNS + TLS to propagate.
+Validate the exact static source, commit it to `main`, push, and verify the custom domain after the
+GitHub Pages deployment completes.

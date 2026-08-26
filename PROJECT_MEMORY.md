@@ -27,7 +27,7 @@ Create an award-calibre, ultra-modern site that establishes the real Statefold p
 ## Technical baseline
 
 - Static GitHub Pages site: HTML, CSS, vanilla JavaScript.
-- Current source: the preserved cinematic landing in `index.html`, `styles.css`, `app.js`, `orbit.js`, `void.js`, and `media/`; the deeper platform narrative in `total-intelligence/index.html`, `total-intelligence/total-intelligence.css`, `total-intelligence/total-intelligence.js`, `total-intelligence/orbit.js`, `total-intelligence/void.js`, and its versioned media.
+- Current source: `index.html` serves the complete Total Intelligence experience at `/`; its versioned CSS, JavaScript and media live under `total-intelligence/`. The former `/total-intelligence/` page is a compatibility redirect to the public root.
 - No build system or external 3D dependency.
 - The actual favicon and shared SVG dragon mark are authoritative brand geometry.
 
@@ -95,16 +95,16 @@ Create an award-calibre, ultra-modern site that establishes the real Statefold p
 ## Implemented foundation
 
 - The landing is the true vertical brand lockup: exact dragon above the exact vector wordmark with its solid eclipsed O and no halo behind it.
-- The landing and Total Intelligence overtures use the user-supplied `I1.gif` as their motion artwork: one native black orbital composition held at a disciplined size, followed by the exact upright dragon and STATEFOLD wordmark in white. Do not generate, simulate, trace, embellish, or replace this asset.
-- Those overtures must remain pure black and white: no gradients, glows, grain, 3D fields, mercury, reaction diffusion, decorative HUD lines, or full-screen upscaling that exposes the GIF's native resolution.
+- The public-root overture uses the user-supplied `I1.gif` as its motion artwork: one native black orbital composition held at a disciplined size, followed by the exact upright dragon and STATEFOLD wordmark in white. Do not generate, simulate, trace, embellish, or replace this asset.
+- That overture must remain pure black and white: no gradients, glows, grain, 3D fields, mercury, reaction diffusion, decorative HUD lines, or full-screen upscaling that exposes the GIF's native resolution.
 - The dragon and wordmark are state-synchronized with the field clearing; the wordmark must never appear through a dense graphic layer.
 - The landing has an opt-in cinematic sound control. Enabling sound replays the sequence and synchronizes the procedural breath, dragon resolution, and brand lock; never attempt unsolicited autoplay.
 - The landing dragon must be explicitly locked upright; legacy overture CSS once rotated `.overture-mark` by -90 degrees and must never leak into the final reveal.
 - Shared, exact SVG dragon symbol used visibly inside the event horizon.
 - Dependency-free WebGL2 polar-flow renderer with differential rotation, continuous turbulent spiral filaments, adaptive resolution, and a blue-white gravitational corona.
-- The landing and Total Intelligence heroes use the authored transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.
+- The public-root hero uses the authored transparent vortex field over warm white; a continuous cream veil fades the motion beneath the copy without a black panel or hard boundary.
 - Editorial problem cards use compact square signal markers with no stretched orbital borders or text shadows.
-- The hero core uses a frame-matted version of the user-supplied glossy black-orb artwork, with no pale source rim. On Total Intelligence the enlarged exact dragon is engraved into the orb with a chartreuse edge and restrained glow; never revert to a circular crop, synthetic stone, orange burn, or flat logo overlay.
+- The hero core uses a frame-matted version of the user-supplied glossy black-orb artwork, with no pale source rim. The enlarged exact dragon is engraved into the orb with a chartreuse edge and restrained glow; never revert to a circular crop, synthetic stone, orange burn, or flat logo overlay.
 - No logo-to-horizon morph, white dragon glow, hero wordmark, HUD labels, or competing transition sequence.
 - The black-hole renderer starts only when its stage enters the viewport, then pauses when offscreen or hidden.
 - Editorial Inter Tight typography with IBM Plex Mono reserved for telemetry.
@@ -116,7 +116,7 @@ Create an award-calibre, ultra-modern site that establishes the real Statefold p
 
 ## Current phase
 
-Cinematic foundation is live and frozen. The established landing remains unchanged as the cinematic entrance; `/total-intelligence/` is an additional deeper cross-enterprise narrative with its own authored overture, vortex and engraved dragon. The narrative presents Statefold as an evidence-backed governance loop — observe, resolve, decide, act, prove — rather than a feature catalogue. Product coverage is expressed through three explicit states: enforced, observed, and opaque. This distinction is a permanent trust device and must remain visible wherever coverage claims are made.
+Cinematic foundation is live and frozen. The complete Total Intelligence experience—overture, vortex, engraved dragon and cross-enterprise narrative—is the single public homepage at `/`. There is no separate landing experience; `/total-intelligence/` redirects home. The narrative presents Statefold as an evidence-backed governance loop — observe, resolve, decide, act, prove — rather than a feature catalogue. Product coverage is expressed through three explicit states: enforced, observed, and opaque. This distinction is a permanent trust device and must remain visible wherever coverage claims are made.
 
 The platform story now prioritizes the shipped, demo-relevant system: prompt inventory, agent and MCP discovery, software provenance, supported before-send prompt controls, the provider-neutral AI Gateway, explicit agent kill-switch lifecycle, identity, DSPM/attack graph context, decision evidence, MRM/model review, efficacy, Hive Mind, and Swarm Intelligence. The landing and hero visual composition remain unchanged; narrative work belongs below the fold unless the user explicitly reopens the hero.
 
