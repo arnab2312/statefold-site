@@ -5,7 +5,8 @@
   var stage = document.querySelector('[data-void]');
   if (!canvas || !stage) return;
 
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reducedQuery = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = !!(reducedQuery && reducedQuery.matches);
   var lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
     (navigator.connection && navigator.connection.saveData);
   var gl = canvas.getContext('webgl2', {
@@ -153,23 +154,23 @@
       float roseZone = smoothstep(0.26, 0.66, radius);
       vec3 diskColor = mix(ion, rose, roseZone);
       float ivoryAmount = clamp(
-        fiberA * 0.56 + fiberB * 0.38 + orbital * 0.18,
-        0.0, 0.72
+        fiberA * 0.44 + fiberB * 0.28 + orbital * 0.12,
+        0.0, 0.50
       );
       diskColor = mix(diskColor, ivory, ivoryAmount);
       vec3 radiance = diskColor * emission *
-        mix(1.72, 2.02, uQuality);
+        mix(1.90, 2.24, uQuality);
       float volumeAlpha = clamp(
-        disk * (0.075 + filaments * 0.28 + warpA * 0.060) *
+        disk * (0.130 + filaments * 0.40 + warpA * 0.080) *
         resolve,
-        0.0, 0.88
+        0.0, 0.94
       );
       float outerEnvelope = 1.0 - smoothstep(0.58, 0.91, baseRadius);
       float haze = outerEnvelope *
-        (0.025 + 0.075 * warpA * warpB) * resolve;
+        (0.035 + 0.095 * warpA * warpB) * resolve;
       vec3 color = radiance +
         vec3(0.005, 0.009, 0.035) * haze * 1.6;
-      float alpha = max(volumeAlpha, haze * 0.75);
+      float alpha = max(volumeAlpha, haze * 0.88);
 
       float coreRadius = 0.135;
       float corona = exp(-pow(
@@ -212,13 +213,13 @@
         (1.0 - core);
 
       float peak = max(color.r, max(color.g, color.b));
-      float mappedPeak = 1.0 - exp(-peak * 0.78);
+      float mappedPeak = 1.0 - exp(-peak * 0.90);
       color *= mappedPeak / max(peak, 0.0001);
       float luminance = dot(
         color, vec3(0.2126, 0.7152, 0.0722)
       );
-      color = mix(vec3(luminance), color, 1.12);
-      color = pow(max(color, 0.0), vec3(0.94));
+      color = mix(vec3(luminance), color, 1.26);
+      color = pow(max(color, 0.0), vec3(1.02));
       color = clamp(color, 0.0, 1.0);
 
       alpha *= 1.0 - smoothstep(0.78, 0.94, baseRadius);
@@ -260,6 +261,7 @@
     return;
   }
 
+  stage.classList.add('void-enhanced');
   gl.useProgram(program);
   var uniforms = {
     resolution: gl.getUniformLocation(program, 'uResolution'),
@@ -305,7 +307,7 @@
     pointer.x += (pointer.tx - pointer.x) * 0.035;
     pointer.y += (pointer.ty - pointer.y) * 0.035;
     var elapsed = Math.max(0, elapsedBeforePause + now - activeSince);
-    var intro = reduced ? 1 : Math.min(1, elapsed / 4000);
+    var intro = reduced ? 1 : Math.min(1, elapsed / 1500);
 
     if (!reduced) {
       var delta = now - lastFrame;
@@ -386,8 +388,24 @@
   document.addEventListener('visibilitychange', function () {
     setStageVisibility(inViewport && !document.hidden);
   });
+  if (reducedQuery) {
+    var syncReducedMotion = function (event) {
+      reduced = event.matches;
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      elapsedBeforePause = Math.max(elapsedBeforePause, 1500);
+      if (visible) {
+        activeSince = performance.now();
+        lastFrame = activeSince;
+        frame = requestAnimationFrame(render);
+      }
+    };
+    if (reducedQuery.addEventListener) reducedQuery.addEventListener('change', syncReducedMotion);
+    else if (reducedQuery.addListener) reducedQuery.addListener(syncReducedMotion);
+  }
   canvas.addEventListener('webglcontextlost', function (event) {
     event.preventDefault();
+    stage.classList.remove('void-enhanced');
     stage.classList.add('void-fallback');
   });
 
